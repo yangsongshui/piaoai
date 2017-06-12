@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#4F99F7</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="bg_bottom_navigation">#f7f7f7</color>
+    <color name="white">#ffffff</color>
+    <color name="porcelain">#F0F2F5</color>
+    <color name="silver_sand">#999999</color>
+    <color name="bright_gray">#333333</color>
+    <color name="havelock_blue">#40b3e7</color>
+    <color name="malibu">#3990e9</color>
+    <color name="electric_blue">#33f8ff</color>
+    <color name="baby_blue_eyes">#94ffffff</color>
+    <color name="zircon">#DDE1E5</color>
+    <color name="zumthor">#EDF6FC</color>
+    <color name="mandy">#ff3355</color>
+    <color name="pastel_green">#2ee66a</color>
+    <color name="text_color">#b4b4b4</color>
+    <color name="accent_bottom_navigation">#3399ff</color>
+    <color name="alabaster">#FAFAFA</color>
+    <color name="black">#333333</color>
+    <color name="spindle">#BDD3F3</color>
+    <color name="carmine_pink">#EC4856</color>
+    <color name="tan_hide">#F2995C</color>
+    <color name="iron">#D6D7DC</color>
+    <color name="lily_white">#e1e1e1</color>
+    <color name="sunglow">#ffca12</color>
+    <color name="ultramarine_blue">#335fff</color>
+    <color name="carissma">#ff7eb5</color>
+    <color name="mantis">#0adc4f</color>
+    <color name="tacao">#F5AF8C</color>
+    <color name="jordy_blue">#33ffffff</color>
+    <color name="white_lilac">#E9E9E9</color>
+</resources>

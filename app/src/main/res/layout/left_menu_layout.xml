@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/me_pic_iv"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+
+            android:src="@drawable/user_img_head" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2.5"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/main_equipment_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/sidebar_equipment"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="设备列表"
+                android:textColor="@color/line_text_rb"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+
+                android:id="@+id/main_user_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/sidebar_user"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="账户管理"
+                android:textColor="@color/line_text_rb"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/main_outside_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/sidebar_outside"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="户外环境"
+                android:textColor="@color/line_text_rb"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/main_police_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/sidebar_police"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="报警日志"
+                android:textColor="@color/line_text_rb"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/main_feedback_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/sidebar_feedback"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="反馈信息"
+                android:textColor="@color/line_text_rb"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/main_shop_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/sidebar_shop"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="飘爱商城"
+                android:textColor="@color/line_text_rb"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/main_about_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/sidebar_about"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="关于飘爱"
+                android:textColor="@color/line_text_rb"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom|center">
+
+            <TextView
+                android:id="@+id/main_out_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="退出登录"
+                android:textColor="@color/mandy"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -11,6 +11,7 @@
     <color name="bright_gray">#333333</color>
     <color name="havelock_blue">#40b3e7</color>
     <color name="malibu">#3990e9</color>
+
     <color name="electric_blue">#33f8ff</color>
     <color name="baby_blue_eyes">#94ffffff</color>
     <color name="zircon">#DDE1E5</color>
@@ -27,10 +28,12 @@
     <color name="iron">#D6D7DC</color>
     <color name="lily_white">#e1e1e1</color>
     <color name="sunglow">#ffca12</color>
+
     <color name="ultramarine_blue">#335fff</color>
     <color name="carissma">#ff7eb5</color>
     <color name="mantis">#0adc4f</color>
     <color name="tacao">#F5AF8C</color>
     <color name="jordy_blue">#33ffffff</color>
     <color name="white_lilac">#E9E9E9</color>
+    <color name="zxing">#69000000</color>
 </resources>

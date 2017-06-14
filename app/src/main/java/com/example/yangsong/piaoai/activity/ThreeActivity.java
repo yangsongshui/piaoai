@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.yangsong.piaoai.R;
 import com.example.yangsong.piaoai.base.BaseActivity;
@@ -11,12 +12,12 @@ import com.example.yangsong.piaoai.base.BaseActivity;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class ThreeActivity extends BaseActivity {
+public class ThreeActivity extends BaseActivity  {
 
     @BindView(R.id.three_name_et)
     EditText threeNameEt;
     @BindView(R.id.three_address_et)
-    EditText threeAddressEt;
+    TextView threeAddressEt;
 
     @Override
     protected int getContentView() {
@@ -29,15 +30,19 @@ public class ThreeActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.three_left_iv, R.id.three_tv})
+    @OnClick({R.id.three_left_iv, R.id.three_tv, R.id.three_address_et})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.three_left_iv:
                 finish();
                 break;
             case R.id.three_tv:
-                startActivity(new Intent(this,MainActivity.class));
+                startActivity(new Intent(this, MainActivity.class));
+                break;
+            case R.id.three_address_et:
+                startActivity(new Intent(this, MapActivity.class));
                 break;
         }
     }
+
 }

@@ -43,6 +43,7 @@ public class MainFragment extends BaseFragment {
         roundProgressBarElectric.setProgress(20);
         roundProgressBarHumidity.setProgress(60);
         roundProgressBarMethanal.setProgress(80);
+
     }
 
     @Override

@@ -36,6 +36,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        user=new User();
         AppContextUtil.init(this);
         SpUtils.init(this);
     }
@@ -84,6 +85,7 @@ public class MyApplication extends Application {
         if (IsRemember) {
             SpUtils.putString("phone", user.getResBody().getPhoneNumber());
             SpUtils.putString("password", user.getResBody().getPsw());
+            Log.e("------",user.toString());
         }
 
     }
@@ -95,24 +97,20 @@ public class MyApplication extends Application {
         Log.e("------", phone + " " + password);
         if (phone.equals("") || password.equals(""))
             return null;
+        user.setResBody(new User.ResBodyBean());
         user.getResBody().setPhoneNumber(phone);
         user.getResBody().setPsw(password);
         return user;
     }
-/*
+
     public void outLogin() {
         user = null;
-        SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
-        //获取Editor对象
-        SharedPreferences.Editor editor = sharedPre.edit();
-        //设置参数
-        editor.putString("username", "");
-        editor.putString("password", "");
-        //提交
-        editor.commit();
+
+        SpUtils.putString("username", "");
+        SpUtils.putString("password", "");
         clearAllActies();
 
-    }*/
+    }
 
 
     private String getAppName(int pID) {

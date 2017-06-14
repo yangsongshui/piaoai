@@ -161,7 +161,7 @@ public class User {
         }
 
         public void setPsw(String psw) {
-            if (psw != null)
+            if (psw != null && psw.length() >= 6)
                 this.psw = psw;
         }
 

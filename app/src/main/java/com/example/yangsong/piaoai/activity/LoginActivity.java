@@ -37,6 +37,7 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
     private LoginPresenterImp loginPresenterImp = null;
     private Toastor toastor;
     Boolean IsRemember;
+    String psw;
 
     @Override
     protected int getContentView() {
@@ -62,9 +63,9 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
                 break;
             case R.id.login_tv:
                 String phone = loginPhoneEt.getText().toString().trim();
-                String psw = loginPswEt.getText().toString().trim();
+                psw = MD5.getMD5(loginPswEt.getText().toString().trim());
                 if (phone.length() == 11 && psw.length() >= 6)
-                    loginPresenterImp.loadLogin(phone, MD5.getMD5(psw));
+                    loginPresenterImp.loadLogin(phone, psw);
                 else
                     toastor.showSingletonToast("登陆信息有误");
                 break;
@@ -90,7 +91,8 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
         super.onResume();
         if (MyApplication.newInstance().getUser() != null) {
             User user = MyApplication.newInstance().getUser();
-            loginPresenterImp.loadLogin(user.getResBody().getPhoneNumber(), user.getResBody().getPsw());
+            psw = user.getResBody().getPsw();
+            loginPresenterImp.loadLogin(user.getResBody().getPhoneNumber(),psw);
         }
     }
 
@@ -113,8 +115,10 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
     public void loadDataSuccess(User tData) {
         if (tData.getResCode().equals("0")) {
             toastor.showSingletonToast(tData.getResMessage());
+            tData.getResBody().setPsw(psw);
             MyApplication.newInstance().setUser(tData);
             startActivity(new Intent(this, MainActivity.class));
+            finish();
         } else {
             toastor.showSingletonToast(tData.getResMessage());
         }

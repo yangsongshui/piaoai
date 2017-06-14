@@ -85,7 +85,7 @@
             android:textColorHint="@color/silver_sand"
             android:textSize="14sp" />
 
-        <EditText
+        <TextView
             android:id="@+id/three_address_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -93,8 +93,8 @@
             android:layout_marginRight="40dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/binding_rim"
-            android:hint="请输入设备所在地址"
             android:padding="10dp"
+            android:text="请选择设备所在地址"
             android:textColorHint="@color/silver_sand"
             android:textSize="14sp" />
 

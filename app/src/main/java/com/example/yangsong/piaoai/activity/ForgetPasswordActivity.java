@@ -10,7 +10,7 @@ import com.example.yangsong.piaoai.base.BaseActivity;
 import com.example.yangsong.piaoai.bean.Identify;
 import com.example.yangsong.piaoai.bean.Msg;
 import com.example.yangsong.piaoai.presenter.GetCodePresenterImp;
-import com.example.yangsong.piaoai.presenter.MsgPresenterImp;
+import com.example.yangsong.piaoai.presenter.PswPresenterImp;
 import com.example.yangsong.piaoai.util.MD5;
 import com.example.yangsong.piaoai.util.Toastor;
 import com.example.yangsong.piaoai.view.GetCodeView;
@@ -32,7 +32,7 @@ public class ForgetPasswordActivity extends BaseActivity implements MsgView {
     EditText pswEt;
     @BindView(R.id.psw2_et)
     EditText psw2Et;
-    private MsgPresenterImp loginPresenterImp = null;
+    private PswPresenterImp pswPresenterImp = null;
     private GetCodePresenterImp getCodePresenterImp = null;
     private ProgressDialog progressDialog = null;
     private Toastor toastor;
@@ -45,7 +45,7 @@ public class ForgetPasswordActivity extends BaseActivity implements MsgView {
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        loginPresenterImp = new MsgPresenterImp(this, this);
+        pswPresenterImp = new PswPresenterImp(this, this);
         toastor = new Toastor(this);
         getCodePresenterImp = new GetCodePresenterImp(new GetCodeView() {
             @Override
@@ -91,7 +91,7 @@ public class ForgetPasswordActivity extends BaseActivity implements MsgView {
             case R.id.confirm_tv:
                 String psw = pswEt.getText().toString().trim();
                 String psw2 = psw2Et.getText().toString().trim();
-                String identify = psw2Et.getText().toString().trim();
+                String identify = codeEt.getText().toString().trim();
                 if (identify.equals(code))
                     if (phone.length() == 11 && psw.equals(psw2)) {
                         Map<String, String> map = new HashMap<>();
@@ -99,7 +99,7 @@ public class ForgetPasswordActivity extends BaseActivity implements MsgView {
                         map.put("passWord", MD5.getMD5(psw));
                         map.put("isThird", "0");
                         map.put("role", "0");
-                        loginPresenterImp.loadWeather(map);
+                        pswPresenterImp.updatePwd(map);
                     } else
                         toastor.showSingletonToast("手机号输入不正确或密码输入不一致");
                 else

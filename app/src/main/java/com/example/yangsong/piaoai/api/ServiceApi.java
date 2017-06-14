@@ -29,10 +29,10 @@ public interface ServiceApi {
     Observable<Identify> getCode(@Query("phoneNumber") String phoneNumber, @Query("type") String type);
     //找回密码
     @POST("updatePwd?")
-    Observable<Msg> updatePwd(@Query("phoneNumber") String phoneNumber,@Query("passWord") String psw);
+    Observable<Msg> updatePwd(@QueryMap Map<String, String> map);
     //更新用户信息
     @POST("updateUser?")
-    Observable<Msg> updatePwd(@QueryMap Map<String, String> map);
+    Observable<Msg> updateUser(@QueryMap Map<String, String> map);
     //查询用户信息
     @POST("findUserByphoneNumber?")
     Observable<Msg> findUserByphoneNumber(@Query("phoneNumber") String phoneNumber);

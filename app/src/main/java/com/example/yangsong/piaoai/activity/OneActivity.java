@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.yangsong.piaoai.R;
-import com.example.yangsong.piaoai.bean.BaseActivity;
+import com.example.yangsong.piaoai.base.BaseActivity;
 
 import butterknife.OnClick;
 

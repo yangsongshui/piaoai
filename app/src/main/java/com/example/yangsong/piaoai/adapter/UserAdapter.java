@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.yangsong.piaoai.R;
-import com.example.yangsong.piaoai.bean.MyBaseAdapter;
+import com.example.yangsong.piaoai.base.MyBaseAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

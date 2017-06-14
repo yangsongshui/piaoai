@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.yangsong.piaoai.fragment.MainFragment;
-import com.example.yangsong.piaoai.model.Facility;
+import com.example.yangsong.piaoai.bean.Facility;
 import com.viewpagerindicator.IconPagerAdapter;
 
 import java.util.List;

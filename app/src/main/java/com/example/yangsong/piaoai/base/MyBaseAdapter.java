@@ -1,4 +1,4 @@
-package com.example.yangsong.piaoai.bean;
+package com.example.yangsong.piaoai.base;
 
 import android.view.View;
 import android.view.ViewGroup;

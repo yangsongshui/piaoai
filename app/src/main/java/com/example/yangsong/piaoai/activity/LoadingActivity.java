@@ -8,7 +8,7 @@ import android.os.Looper;
 import android.widget.Toast;
 
 import com.example.yangsong.piaoai.R;
-import com.example.yangsong.piaoai.bean.BaseActivity;
+import com.example.yangsong.piaoai.base.BaseActivity;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;

@@ -5,16 +5,14 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.pm.PackageManager;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.cache.DiskLruBasedCache;
-import com.android.volley.cache.SimpleImageLoader;
-import com.android.volley.toolbox.Volley;
-import com.example.yangsong.piaoai.util.NetworkRequests;
+import com.example.yangsong.piaoai.bean.User;
+import com.example.yangsong.piaoai.util.AppContextUtil;
+import com.example.yangsong.piaoai.util.Log;
+import com.example.yangsong.piaoai.util.SpUtils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 
 
 public class MyApplication extends Application {
@@ -22,9 +20,7 @@ public class MyApplication extends Application {
 
     private static MyApplication instance;
     public static List<Activity> activitiesList = new ArrayList<Activity>(); // 活动管理集合
-
-    private RequestQueue mQueue;
-
+    private User user;
 
 
     /**
@@ -40,20 +36,10 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        mQueue = Volley.newRequestQueue(this);
-        DiskLruBasedCache.ImageCacheParams cacheParams = new DiskLruBasedCache.ImageCacheParams(getApplicationContext(), "CacheDirectory");
-        cacheParams.setMemCacheSizePercent(0.5f);
-        mImageLoader = new SimpleImageLoader(getApplicationContext(), cacheParams);
-
-         NetworkRequests.getInstance().initViw(this).getInstance().init(instance);
-
-
+        AppContextUtil.init(this);
+        SpUtils.init(this);
     }
 
-
-    public RequestQueue getmQueue() {
-        return mQueue;
-    }
 
     /**
      * 把活动添加到活动管理集合
@@ -89,40 +75,31 @@ public class MyApplication extends Application {
 			e.printStackTrace();
 		}*/
     }
-/*
+
 
     public void setUser(User user) {
         this.user = user;
         Log.e("user", this.user.toString());
-
-        //获取SharedPreferences对象
-        SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
-        //获取Editor对象
-        SharedPreferences.Editor editor = sharedPre.edit();
-        //设置参数
-        editor.putString("username", user.getPhone());
-        editor.putString("password", user.getPsw());
-
-        //提交
-        editor.commit();
+        Boolean IsRemember = SpUtils.getBoolean("remember", true);
+        if (IsRemember) {
+            SpUtils.putString("phone", user.getResBody().getPhoneNumber());
+            SpUtils.putString("password", user.getResBody().getPsw());
+        }
 
     }
 
 
     public User getUser() {
-
-        //获取SharedPreferences对象
-        SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
-        String username = sharedPre.getString("username", "");
-        String password = sharedPre.getString("password", "");
-        Log.e("------", username + " " + password);
-        if (username.equals("") || password.equals(""))
+        String phone = SpUtils.getString("phone", "");
+        String password = SpUtils.getString("password", "");
+        Log.e("------", phone + " " + password);
+        if (phone.equals("") || password.equals(""))
             return null;
-        user.setPhone(username);
-        user.setPsw(password);
+        user.getResBody().setPhoneNumber(phone);
+        user.getResBody().setPsw(password);
         return user;
     }
-
+/*
     public void outLogin() {
         user = null;
         SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
@@ -136,9 +113,6 @@ public class MyApplication extends Application {
         clearAllActies();
 
     }*/
-
-    private SimpleImageLoader mImageLoader;
-
 
 
     private String getAppName(int pID) {
@@ -160,9 +134,6 @@ public class MyApplication extends Application {
         }
         return processName;
     }
-
-
-
 
 
 }

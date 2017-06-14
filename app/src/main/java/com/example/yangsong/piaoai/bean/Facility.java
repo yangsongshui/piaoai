@@ -1,4 +1,4 @@
-package com.example.yangsong.piaoai.model;
+package com.example.yangsong.piaoai.bean;
 
 /**
  * Created by yangsong on 2017/5/14.

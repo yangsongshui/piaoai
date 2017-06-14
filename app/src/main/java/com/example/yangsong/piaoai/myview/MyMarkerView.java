@@ -1,5 +1,5 @@
 
-package com.example.yangsong.piaoai.view;
+package com.example.yangsong.piaoai.myview;
 
 import android.content.Context;
 import android.widget.TextView;

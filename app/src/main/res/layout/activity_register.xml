@@ -37,23 +37,36 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/iron" />
-
-    <LinearLayout
+    <EditText
+        android:id="@+id/phone_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/binding_rim"
+        android:hint="请输入手机号"
+        android:padding="10dp"
+        android:inputType="phone"
+        android:textColorHint="@color/silver_sand"
+        android:textSize="14sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/binding_rim"
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/phone_et"
+            android:id="@+id/code_et"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
-            android:hint="请输入手机号"
+            android:hint="请输入验证码"
+            android:inputType="number"
             android:padding="10dp"
             android:textColorHint="@color/silver_sand"
             android:textSize="14sp" />
@@ -69,25 +82,27 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/code_et"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/binding_rim"
-        android:hint="请输入密码"
-        android:padding="10dp"
-        android:textColorHint="@color/silver_sand"
-        android:textSize="14sp" />
-
-    <EditText
         android:id="@+id/psw_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:layout_marginTop="10dp"
+        android:background="@drawable/binding_rim"
+        android:inputType="textPassword"
+        android:hint="请输入密码"
+        android:padding="10dp"
+        android:textColorHint="@color/silver_sand"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/psw2_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="10dp"
+        android:inputType="textPassword"
         android:background="@drawable/binding_rim"
         android:hint="请设置密码"
         android:padding="10dp"

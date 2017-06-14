@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.yangsong.piaoai.R;
-import com.example.yangsong.piaoai.bean.BaseActivity;
+import com.example.yangsong.piaoai.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;

@@ -6,10 +6,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
 import com.example.yangsong.piaoai.R;
-import com.example.yangsong.piaoai.app.MyApplication;
-import com.example.yangsong.piaoai.bean.BaseFragment;
+import com.example.yangsong.piaoai.base.BaseFragment;
 import com.example.yangsong.piaoai.util.Toastor;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -45,13 +43,13 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
 
     private Map<String, String> map = new HashMap<String, String>();
     private Toastor toastor;
-    private RequestQueue mQueue;
+
 
 
 
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
-        mQueue = MyApplication.newInstance().getmQueue();
+
         toastor = new Toastor(getActivity());
         initChart();
     }

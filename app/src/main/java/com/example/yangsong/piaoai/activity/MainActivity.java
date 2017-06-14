@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.example.yangsong.piaoai.R;
 import com.example.yangsong.piaoai.adapter.TestFragmentAdapter;
-import com.example.yangsong.piaoai.bean.BaseActivity;
-import com.example.yangsong.piaoai.model.Facility;
+import com.example.yangsong.piaoai.base.BaseActivity;
+import com.example.yangsong.piaoai.bean.Facility;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
@@ -52,8 +52,6 @@ public class MainActivity extends BaseActivity {
         mList.add(new Facility());
         mList.add(new Facility());
         mAdapter = new TestFragmentAdapter(getSupportFragmentManager(), mList);
-
-
         pager.setAdapter(mAdapter);
         indicator.setViewPager(pager);
 

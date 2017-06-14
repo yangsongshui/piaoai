@@ -6,7 +6,7 @@ import android.widget.ListView;
 
 import com.example.yangsong.piaoai.R;
 import com.example.yangsong.piaoai.adapter.UserAdapter;
-import com.example.yangsong.piaoai.bean.BaseActivity;
+import com.example.yangsong.piaoai.base.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;

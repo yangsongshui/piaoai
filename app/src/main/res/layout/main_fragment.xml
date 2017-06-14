@@ -118,7 +118,7 @@
                     android:textColor="@color/white"
                     android:textSize="14sp" />
 
-                <com.example.yangsong.piaoai.view.RoundProgressBar
+                <com.example.yangsong.piaoai.myview.RoundProgressBar
                     android:id="@+id/roundProgressBar_TVOC"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
@@ -137,7 +137,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
-                <com.example.yangsong.piaoai.view.RoundProgressBar
+                <com.example.yangsong.piaoai.myview.RoundProgressBar
                     android:id="@+id/roundProgressBar_CO2"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
@@ -186,7 +186,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
-                <com.example.yangsong.piaoai.view.RoundProgressBar
+                <com.example.yangsong.piaoai.myview.RoundProgressBar
                     android:id="@+id/roundProgressBar_PM10"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
@@ -241,7 +241,7 @@
                     android:textColor="@color/white"
                     android:textSize="21sp" />
 
-                <com.example.yangsong.piaoai.view.RoundProgressBar
+                <com.example.yangsong.piaoai.myview.RoundProgressBar
                     android:id="@+id/roundProgressBar_electric"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
@@ -280,7 +280,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
-                <com.example.yangsong.piaoai.view.RoundProgressBar
+                <com.example.yangsong.piaoai.myview.RoundProgressBar
                     android:id="@+id/roundProgressBar_humidity"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
@@ -330,7 +330,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
-                <com.example.yangsong.piaoai.view.RoundProgressBar
+                <com.example.yangsong.piaoai.myview.RoundProgressBar
                     android:id="@+id/roundProgressBar_methanal"
                     android:layout_width="70dp"
                     android:layout_height="70dp"

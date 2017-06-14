@@ -12,7 +12,7 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.example.yangsong.piaoai.R;
 import com.example.yangsong.piaoai.adapter.EquipmentAdapter;
-import com.example.yangsong.piaoai.bean.BaseActivity;
+import com.example.yangsong.piaoai.base.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;

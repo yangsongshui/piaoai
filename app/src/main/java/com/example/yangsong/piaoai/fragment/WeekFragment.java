@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.yangsong.piaoai.R;
-import com.example.yangsong.piaoai.bean.BaseFragment;
+import com.example.yangsong.piaoai.base.BaseFragment;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;

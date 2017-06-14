@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.yangsong.piaoai.R;
-import com.example.yangsong.piaoai.bean.BaseFragment;
-import com.example.yangsong.piaoai.model.Facility;
-import com.example.yangsong.piaoai.view.RoundProgressBar;
+import com.example.yangsong.piaoai.base.BaseFragment;
+import com.example.yangsong.piaoai.bean.Facility;
+import com.example.yangsong.piaoai.myview.RoundProgressBar;
 
 import butterknife.BindView;
 

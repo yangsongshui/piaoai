@@ -70,6 +70,8 @@ public class ThreeActivity extends BaseActivity implements MsgView {
                     map.put("deviceName", name);
                     map.put("devicePosition", address);
                     bindingPresenterImp.binding(map);
+                }else {
+                    toastor.showSingletonToast("设备名字不能为空");
                 }
                 break;
             case R.id.three_address_et:

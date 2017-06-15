@@ -55,17 +55,17 @@ public class BindingActivity extends BaseActivity {
                 break;
             default:
                 String deviceID = bindingEt.getText().toString();
-                String type = deviceID.substring(0, 2);
-                if (deviceID.length() == 14)
+
+                if (deviceID.length() == 14){
+                    String type = deviceID.substring(0, 2);
                     if (type.equals("F1")) {
                         //WiFi设备
-                        startActivity(new Intent(this, DeployActivity.class).putExtra("deviceID", deviceID));
+                        startActivity(new Intent(this, OneActivity.class).putExtra("deviceID", deviceID));
                     } else {
                         //无需配置WiFi直接添加设备
-
                         startActivity(new Intent(this, ThreeActivity.class).putExtra("deviceID", deviceID));
                     }
-                else
+                } else
                     toastor.showSingletonToast("设备ID不合法,请检查");
                 break;
         }

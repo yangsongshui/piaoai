@@ -53,9 +53,7 @@ final class FlashlightManager {
   private FlashlightManager() {
   }
 
-  /**
-   * �����������ƿ���
-   */
+
   static void enableFlashlight() {
     setFlashlight(false);
   }

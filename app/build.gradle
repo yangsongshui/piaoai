@@ -48,5 +48,6 @@ dependencies {
     provided 'com.android.support:support-v4:25.2.0'
     compile files('libs/AMap3DMap_5.2.0_AMapNavi_5.1.0_AMapSearch_5.1.0_AMapLocation_3.4.0_20170602.jar')
     compile 'com.google.zxing:core:3.3.0'
+    compile files('libs/hiflying-iots-android-smartlink7.0.2.jar')
 }
 

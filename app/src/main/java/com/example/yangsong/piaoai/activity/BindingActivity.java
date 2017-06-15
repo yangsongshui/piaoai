@@ -20,7 +20,6 @@ import butterknife.OnClick;
 
 public class BindingActivity extends BaseActivity {
     private final static int REQUECT_CODE_COARSE = 1;
-    private static final int RESULT_FINISH = 2;
     @BindView(R.id.binding_et)
     EditText bindingEt;
     //打开扫描界面请求码

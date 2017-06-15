@@ -1,5 +1,6 @@
 package com.example.yangsong.piaoai.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -7,17 +8,34 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.yangsong.piaoai.R;
+import com.example.yangsong.piaoai.app.MyApplication;
 import com.example.yangsong.piaoai.base.BaseActivity;
+import com.example.yangsong.piaoai.bean.Msg;
+import com.example.yangsong.piaoai.presenter.BindingPresenterImp;
+import com.example.yangsong.piaoai.util.Toastor;
+import com.example.yangsong.piaoai.view.MsgView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class ThreeActivity extends BaseActivity  {
-
+public class ThreeActivity extends BaseActivity implements MsgView {
+    //打开地图请求码
+    private int REQUEST_CODE = 0x01;
+    //获取地址成功返回码
+    private int RESULT_OK = 0xA1;
     @BindView(R.id.three_name_et)
     EditText threeNameEt;
     @BindView(R.id.three_address_et)
     TextView threeAddressEt;
+    @BindView(R.id.three_deviceID)
+    TextView threeDeviceID;
+    String deviceID;
+    ProgressDialog progressDialog;
+    BindingPresenterImp bindingPresenterImp;
+    Toastor toastor;
 
     @Override
     protected int getContentView() {
@@ -26,7 +44,12 @@ public class ThreeActivity extends BaseActivity  {
 
     @Override
     protected void init(Bundle savedInstanceState) {
-
+        deviceID = getIntent().getStringExtra("deviceID");
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("设备绑定中...");
+        bindingPresenterImp = new BindingPresenterImp(this, this);
+        toastor = new Toastor(this);
+        threeDeviceID.setText(deviceID);
     }
 
 
@@ -37,12 +60,61 @@ public class ThreeActivity extends BaseActivity  {
                 finish();
                 break;
             case R.id.three_tv:
-                startActivity(new Intent(this, MainActivity.class));
+                String name = threeNameEt.getText().toString().trim();
+                String address = threeAddressEt.getText().toString().trim();
+                if (name.length() > 0) {
+                    String phoneNumber = MyApplication.newInstance().getUser().getResBody().getPhoneNumber();
+                    Map<String, String> map = new HashMap<>();
+                    map.put("phoneNumber", phoneNumber);
+                    map.put("deviceID", deviceID);
+                    map.put("deviceName", name);
+                    map.put("devicePosition", address);
+                    bindingPresenterImp.binding(map);
+                }
                 break;
             case R.id.three_address_et:
-                startActivity(new Intent(this, MapActivity.class));
+                Intent intent = new Intent(this, MapActivity.class);
+                startActivityForResult(intent, REQUEST_CODE);
                 break;
         }
     }
 
+    @Override
+    public void showProgress() {
+        if (progressDialog != null && !progressDialog.isShowing()) {
+            progressDialog.show();
+        }
+    }
+
+    @Override
+    public void disimissProgress() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void loadDataSuccess(Msg tData) {
+        toastor.showSingletonToast(tData.getResMessage());
+        if (tData.getResCode().equals("0")) {
+            startActivity(new Intent(this, MainActivity.class));
+        }
+    }
+
+    @Override
+    public void loadDataError(Throwable throwable) {
+        toastor.showSingletonToast("服务器连接异常");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            Bundle bundle = data.getExtras();
+            String scanResult = bundle.getString("address");
+            threeAddressEt.setText(scanResult);
+        }
+    }
 }

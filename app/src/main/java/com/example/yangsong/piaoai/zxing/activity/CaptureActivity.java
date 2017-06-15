@@ -279,11 +279,7 @@ public class CaptureActivity extends AppCompatActivity implements Callback {
         } else {
             Intent resultIntent = new Intent();
             Bundle bundle = new Bundle();
-            bundle.putString(INTENT_EXTRA_KEY_QR_SCAN, resultString);
-            System.out.println("sssssssssssssssss scan 0 = " + resultString);
-            // 不能使用Intent传递大于40kb的bitmap，可以使用一个单例对象存储这个bitmap
-//            bundle.putParcelable("bitmap", barcode);
-//            Logger.d("saomiao",resultString);
+            bundle.putString(INTENT_EXTRA_KEY_QR_SCAN, resultString);;
             resultIntent.putExtras(bundle);
             this.setResult(RESULT_CODE_QR_SCAN, resultIntent);
         }

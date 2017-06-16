@@ -113,14 +113,13 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
 
     @Override
     public void loadDataSuccess(User tData) {
+        toastor.showSingletonToast(tData.getResMessage());
         if (tData.getResCode().equals("0")) {
-            toastor.showSingletonToast(tData.getResMessage());
+
             tData.getResBody().setPsw(psw);
             MyApplication.newInstance().setUser(tData);
             startActivity(new Intent(this, MainActivity.class));
             finish();
-        } else {
-            toastor.showSingletonToast(tData.getResMessage());
         }
     }
 

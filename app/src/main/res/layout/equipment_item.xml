@@ -13,7 +13,7 @@
         android:src="@drawable/list_img_e_on" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/device_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
@@ -23,10 +23,11 @@
         android:textSize="16sp" />
 
     <TextView
+        android:id="@+id/device_nickName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:text="设备备注"
-        android:textColor="@color/black"
+        android:textColor="@color/text_color"
         android:textSize="14sp" />
 </LinearLayout>

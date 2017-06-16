@@ -1,5 +1,6 @@
 package com.example.yangsong.piaoai.api;
 
+import com.example.yangsong.piaoai.bean.Facility;
 import com.example.yangsong.piaoai.bean.Identify;
 import com.example.yangsong.piaoai.bean.Msg;
 import com.example.yangsong.piaoai.bean.User;
@@ -23,7 +24,7 @@ public interface ServiceApi {
     Observable<User> loadLoginInfo(@Query("phoneNumber") String phoneNumber, @Query("passWord") String psw);
     //第三方登陆
     @POST("thirdLogin?")
-    Observable<Msg> loadThirdLogin(@Query("openID") String openID);
+    Observable<User> loadThirdLogin(@Query("openID") String openID);
     //获取验证码
     @POST("getIdentify?")
     Observable<Identify> getCode(@Query("phoneNumber") String phoneNumber, @Query("type") String type);
@@ -35,16 +36,22 @@ public interface ServiceApi {
     Observable<Msg> updateUser(@QueryMap Map<String, String> map);
     //查询用户信息
     @POST("findUserByphoneNumber?")
-    Observable<Msg> findUserByphoneNumber(@Query("phoneNumber") String phoneNumber);
-    //绑定设备 getFirstDataPM2_5
+    Observable<User> findUserByphoneNumber(@Query("phoneNumber") String phoneNumber);
+    //绑定设备
     @POST("binding?")
     Observable<Msg> binding(@QueryMap Map<String, String> map);
+    //查询用户绑定的所有设备信息及对应首页数据
+    @POST("findUserDevice?")
+    Observable<Facility> findUserDevice(@Query("phoneNumber") String phoneNumber);
+    //根据设备号查询对应首页数据
+    @POST("findUserDevice?")
+    Observable<Msg> findDeviceData(@Query("imei") String imei);
+    //进入首页其他数据查询
+    @POST("getFirstData?")
+    Observable<Msg> getFirstData(@Query("imei") String imei);
     //进入首页PM2.5查询
     @POST("getFirstDataPM2_5?")
     Observable<Msg> getFirstDataPM(@Query("imei") String imei);
-    //进入首页其他数据查询 查询子账户
-    @POST("getFirstData?")
-    Observable<Msg> getFirstData(@Query("imei") String imei);
     //查询子账户
     @POST("findChildAccount?")
     Observable<Msg> findChildAccount(@Query("phoneNumber") String phoneNumber);

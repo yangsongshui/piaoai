@@ -13,18 +13,16 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.example.yangsong.piaoai.R;
 import com.example.yangsong.piaoai.adapter.EquipmentAdapter;
 import com.example.yangsong.piaoai.base.BaseActivity;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.yangsong.piaoai.bean.Facility;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class EquipmentActivity extends BaseActivity implements SwipeMenuListView.OnMenuItemClickListener, AdapterView.OnItemClickListener {
-
+    private static final int RESULT = 1;
+    private static final int REQUEST_CUT = 2;
     @BindView(R.id.listView)
     SwipeMenuListView listView;
-    List<String> mList;
     EquipmentAdapter adapter;
 
     @Override
@@ -34,11 +32,10 @@ public class EquipmentActivity extends BaseActivity implements SwipeMenuListView
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        mList = new ArrayList<>();
-        mList.add("----");
-        mList.add("----");
-        mList.add("----");
-        adapter = new EquipmentAdapter(mList, this);
+
+       Facility facility = (Facility) getIntent().getSerializableExtra("facility");
+
+        adapter = new EquipmentAdapter(facility.getResBody().getList(), this);
         listView.setAdapter(adapter);
         listView.setMenuCreator(creator);
         listView.setOnMenuItemClickListener(this);
@@ -69,7 +66,11 @@ public class EquipmentActivity extends BaseActivity implements SwipeMenuListView
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        startActivity(new Intent(this, IonicActivity.class));
+        Intent resultIntent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putInt("position",i);
+        resultIntent.putExtras(bundle);
+        this.setResult(REQUEST_CUT, resultIntent);
     }
 
     /*添加侧滑菜单*/
@@ -82,9 +83,9 @@ public class EquipmentActivity extends BaseActivity implements SwipeMenuListView
             // 设置背景颜色
             alterItem.setBackground(new ColorDrawable(getResources().getColor(R.color.tan_hide)));
             // 设置宽度
-            alterItem.setWidth(dp2px(90));
+            alterItem.setWidth(dp2px(70));
             // 设置内容
-            alterItem.setTitle("绑定设备");
+            alterItem.setTitle("更名");
             // 设置字体大小
             alterItem.setTitleSize(14);
             // 字体颜色

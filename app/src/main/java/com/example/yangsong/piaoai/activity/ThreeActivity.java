@@ -62,6 +62,8 @@ public class ThreeActivity extends BaseActivity implements MsgView {
             case R.id.three_tv:
                 String name = threeNameEt.getText().toString().trim();
                 String address = threeAddressEt.getText().toString().trim();
+                if (address.equals("请选择设备所在地址"))
+                    address = "";
                 if (name.length() > 0) {
                     String phoneNumber = MyApplication.newInstance().getUser().getResBody().getPhoneNumber();
                     Map<String, String> map = new HashMap<>();
@@ -70,7 +72,7 @@ public class ThreeActivity extends BaseActivity implements MsgView {
                     map.put("deviceName", name);
                     map.put("devicePosition", address);
                     bindingPresenterImp.binding(map);
-                }else {
+                } else {
                     toastor.showSingletonToast("设备名字不能为空");
                 }
                 break;

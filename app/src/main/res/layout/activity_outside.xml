@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg"
     android:orientation="vertical"
+
     tools:context="com.example.yangsong.piaoai.activity.OutsideActivity">
 
     <RelativeLayout
@@ -90,6 +91,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/outside_pm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="150"
@@ -102,6 +104,7 @@
             android:background="@color/baby_blue_eyes" />
 
         <TextView
+            android:id="@+id/pm_jibie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -143,6 +146,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/shidu_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -169,6 +173,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/nengjiandu_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -195,6 +200,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/ziwaixian_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -221,6 +227,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/fengsu_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -250,14 +257,15 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tomorrow_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:text="明天"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 
             <ImageView
+                android:id="@+id/tomorrow_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="9dp"
@@ -265,6 +273,7 @@
                 android:src="@drawable/share_wechat" />
 
             <TextView
+                android:id="@+id/tomorrow_wendu_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -281,6 +290,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tomorrow2_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="明天"
@@ -288,6 +298,7 @@
                 android:textSize="14sp" />
 
             <ImageView
+                android:id="@+id/tomorrow2_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="9dp"
@@ -295,6 +306,7 @@
                 android:src="@drawable/share_wechat" />
 
             <TextView
+                android:id="@+id/tomorrow2_wendu_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -311,6 +323,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tomorrow3_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="明天"
@@ -318,6 +331,7 @@
                 android:textSize="14sp" />
 
             <ImageView
+                android:id="@+id/tomorrow3_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="9dp"
@@ -325,6 +339,7 @@
                 android:src="@drawable/share_wechat" />
 
             <TextView
+                android:id="@+id/tomorrow3_wendu_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"

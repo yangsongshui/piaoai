@@ -130,7 +130,7 @@ public class EquipmentActivity extends BaseActivity implements SwipeMenuListView
             // 设置宽度
             alterItem.setWidth(dp2px(70));
             // 设置内容
-            alterItem.setTitle("更名");
+            alterItem.setTitle("更多");
             // 设置字体大小
             alterItem.setTitleSize(14);
             // 字体颜色

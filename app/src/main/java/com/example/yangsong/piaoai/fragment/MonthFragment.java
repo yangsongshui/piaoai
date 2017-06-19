@@ -1,6 +1,7 @@
 package com.example.yangsong.piaoai.fragment;
 
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -33,7 +34,6 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -48,23 +48,24 @@ public class MonthFragment extends BaseFragment implements OnChartValueSelectedL
     CombinedChart mChart;
     @BindView(R.id.month_msg)
     TextView dyaMsg;
-
-    List<String> date = new ArrayList<>();
-    public MonthFragment() {
-        // Required empty public constructor
-    }
+    private Activity activity;
 
     private Toastor toastor;
     PMdataPresenterImp pMdataPresenterImp;
     ProgressDialog progressDialog;
     private Map<String, String> map;
+
+    public MonthFragment(Activity activity) {
+        this.activity = activity;
+    }
+
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
         //initX();
         initChart();
         String deviceID = getActivity().getIntent().getStringExtra("deviceID");
         toastor = new Toastor(getActivity());
-        ((HistoryActivity) getActivity()).setOnCheckedListener(this);
+        ((HistoryActivity) activity).setOnCheckedListener(this);
         pMdataPresenterImp = new PMdataPresenterImp(this, getActivity());
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("数据查询中...");

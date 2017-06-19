@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -31,6 +32,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.example.yangsong.piaoai.util.AppUtil.stringtoBitmap;
 
 public class MainActivity extends BaseActivity implements FacilityView {
+    private final static String TAG = HistoryActivity.class.getSimpleName();
     private static final int RESULT = 1;
     private static final int REQUEST_CUT = 2;
     @BindView(R.id.main_title_tv)
@@ -80,11 +82,13 @@ public class MainActivity extends BaseActivity implements FacilityView {
             @Override
             public void onPageSelected(int position) {
 
+                deviceID = mList.get(position).getDeviceid();
+                Log.e(TAG, deviceID);
             }
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                deviceID = mList.get(position).getDeviceid();
+
             }
 
             @Override
@@ -161,11 +165,16 @@ public class MainActivity extends BaseActivity implements FacilityView {
 
     @Override
     public void loadDataSuccess(Facility tData) {
-        facility = tData;
-        // toastor.showSingletonToast(tData.getResMessage());
-        mAdapter.setCount(tData.getResBody().getList());
-        indicator.notifyDataSetChanged();
-        pager.setCurrentItem(3);
+
+        toastor.showSingletonToast(tData.getResMessage());
+        if (tData.getResCode().equals("0")) {
+            mList = tData.getResBody().getList();
+            mAdapter.setCount(tData.getResBody().getList());
+            indicator.notifyDataSetChanged();
+            facility = tData;
+            deviceID = mList.get(0).getDeviceid();
+        }
+
     }
 
     @Override

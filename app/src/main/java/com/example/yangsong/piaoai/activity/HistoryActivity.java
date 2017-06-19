@@ -40,6 +40,7 @@ import butterknife.OnClick;
 
 
 public class HistoryActivity extends BaseActivity implements OnChartValueSelectedListener, RadioGroup.OnCheckedChangeListener {
+    private final static String TAG = HistoryActivity.class.getSimpleName();
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     @BindView(R.id.cardiac_fl)
@@ -54,6 +55,7 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
     private TimeFragment dataFragment;
     private SharePopuoWindow sharePopuoWindow;
     OnCheckedListener onCheckedListener;
+
     @Override
     protected int getContentView() {
         return R.layout.activity_history;
@@ -61,6 +63,8 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        String deviceID = getIntent().getStringExtra("deviceID");
+        Log.e(TAG, deviceID);
         initData();
         initChart();
         initView();
@@ -88,7 +92,7 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
 
     private void initData() {
         if (dataFragment == null) {
-            dataFragment = new TimeFragment();
+            dataFragment = new TimeFragment(this);
         }
 
         if (!dataFragment.isAdded()) {
@@ -97,7 +101,8 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
         }
 
     }
-    private void  initView(){
+
+    private void initView() {
         cardiacRgrpNavigation.check(R.id.cardiac_tiem_rb);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.addTab(tabLayout.newTab().setText("PM2.5"));
@@ -112,8 +117,10 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
             public void onTabSelected(TabLayout.Tab tab) {
                 //选中了tab的逻辑
                 Log.i("选中了", tab.getPosition() + "");
-                if (onCheckedListener!=null)
-                    onCheckedListener.onViewChecked(tab,tab.getPosition());
+                if (onCheckedListener != null) {
+                    onCheckedListener.onViewChecked(tab, tab.getPosition());
+                }
+
             }
 
             @Override
@@ -143,6 +150,7 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
             }
         });
     }
+
     private void showFragment(int position) {
         if (frags[position] == null) {
             frags[position] = getFrag(position);
@@ -154,13 +162,16 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
     private Fragment getFrag(int index) {
         switch (index) {
             case 0:
-                return new TimeFragment();
+                if (dataFragment != null)
+                    return dataFragment;
+                else
+                    return new TimeFragment(this);
             case 1:
-                return new DayFragment();
+                return new DayFragment(this);
             case 2:
-                return new WeekFragment();
+                return new WeekFragment(this);
             case 3:
-                return new MonthFragment();
+                return new MonthFragment(this);
             default:
                 return null;
         }

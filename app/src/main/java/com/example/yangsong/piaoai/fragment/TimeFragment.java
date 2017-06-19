@@ -1,6 +1,7 @@
 package com.example.yangsong.piaoai.fragment;
 
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -52,8 +53,10 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
     ProgressDialog progressDialog;
     private Map<String, String> map;
 
-    public TimeFragment() {
-        // Required empty public constructor
+    private Activity activity;
+
+    public TimeFragment(Activity activity) {
+        this.activity = activity;
     }
 
     @Override

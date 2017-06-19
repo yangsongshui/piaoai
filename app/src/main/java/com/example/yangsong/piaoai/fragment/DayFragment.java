@@ -1,5 +1,6 @@
 package com.example.yangsong.piaoai.fragment;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -59,13 +60,19 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
     TVOCdataPresenterImp tvoCdataPresenterImp;
     ProgressDialog progressDialog;
     private Map<String, String> map;
+    private Activity activity;
+
+    public DayFragment(Activity activity) {
+        this.activity = activity;
+    }
 
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
-        String deviceID = getActivity().getIntent().getStringExtra("deviceID");
+        String deviceID = activity.getIntent().getStringExtra("deviceID");
+        Log.e(TAG, deviceID);
         toastor = new Toastor(getActivity());
         initChart();
-        ((HistoryActivity) getActivity()).setOnCheckedListener(this);
+        ((HistoryActivity) activity).setOnCheckedListener(this);
         pMdataPresenterImp = new PMdataPresenterImp(this, getActivity());
         codataPresenterImp = new CodataPresenterImp(this, getActivity());
         methanalPresenterImp = new MethanalPresenterImp(this, getActivity());
@@ -249,11 +256,13 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
 
     @Override
     public void loadDataError(Throwable throwable) {
+        Log.e(TAG, throwable.getMessage());
         toastor.showSingletonToast("服务器连接异常");
     }
 
     @Override
     public void onViewChecked(TabLayout.Tab buttonView, int position) {
+        Log.e(TAG, position + "");
         switch (position) {
             case 0:
                 pMdataPresenterImp.binding(map);

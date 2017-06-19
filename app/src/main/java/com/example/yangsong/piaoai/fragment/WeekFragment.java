@@ -1,6 +1,7 @@
 package com.example.yangsong.piaoai.fragment;
 
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -54,11 +55,11 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
     PMdataPresenterImp pMdataPresenterImp;
     ProgressDialog progressDialog;
     private Map<String, String> map;
+    private Activity activity;
 
-    public WeekFragment() {
-        // Required empty public constructor
+    public WeekFragment(Activity activity) {
+        this.activity = activity;
     }
-
 
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {

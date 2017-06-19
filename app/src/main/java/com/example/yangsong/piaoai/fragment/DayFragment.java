@@ -1,14 +1,25 @@
 package com.example.yangsong.piaoai.fragment;
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.yangsong.piaoai.R;
+import com.example.yangsong.piaoai.activity.HistoryActivity;
 import com.example.yangsong.piaoai.base.BaseFragment;
+import com.example.yangsong.piaoai.bean.PMBean;
+import com.example.yangsong.piaoai.inter.OnCheckedListener;
+import com.example.yangsong.piaoai.presenter.CodataPresenterImp;
+import com.example.yangsong.piaoai.presenter.MethanalPresenterImp;
+import com.example.yangsong.piaoai.presenter.PMdataPresenterImp;
+import com.example.yangsong.piaoai.presenter.TVOCdataPresenterImp;
+import com.example.yangsong.piaoai.util.DateUtil;
 import com.example.yangsong.piaoai.util.Toastor;
+import com.example.yangsong.piaoai.view.PMView;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -27,31 +38,48 @@ import java.util.Map;
 
 import butterknife.BindView;
 
+import static com.example.yangsong.piaoai.util.DateUtil.LONG_DATE_FORMAT;
+
 
 /**
  * Created by Administrator on 2016/5/28.
  */
-public class DayFragment extends BaseFragment implements OnChartValueSelectedListener {
+public class DayFragment extends BaseFragment implements OnChartValueSelectedListener, PMView, OnCheckedListener {
     private final static String TAG = DayFragment.class.getSimpleName();
     @BindView(R.id.day_chart)
     CombinedChart mChart;
     @BindView(R.id.day_msg)
     TextView dyaMsg;
-
-
     private int TYPE = 0;
 
-    private Map<String, String> map = new HashMap<String, String>();
     private Toastor toastor;
-
-
-
+    PMdataPresenterImp pMdataPresenterImp;
+    CodataPresenterImp codataPresenterImp;
+    MethanalPresenterImp methanalPresenterImp;
+    TVOCdataPresenterImp tvoCdataPresenterImp;
+    ProgressDialog progressDialog;
+    private Map<String, String> map;
 
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
-
+        String deviceID = getActivity().getIntent().getStringExtra("deviceID");
         toastor = new Toastor(getActivity());
         initChart();
+        ((HistoryActivity) getActivity()).setOnCheckedListener(this);
+        pMdataPresenterImp = new PMdataPresenterImp(this, getActivity());
+        codataPresenterImp = new CodataPresenterImp(this, getActivity());
+        methanalPresenterImp = new MethanalPresenterImp(this, getActivity());
+        tvoCdataPresenterImp = new TVOCdataPresenterImp(this, getActivity());
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("数据查询中...");
+        map = new HashMap<>();
+        map.put("imei", deviceID);
+        map.put("type", "1");
+        //通过格式化输出日期
+        String time = DateUtil.getCurrDate(LONG_DATE_FORMAT);
+        map.put("endDate", time + " 24:00");
+        map.put("beginDate", time + " 00:00");
+
     }
 
     @Override
@@ -107,21 +135,12 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
         //不画网格
         xAxis.setDrawGridLines(false);
         mChart.getLegend().setEnabled(false);
-
-        CombinedData data = new CombinedData();
-
-        data.setData(getdayData());
-
-        //data.setValueTypeface(mTfLight);
-
         mChart.setOnChartValueSelectedListener(this);
+        CombinedData data = new CombinedData();
+        data.setData(getdayData());
         mChart.setData(data);
-
         mChart.invalidate();
     }
-
-
-
 
 
     @Override
@@ -138,10 +157,6 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
         Log.e(TAG, "onNothingSelected ");
         dyaMsg.setVisibility(View.GONE);
     }
-
-
-
-
 
 
     private LineData getdayData() {
@@ -197,7 +212,6 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
         }
         set1.setLineWidth(2f);//设置线宽
         set1.setCircleRadius(3f);//设置焦点圆心的大小
-        //set1.enableDashedHighlightLine(1f, 0f, 1f);//点击后的高亮线的显示样式
         set1.setHighlightLineWidth(0.5f);//设置点击交点后显示高亮线宽
         set1.setHighlightEnabled(true);//是否禁用点击高亮线
         set1.setDrawHorizontalHighlightIndicator(false);//设置不显示水平高亮线
@@ -210,4 +224,58 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
         return new LineData(set1);
     }
 
+
+    @Override
+    public void showProgress() {
+        if (progressDialog != null && !progressDialog.isShowing()) {
+            progressDialog.show();
+        }
+    }
+
+    @Override
+    public void disimissProgress() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void loadDataSuccess(PMBean tData) {
+        toastor.showSingletonToast(tData.getResMessage());
+        if (tData.getResCode().equals("0")) {
+
+        }
+    }
+
+    @Override
+    public void loadDataError(Throwable throwable) {
+        toastor.showSingletonToast("服务器连接异常");
+    }
+
+    @Override
+    public void onViewChecked(TabLayout.Tab buttonView, int position) {
+        switch (position) {
+            case 0:
+                pMdataPresenterImp.binding(map);
+                break;
+            case 1:
+
+                codataPresenterImp.binding(map);
+                break;
+            case 2:
+                tvoCdataPresenterImp.binding(map);
+                break;
+            case 3:
+                methanalPresenterImp.binding(map);
+                break;
+            case 4:
+                //温度
+                break;
+            case 5:
+                // 湿度
+                break;
+            default:
+                break;
+        }
+    }
 }

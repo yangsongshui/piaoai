@@ -1,5 +1,6 @@
 package com.example.yangsong.piaoai.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -12,18 +13,38 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.example.yangsong.piaoai.R;
 import com.example.yangsong.piaoai.adapter.EquipmentAdapter;
+import com.example.yangsong.piaoai.app.MyApplication;
 import com.example.yangsong.piaoai.base.BaseActivity;
 import com.example.yangsong.piaoai.bean.Facility;
+import com.example.yangsong.piaoai.bean.Msg;
+import com.example.yangsong.piaoai.presenter.DeleteDevicePresenterImp;
+import com.example.yangsong.piaoai.util.Log;
+import com.example.yangsong.piaoai.util.Toastor;
+import com.example.yangsong.piaoai.view.MsgView;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class EquipmentActivity extends BaseActivity implements SwipeMenuListView.OnMenuItemClickListener, AdapterView.OnItemClickListener {
+public class EquipmentActivity extends BaseActivity implements SwipeMenuListView.OnMenuItemClickListener, AdapterView.OnItemClickListener, MsgView {
     private static final int RESULT = 1;
     private static final int REQUEST_CUT = 2;
+    //打开地图请求码
+    private int REQUEST_CODE = 0x01;
+    //获取地址成功返回码
+    private int RESULT_OK = 0xA1;
+    private static final String TAG = EquipmentActivity.class.getName();
     @BindView(R.id.listView)
     SwipeMenuListView listView;
     EquipmentAdapter adapter;
+    List<Facility.ResBodyBean.ListBean> mList;
+    int position = 0;
+    ProgressDialog progressDialog;
+    DeleteDevicePresenterImp deleteDevicePresenterImp;
+    Toastor toastor;
 
     @Override
     protected int getContentView() {
@@ -32,10 +53,13 @@ public class EquipmentActivity extends BaseActivity implements SwipeMenuListView
 
     @Override
     protected void init(Bundle savedInstanceState) {
-
-       Facility facility = (Facility) getIntent().getSerializableExtra("facility");
-
-        adapter = new EquipmentAdapter(facility.getResBody().getList(), this);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("信息提交中...");
+        deleteDevicePresenterImp = new DeleteDevicePresenterImp(this, this);
+        toastor = new Toastor(this);
+        Facility facility = (Facility) getIntent().getSerializableExtra("facility");
+        mList = facility.getResBody().getList();
+        adapter = new EquipmentAdapter(mList, this);
         listView.setAdapter(adapter);
         listView.setMenuCreator(creator);
         listView.setOnMenuItemClickListener(this);
@@ -61,6 +85,26 @@ public class EquipmentActivity extends BaseActivity implements SwipeMenuListView
      */
     @Override
     public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+        Log.e(TAG, index + "");
+        switch (index) {
+            case 0:
+                //更多
+                this.position = position;
+                Intent intent = new Intent(this, ModificationActivity.class);
+                intent.putExtra("deviceID", mList.get(position).getDeviceid());
+                startActivityForResult(intent, REQUEST_CODE);
+                break;
+            case 1:
+                //删除
+                this.position = position;
+                String phoneNumber = MyApplication.newInstance().getUser().getResBody().getPhoneNumber();
+                String deviceID = mList.get(position).getDeviceid();
+                Map<String, String> map = new HashMap<>();
+                map.put("phoneNumber", phoneNumber);
+                map.put("deviceID", deviceID);
+                deleteDevicePresenterImp.binding(map);
+                break;
+        }
         return false;
     }
 
@@ -68,9 +112,10 @@ public class EquipmentActivity extends BaseActivity implements SwipeMenuListView
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent resultIntent = new Intent();
         Bundle bundle = new Bundle();
-        bundle.putInt("position",i);
+        bundle.putInt("position", i);
         resultIntent.putExtras(bundle);
         this.setResult(REQUEST_CUT, resultIntent);
+        finish();
     }
 
     /*添加侧滑菜单*/
@@ -110,4 +155,46 @@ public class EquipmentActivity extends BaseActivity implements SwipeMenuListView
             menu.addMenuItem(deleteItem);
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            Bundle bundle = data.getExtras();
+            String scanResult = bundle.getString("name");
+            mList.get(position).setDeviceName(scanResult);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void showProgress() {
+        if (progressDialog != null && !progressDialog.isShowing()) {
+            progressDialog.show();
+        }
+    }
+
+    @Override
+    public void disimissProgress() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void loadDataSuccess(Msg tData) {
+        toastor.showSingletonToast(tData.getResMessage());
+        if (tData.getResCode().equals("0")) {
+            mList.remove(position);
+            adapter.notifyDataSetChanged();
+
+        }
+    }
+
+    @Override
+    public void loadDataError(Throwable throwable) {
+        toastor.showSingletonToast("服务器连接异常");
+    }
 }

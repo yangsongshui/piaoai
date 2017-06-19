@@ -30,7 +30,9 @@
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
     <uses-permission android:name="android.permission.VIBRATE" /> <!-- 震动权限 -->
     <uses-feature android:name="android.hardware.camera" /> <!-- 使用照相机权限 -->
-    <uses-feature android:name="android.hardware.camera.autofocus" /> <!-- 自动聚焦权限 -->
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <!-- 自动聚焦权限 -->
     <application
         android:name=".app.MyApplication"
         android:allowBackup="true"
@@ -45,6 +47,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="42d1712923e56b7d9eadb417f87db3d2" />
@@ -66,13 +69,12 @@
         <activity android:name=".activity.ThreeActivity" />
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.ForgetPasswordActivity" />
-
         <activity android:name=".activity.MyInfoActivity" />
-        <activity android:name=".activity.MapActivity"></activity>
-
+        <activity android:name=".activity.MapActivity" />
         <activity
             android:name=".zxing.activity.CaptureActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+        <activity android:name=".activity.ModificationActivity"></activity>
     </application>
 
 </manifest>

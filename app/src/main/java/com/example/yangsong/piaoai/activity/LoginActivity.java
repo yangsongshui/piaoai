@@ -3,6 +3,7 @@ package com.example.yangsong.piaoai.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -14,13 +15,18 @@ import com.example.yangsong.piaoai.app.MyApplication;
 import com.example.yangsong.piaoai.base.BaseActivity;
 import com.example.yangsong.piaoai.bean.User;
 import com.example.yangsong.piaoai.presenter.LoginPresenterImp;
+import com.example.yangsong.piaoai.util.DateUtil;
 import com.example.yangsong.piaoai.util.MD5;
 import com.example.yangsong.piaoai.util.SpUtils;
 import com.example.yangsong.piaoai.util.Toastor;
 import com.example.yangsong.piaoai.view.LoginView;
 
+import java.util.Calendar;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.example.yangsong.piaoai.util.DateUtil.LONG_DATE_FORMAT;
 
 public class LoginActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener, LoginView {
 
@@ -53,6 +59,8 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
         loginPresenterImp = new LoginPresenterImp(this, this);
         Boolean IsRemember = SpUtils.getBoolean("remember", true);
         loginJizhuCb.setChecked(IsRemember);
+
+
     }
 
 

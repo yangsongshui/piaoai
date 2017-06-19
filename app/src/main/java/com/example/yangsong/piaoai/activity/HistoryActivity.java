@@ -17,9 +17,10 @@ import com.example.yangsong.piaoai.fragment.DayFragment;
 import com.example.yangsong.piaoai.fragment.MonthFragment;
 import com.example.yangsong.piaoai.fragment.TimeFragment;
 import com.example.yangsong.piaoai.fragment.WeekFragment;
-import com.example.yangsong.piaoai.util.Log;
+import com.example.yangsong.piaoai.inter.OnCheckedListener;
 import com.example.yangsong.piaoai.myview.MyMarkerView;
 import com.example.yangsong.piaoai.myview.SharePopuoWindow;
+import com.example.yangsong.piaoai.util.Log;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -52,7 +53,7 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
     protected BaseFragment baseFragment;
     private TimeFragment dataFragment;
     private SharePopuoWindow sharePopuoWindow;
-
+    OnCheckedListener onCheckedListener;
     @Override
     protected int getContentView() {
         return R.layout.activity_history;
@@ -60,6 +61,43 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        initData();
+        initChart();
+        initView();
+        // type = getIntent().getIntExtra("type", -1);
+        /*if (type == -1 || type == 8) {
+            tabLayout.getTabAt(0).select();
+        } else {
+            tabLayout.getTabAt((type + 1)).select();
+        }*/
+    }
+
+
+    @OnClick({R.id.history_left_iv, R.id.tv_history_right})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.history_left_iv:
+                finish();
+                break;
+            case R.id.tv_history_right:
+                //分享
+                sharePopuoWindow.showAtLocation(this.findViewById(R.id.activity_history), Gravity.BOTTOM, 0, 0); //设置layout在PopupWindow中显示的位;
+                break;
+        }
+    }
+
+    private void initData() {
+        if (dataFragment == null) {
+            dataFragment = new TimeFragment();
+        }
+
+        if (!dataFragment.isAdded()) {
+            getSupportFragmentManager().beginTransaction().add(R.id.cardiac_fl, dataFragment).commit();
+            baseFragment = dataFragment;
+        }
+
+    }
+    private void  initView(){
         cardiacRgrpNavigation.check(R.id.cardiac_tiem_rb);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.addTab(tabLayout.newTab().setText("PM2.5"));
@@ -68,42 +106,14 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
         tabLayout.addTab(tabLayout.newTab().setText("甲醛"));
         tabLayout.addTab(tabLayout.newTab().setText("温度"));
         tabLayout.addTab(tabLayout.newTab().setText("湿度"));
-        // type = getIntent().getIntExtra("type", -1);
-        /*if (type == -1 || type == 8) {
-            tabLayout.getTabAt(0).select();
-        } else {
-            tabLayout.getTabAt((type + 1)).select();
-        }*/
-        initData();
-        initChart();
         cardiacRgrpNavigation.setOnCheckedChangeListener(this);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 //选中了tab的逻辑
                 Log.i("选中了", tab.getPosition() + "");
-                switch (tab.getPosition()) {
-                    case 0:
-
-                        break;
-                    case 1:
-
-                        break;
-                    case 2:
-
-                        break;
-                    case 3:
-
-                        break;
-                    case 4:
-                        break;
-                    case 5:
-
-                        break;
-                    default:
-                        break;
-                }
-
+                if (onCheckedListener!=null)
+                    onCheckedListener.onViewChecked(tab,tab.getPosition());
             }
 
             @Override
@@ -133,35 +143,6 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
             }
         });
     }
-
-
-    @OnClick({R.id.history_left_iv, R.id.tv_history_right})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.history_left_iv:
-                finish();
-                break;
-            case R.id.tv_history_right:
-                //分享
-                sharePopuoWindow.showAtLocation(this.findViewById(R.id.activity_history), Gravity.BOTTOM, 0, 0); //设置layout在PopupWindow中显示的位;
-                break;
-        }
-    }
-
-    private void initData() {
-        if (dataFragment == null) {
-            dataFragment = new TimeFragment();
-        }
-
-        if (!dataFragment.isAdded()) {
-
-            getSupportFragmentManager().beginTransaction().add(R.id.cardiac_fl, dataFragment).commit();
-
-            baseFragment = dataFragment;
-        }
-
-    }
-
     private void showFragment(int position) {
         if (frags[position] == null) {
             frags[position] = getFrag(position);
@@ -357,5 +338,9 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
                 showFragment(3);
                 break;
         }
+    }
+
+    public void setOnCheckedListener(OnCheckedListener onCheckedListener) {
+        this.onCheckedListener = onCheckedListener;
     }
 }

@@ -3,6 +3,7 @@ package com.example.yangsong.piaoai.api;
 import com.example.yangsong.piaoai.bean.Facility;
 import com.example.yangsong.piaoai.bean.Identify;
 import com.example.yangsong.piaoai.bean.Msg;
+import com.example.yangsong.piaoai.bean.PMBean;
 import com.example.yangsong.piaoai.bean.User;
 
 import java.util.Map;
@@ -46,12 +47,6 @@ public interface ServiceApi {
     //根据设备号查询对应首页数据
     @POST("findUserDevice?")
     Observable<Msg> findDeviceData(@Query("imei") String imei);
-    //进入首页其他数据查询
-    @POST("getFirstData?")
-    Observable<Msg> getFirstData(@Query("imei") String imei);
-    //进入首页PM2.5查询
-    @POST("getFirstDataPM2_5?")
-    Observable<Msg> getFirstDataPM(@Query("imei") String imei);
     //查询子账户
     @POST("findChildAccount?")
     Observable<Msg> findChildAccount(@Query("phoneNumber") String phoneNumber);
@@ -63,20 +58,20 @@ public interface ServiceApi {
     Observable<Msg> updateDevice(@QueryMap Map<String, String> map);
     //解绑设备
     @POST("unbundling?")
-    Observable<Msg> unbundling(@Query("phoneNumber") String phoneNumber,@Query("deviceID") String deviceID);
+    Observable<Msg> unbundling(Map<String, String> map);
     //反馈
     @POST("addRemark?")
     Observable<Msg> addRemark(@Query("phoneNumber") String phoneNumber,@Query("remark") String remark);
     //查询PM2.5历史数据
     @POST("getHistoryDataByPM2_5?")
-    Observable<Msg> getHistoryDataByPM2_5(@QueryMap Map<String, String> map);
+    Observable<PMBean> getHistoryDataByPM2_5(@QueryMap Map<String, String> map);
     //查询CO2历史数据
     @POST("getHistoryDataByCO2?")
-    Observable<Msg> getHistoryDataByCO2(@QueryMap Map<String, String> map);
+    Observable<PMBean> getHistoryDataByCO2(@QueryMap Map<String, String> map);
     //查询TVOC历史数据 getHistoryDataByJIAQUAN
     @POST("getHistoryDataByTVOC?")
-    Observable<Msg> getHistoryDataByTVOC(@QueryMap Map<String, String> map);
+    Observable<PMBean> getHistoryDataByTVOC(@QueryMap Map<String, String> map);
     //查询甲醛历史数据
     @POST("getHistoryDataByJIAQUAN?")
-    Observable<Msg> getHistoryDataByJIAQUAN(@QueryMap Map<String, String> map);
+    Observable<PMBean> getHistoryDataByJIAQUAN(@QueryMap Map<String, String> map);
 }

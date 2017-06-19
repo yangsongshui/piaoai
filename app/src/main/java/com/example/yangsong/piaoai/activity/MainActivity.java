@@ -52,6 +52,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
     private FacilityPresenerImp facilityPresenerImp = null;
     private Toastor toastor;
     Facility facility;
+    private String deviceID;
 
     @Override
     protected int getContentView() {
@@ -75,20 +76,34 @@ public class MainActivity extends BaseActivity implements FacilityView {
             } else {
                 mePicIv.setImageBitmap(stringtoBitmap(pic));
             }
+        indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
 
+            }
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                deviceID = mList.get(position).getDeviceid();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
 
     @OnClick({R.id.main_left_iv, R.id.tv_main_right, R.id.main_equipment_tv, R.id.main_user_tv, R.id.main_outside_tv, R.id.main_police_tv,
             R.id.main_feedback_tv, R.id.main_shop_tv, R.id.main_about_tv, R.id.main_out_tv, R.id.me_pic_iv})
     public void onClick(View view) {
-
         switch (view.getId()) {
             case R.id.main_left_iv:
                 activityMain.openDrawer(GravityCompat.START);
                 break;
             case R.id.tv_main_right:
-                startActivity(new Intent(this, HistoryActivity.class));
+                startActivity(new Intent(this, HistoryActivity.class).putExtra("deviceID", deviceID));
                 break;
             case R.id.main_equipment_tv:
                 startActivityForResult((new Intent(this, EquipmentActivity.class).putExtra("facility", facility)), RESULT);
@@ -106,8 +121,6 @@ public class MainActivity extends BaseActivity implements FacilityView {
                 startActivity(new Intent(this, FeedbackActivity.class));
                 break;
             case R.id.main_shop_tv:
-
-
                 break;
             case R.id.main_about_tv:
                 startActivity(new Intent(this, AboutActivity.class));
@@ -165,6 +178,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
         super.onResume();
         facilityPresenerImp.findUserDevice(MyApplication.newInstance().getUser().getResBody().getPhoneNumber());
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

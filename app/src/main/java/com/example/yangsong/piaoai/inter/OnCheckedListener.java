@@ -1,10 +1,10 @@
 package com.example.yangsong.piaoai.inter;
 
-import android.view.View;
+import android.support.design.widget.TabLayout;
 
 /**
  * Created by Administrator on 2017/2/23.
  */
 public interface OnCheckedListener {
-    void onViewChecked(View buttonView, int position);
+    void onViewChecked(TabLayout.Tab buttonView, int position);
 }

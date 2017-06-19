@@ -19,13 +19,13 @@ import rx.subscriptions.CompositeSubscription;
  * 作者：dc on 2017/2/16 11:05
  * 邮箱：597210600@qq.com
  */
-public class BindingModelImp extends BaseModel implements BindingModel<Msg> {
+public class DeleteDeviceModelImp extends BaseModel implements BindingModel<Msg> {
 
     private Context context = null;
     private ServiceApi serviceApi;
     private CompositeSubscription mCompositeSubscription;
 
-    public BindingModelImp(Context mContext) {
+    public DeleteDeviceModelImp(Context mContext) {
         super();
         context = mContext;
         serviceApi = retrofitManager.getService();
@@ -35,7 +35,7 @@ public class BindingModelImp extends BaseModel implements BindingModel<Msg> {
 
     @Override
     public void binding(Map<String, String> map, final IBaseRequestCallBack<Msg> iBaseRequestCallBack) {
-        mCompositeSubscription.add(serviceApi.updateDevice(map)
+        mCompositeSubscription.add(serviceApi.unbundling(map)
                 .observeOn(AndroidSchedulers.mainThread())//指定事件消费线程
                 .subscribeOn(Schedulers.io())   //指定 subscribe() 发生在 IO 线程
                 .subscribe(new Subscriber<Msg>() {

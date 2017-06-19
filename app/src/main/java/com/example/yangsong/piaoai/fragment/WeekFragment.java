@@ -1,8 +1,10 @@
 package com.example.yangsong.piaoai.fragment;
 
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -10,7 +12,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.yangsong.piaoai.R;
+import com.example.yangsong.piaoai.activity.HistoryActivity;
 import com.example.yangsong.piaoai.base.BaseFragment;
+import com.example.yangsong.piaoai.bean.PMBean;
+import com.example.yangsong.piaoai.inter.OnCheckedListener;
+import com.example.yangsong.piaoai.presenter.PMdataPresenterImp;
+import com.example.yangsong.piaoai.util.DateUtil;
+import com.example.yangsong.piaoai.util.Toastor;
+import com.example.yangsong.piaoai.view.PMView;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -24,17 +33,27 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
+
+import static com.example.yangsong.piaoai.util.DateUtil.LONG_DATE_FORMAT;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class WeekFragment extends BaseFragment implements OnChartValueSelectedListener {
+public class WeekFragment extends BaseFragment implements OnChartValueSelectedListener, OnCheckedListener, PMView {
     @BindView(R.id.week_chart)
     CombinedChart mChart;
     @BindView(R.id.week_msg)
     TextView dyaMsg;
+
+    private Toastor toastor;
+    PMdataPresenterImp pMdataPresenterImp;
+    ProgressDialog progressDialog;
+    private Map<String, String> map;
 
     public WeekFragment() {
         // Required empty public constructor
@@ -44,6 +63,21 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
         initChart();
+        String deviceID = getActivity().getIntent().getStringExtra("deviceID");
+        toastor = new Toastor(getActivity());
+        ((HistoryActivity) getActivity()).setOnCheckedListener(this);
+        pMdataPresenterImp = new PMdataPresenterImp(this, getActivity());
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("数据查询中...");
+        Calendar cal = Calendar.getInstance();//使用默认时区和语言环境获得一个日历。
+        map = new HashMap<>();
+        map.put("imei", deviceID);
+        map.put("type", "2");
+        //通过格式化输出日期
+        String time = DateUtil.getCurrDate(LONG_DATE_FORMAT);
+        String time2 = DateUtil.dateToString(DateUtil.nextDay(cal.getTime(), -6), LONG_DATE_FORMAT);
+        map.put("endDate", time + " 24:00");
+        map.put("beginDate", time2 + " 00:00");
     }
 
     @Override
@@ -169,5 +203,58 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
     public void onNothingSelected() {
 
         dyaMsg.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onViewChecked(TabLayout.Tab buttonView, int position) {
+        switch (position) {
+            case 0:
+
+                break;
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+            case 3:
+
+                break;
+            case 4:
+
+                break;
+            case 5:
+
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void showProgress() {
+        if (progressDialog != null && !progressDialog.isShowing()) {
+            progressDialog.show();
+        }
+    }
+
+    @Override
+    public void disimissProgress() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void loadDataSuccess(PMBean tData) {
+        toastor.showSingletonToast(tData.getResMessage());
+        if (tData.getResCode().equals("0")) {
+
+        }
+    }
+
+    @Override
+    public void loadDataError(Throwable throwable) {
+        toastor.showSingletonToast("服务器连接异常");
     }
 }

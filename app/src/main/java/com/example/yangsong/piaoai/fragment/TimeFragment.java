@@ -1,16 +1,22 @@
 package com.example.yangsong.piaoai.fragment;
 
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.yangsong.piaoai.R;
+import com.example.yangsong.piaoai.activity.HistoryActivity;
 import com.example.yangsong.piaoai.base.BaseFragment;
+import com.example.yangsong.piaoai.bean.PMBean;
+import com.example.yangsong.piaoai.inter.OnCheckedListener;
+import com.example.yangsong.piaoai.presenter.PMdataPresenterImp;
+import com.example.yangsong.piaoai.util.Toastor;
+import com.example.yangsong.piaoai.view.PMView;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -21,24 +27,30 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.listener.ChartTouchListener;
-import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TimeFragment extends BaseFragment implements OnChartValueSelectedListener {
+public class TimeFragment extends BaseFragment implements OnChartValueSelectedListener, PMView, OnCheckedListener {
     private final static String TAG = TimeFragment.class.getSimpleName();
     @BindView(R.id.time_chart)
     CombinedChart mChart;
     @BindView(R.id.time_msg)
     TextView dyaMsg;
 
+    private Toastor toastor;
+    PMdataPresenterImp pMdataPresenterImp;
+    ProgressDialog progressDialog;
+    private Map<String, String> map;
 
     public TimeFragment() {
         // Required empty public constructor
@@ -47,6 +59,22 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
         initChart();
+        String deviceID = getActivity().getIntent().getStringExtra("deviceID");
+        toastor = new Toastor(getActivity());
+        ((HistoryActivity) getActivity()).setOnCheckedListener(this);
+        pMdataPresenterImp = new PMdataPresenterImp(this, getActivity());
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("数据查询中...");
+        map = new HashMap<>();
+        map.put("imei", deviceID);
+        map.put("type", "0");
+        Calendar cal = Calendar.getInstance();//使用默认时区和语言环境获得一个日历。
+        //通过格式化输出日期
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        map.put("endDate", format.format(cal.getTime()));
+        cal.add(Calendar.HOUR, -1);
+        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        map.put("beginDate", format2.format(cal.getTime()));
     }
 
     @Override
@@ -91,48 +119,6 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
         mChart.getAxisLeft().setAxisMaximum(1000);
         mChart.getAxisLeft().setAxisMinimum(0);
         mChart.getAxisLeft().setTextColor(R.color.silver_sand);
-        mChart.setOnChartGestureListener(new OnChartGestureListener() {
-            @Override
-            public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
-
-            }
-
-            @Override
-            public void onChartGestureEnd(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
-
-            }
-
-            @Override
-            public void onChartLongPressed(MotionEvent me) {
-
-               // dyaMsg.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onChartDoubleTapped(MotionEvent me) {
-
-            }
-
-            @Override
-            public void onChartSingleTapped(MotionEvent me) {
-                Log.e(TAG,"onChartSingleTapped");
-            }
-
-            @Override
-            public void onChartFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
-
-            }
-
-            @Override
-            public void onChartScale(MotionEvent me, float scaleX, float scaleY) {
-
-            }
-
-            @Override
-            public void onChartTranslate(MotionEvent me, float dX, float dY) {
-
-            }
-        });
         XAxis xAxis = mChart.getXAxis();
 
         xAxis.setAxisMinimum(-0.5f);
@@ -219,5 +205,58 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
     public void onNothingSelected() {
 
         dyaMsg.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onViewChecked(TabLayout.Tab buttonView, int position) {
+        switch (position) {
+            case 0:
+
+                break;
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+            case 3:
+
+                break;
+            case 4:
+
+                break;
+            case 5:
+
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void showProgress() {
+        if (progressDialog != null && !progressDialog.isShowing()) {
+            progressDialog.show();
+        }
+    }
+
+    @Override
+    public void disimissProgress() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void loadDataSuccess(PMBean tData) {
+        toastor.showSingletonToast(tData.getResMessage());
+        if (tData.getResCode().equals("0")) {
+
+        }
+    }
+
+    @Override
+    public void loadDataError(Throwable throwable) {
+        toastor.showSingletonToast("服务器连接异常");
     }
 }

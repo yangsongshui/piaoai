@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.example.yangsong.piaoai.base.BasePresenterImp;
 import com.example.yangsong.piaoai.bean.Msg;
-import com.example.yangsong.piaoai.model.UpdateModelImp;
+import com.example.yangsong.piaoai.model.ModificationModelImp;
 import com.example.yangsong.piaoai.view.MsgView;
 
 import java.util.Map;
@@ -13,10 +13,9 @@ import java.util.Map;
 /**
  * 描述：MVP中的P实现类
  */
-public class UpdatePresenterImp extends BasePresenterImp<MsgView,Msg> implements UpdatePresenter {
-    //传入泛型V和T分别为WeatherView、WeatherInfoBean表示建立这两者之间的桥梁
+public class ModificationPresenterImp extends BasePresenterImp<MsgView,Msg> implements BindingPresenter {
     private Context context = null;
-    private UpdateModelImp updateModelImp = null;
+    private ModificationModelImp modificationModelImp = null;
 
     /**
      * @param view 具体业务的视图接口对象
@@ -24,19 +23,19 @@ public class UpdatePresenterImp extends BasePresenterImp<MsgView,Msg> implements
      * @author dc
      * @date 2017/6/13 15:12
      */
-    public UpdatePresenterImp(MsgView view, Context context) {
+    public ModificationPresenterImp(MsgView view, Context context) {
         super(view);
         this.context = context;
-        this.updateModelImp = new UpdateModelImp(context);
+        this.modificationModelImp = new ModificationModelImp(context);
     }
 
     @Override
-    public void updateUser(Map<String, String> map) {
-        updateModelImp.updateUser(map, this);
+    public void binding(Map<String, String> map) {
+        modificationModelImp.binding(map, this);
     }
 
     @Override
     public void unSubscribe() {
-        updateModelImp.onUnsubscribe();
+        modificationModelImp.onUnsubscribe();
     }
 }

@@ -374,7 +374,7 @@ public class MyInfoActivity extends BaseActivity implements MsgView {
         resBody.setHeadPic(photo);
         if (mail.length() > 3)
             if (isEmail(mail))
-                updatePresenterImp.loadWeather(map);
+                updatePresenterImp.updateUser(map);
             else
                 toastor.showSingletonToast("邮箱输入不合法");
     }

@@ -1,5 +1,6 @@
 package com.example.yangsong.piaoai.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -7,11 +8,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.yangsong.piaoai.R;
+import com.example.yangsong.piaoai.activity.HistoryActivity;
 import com.example.yangsong.piaoai.base.BaseFragment;
 import com.example.yangsong.piaoai.bean.Facility;
 import com.example.yangsong.piaoai.myview.RoundProgressBar;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by yangsong on 2017/5/14.
@@ -113,4 +116,23 @@ public class MainFragment extends BaseFragment {
     }
 
 
+    @OnClick({R.id.home_TVOC_rl, R.id.home_CO2_rl, R.id.home_humidity_rl, R.id.home_methanal_rl})
+    public void onViewClicked(View view) {
+        Intent intent = new Intent(getActivity(), HistoryActivity.class).putExtra("deviceID", facility.getDeviceid()).putExtra("type", facility.getType());
+        switch (view.getId()) {
+            case R.id.home_TVOC_rl:
+                intent.putExtra("indext", 1);
+                break;
+            case R.id.home_CO2_rl:
+                intent.putExtra("indext", 2);
+                break;
+            case R.id.home_humidity_rl:
+                intent.putExtra("indext", 5);
+                break;
+            case R.id.home_methanal_rl:
+                intent.putExtra("indext",3);
+                break;
+        }
+        startActivity(intent);
+    }
 }

@@ -55,6 +55,7 @@
                 android:drawableLeft="@drawable/sidebar_user"
                 android:drawablePadding="10dp"
                 android:gravity="center"
+                android:visibility="gone"
                 android:padding="15dp"
                 android:text="账户管理"
                 android:textColor="@color/line_text_rb"

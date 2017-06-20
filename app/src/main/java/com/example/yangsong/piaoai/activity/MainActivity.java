@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,7 +33,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.example.yangsong.piaoai.util.AppUtil.stringtoBitmap;
 
 public class MainActivity extends BaseActivity implements FacilityView {
-    private final static String TAG = HistoryActivity.class.getSimpleName();
+    private final static String TAG = MainActivity.class.getSimpleName();
     private static final int RESULT = 1;
     private static final int REQUEST_CUT = 2;
     @BindView(R.id.main_title_tv)
@@ -47,14 +48,15 @@ public class MainActivity extends BaseActivity implements FacilityView {
     LinearLayout leftMenuLl;
     @BindView(R.id.activity_main)
     DrawerLayout activityMain;
-
+    @BindView(R.id.tv_main_right)
+    ImageView tvMainRight;
     TestFragmentAdapter mAdapter;
     List<Facility.ResBodyBean.ListBean> mList;
     private ProgressDialog progressDialog = null;
     private FacilityPresenerImp facilityPresenerImp = null;
     private Toastor toastor;
     Facility facility;
-    private String deviceID;
+    Facility.ResBodyBean.ListBean device;
 
     @Override
     protected int getContentView() {
@@ -71,19 +73,18 @@ public class MainActivity extends BaseActivity implements FacilityView {
         mAdapter = new TestFragmentAdapter(getSupportFragmentManager(), mList);
         pager.setAdapter(mAdapter);
         indicator.setViewPager(pager);
-        String pic = MyApplication.newInstance().getUser().getResBody().getHeadPic();
-        if (pic != null)
-            if (pic.contains("http:")) {
 
-            } else {
-                mePicIv.setImageBitmap(stringtoBitmap(pic));
-            }
         indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-
-                deviceID = mList.get(position).getDeviceid();
-                Log.e(TAG, deviceID);
+                device = mList.get(position);
+                mainTitleTv.setText(device.getDeviceName());
+                Log.e(TAG, device.getDeviceid());
+                if (device.getType().equals("3")) {
+                    tvMainRight.setVisibility(View.GONE);
+                } else {
+                    tvMainRight.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -107,7 +108,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
                 activityMain.openDrawer(GravityCompat.START);
                 break;
             case R.id.tv_main_right:
-                startActivity(new Intent(this, HistoryActivity.class).putExtra("deviceID", deviceID));
+                startActivity(new Intent(this, HistoryActivity.class).putExtra("deviceID", device.getDeviceid()).putExtra("type", device.getType()));
                 break;
             case R.id.main_equipment_tv:
                 startActivityForResult((new Intent(this, EquipmentActivity.class).putExtra("facility", facility)), RESULT);
@@ -169,10 +170,21 @@ public class MainActivity extends BaseActivity implements FacilityView {
         toastor.showSingletonToast(tData.getResMessage());
         if (tData.getResCode().equals("0")) {
             mList = tData.getResBody().getList();
-            mAdapter.setCount(tData.getResBody().getList());
-            indicator.notifyDataSetChanged();
-            facility = tData;
-            deviceID = mList.get(0).getDeviceid();
+            if (mList.size() > 0) {
+                mAdapter.setCount(tData.getResBody().getList());
+                indicator.notifyDataSetChanged();
+                facility = tData;
+                device = mList.get(0);
+                mainTitleTv.setText(device.getDeviceName());
+                if (device.getType().equals("3")) {
+                    tvMainRight.setVisibility(View.GONE);
+                } else {
+                    tvMainRight.setVisibility(View.VISIBLE);
+                }
+            } else {
+                startActivity(new Intent(this, BindingActivity.class));
+            }
+
         }
 
     }
@@ -186,6 +198,14 @@ public class MainActivity extends BaseActivity implements FacilityView {
     protected void onResume() {
         super.onResume();
         facilityPresenerImp.findUserDevice(MyApplication.newInstance().getUser().getResBody().getPhoneNumber());
+        String pic = MyApplication.newInstance().getUser().getResBody().getHeadPic();
+        if (pic != null)
+             Log.e(TAG,pic);
+            if (pic.contains("http:")) {
+                MyApplication.newInstance().getGlide().load(pic).into(mePicIv);
+            } else {
+                mePicIv.setImageBitmap(stringtoBitmap(pic));
+            }
     }
 
     @Override

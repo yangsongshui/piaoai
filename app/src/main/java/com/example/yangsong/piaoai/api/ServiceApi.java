@@ -5,9 +5,11 @@ import com.example.yangsong.piaoai.bean.Identify;
 import com.example.yangsong.piaoai.bean.Msg;
 import com.example.yangsong.piaoai.bean.PMBean;
 import com.example.yangsong.piaoai.bean.User;
+import com.example.yangsong.piaoai.bean.Weather;
 
 import java.util.Map;
 
+import retrofit2.Call;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
@@ -58,7 +60,7 @@ public interface ServiceApi {
     Observable<Msg> updateDevice(@QueryMap Map<String, String> map);
     //解绑设备
     @POST("unbundling?")
-    Observable<Msg> unbundling(Map<String, String> map);
+    Observable<Msg> unbundling(@QueryMap Map<String, String> map);
     //反馈
     @POST("addRemark?")
     Observable<Msg> addRemark(@Query("phoneNumber") String phoneNumber,@Query("remark") String remark);
@@ -74,4 +76,7 @@ public interface ServiceApi {
     //查询甲醛历史数据
     @POST("getHistoryDataByJIAQUAN?")
     Observable<PMBean> getHistoryDataByJIAQUAN(@QueryMap Map<String, String> map);
+    //查询甲醛历史数据
+    @POST("9-2?showapi_appid=40725&showapi_sign=af0b4f5fee3e41169842eb6093b693f4")
+    Call<Weather> getWeather(@Query("area") String address);
 }

@@ -64,8 +64,8 @@
 
         <ImageView
             android:id="@+id/history_tianqi_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/location_tv"
             android:padding="10dp"
@@ -108,7 +108,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@drawable/outside_rim"
+            android:background="@drawable/point_selected"
             android:paddingBottom="5dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
@@ -161,6 +161,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:gravity="center"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <TextView
@@ -266,8 +267,8 @@
 
             <ImageView
                 android:id="@+id/tomorrow_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:layout_marginBottom="9dp"
                 android:layout_marginTop="9dp"
                 android:src="@drawable/share_wechat" />
@@ -299,8 +300,8 @@
 
             <ImageView
                 android:id="@+id/tomorrow2_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:layout_marginBottom="9dp"
                 android:layout_marginTop="9dp"
                 android:src="@drawable/share_wechat" />
@@ -332,8 +333,8 @@
 
             <ImageView
                 android:id="@+id/tomorrow3_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:layout_marginBottom="9dp"
                 android:layout_marginTop="9dp"
                 android:src="@drawable/share_wechat" />

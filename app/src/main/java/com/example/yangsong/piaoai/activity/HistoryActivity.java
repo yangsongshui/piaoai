@@ -49,7 +49,8 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
     CombinedChart mChart;
     @BindView(R.id.cardiac_rgrpNavigation)
     RadioGroup cardiacRgrpNavigation;
-    int type;
+    String type;
+    int indext = 0;
     private Fragment[] frags = new Fragment[6];
     protected BaseFragment baseFragment;
     private TimeFragment dataFragment;
@@ -64,16 +65,14 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
     @Override
     protected void init(Bundle savedInstanceState) {
         String deviceID = getIntent().getStringExtra("deviceID");
+        type = getIntent().getStringExtra("type");
+        indext = getIntent().getIntExtra("indext",0);
         Log.e(TAG, deviceID);
         initData();
         initChart();
         initView();
-        // type = getIntent().getIntExtra("type", -1);
-        /*if (type == -1 || type == 8) {
-            tabLayout.getTabAt(0).select();
-        } else {
-            tabLayout.getTabAt((type + 1)).select();
-        }*/
+
+
     }
 
 
@@ -99,18 +98,21 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
             getSupportFragmentManager().beginTransaction().add(R.id.cardiac_fl, dataFragment).commit();
             baseFragment = dataFragment;
         }
-
     }
 
     private void initView() {
+        tabLayout.addTab(tabLayout.newTab().setText("PM2.5"));
+        if (type.equals("1")) {
+            tabLayout.addTab(tabLayout.newTab().setText("TVOC"));
+            tabLayout.addTab(tabLayout.newTab().setText("CO2"));
+            tabLayout.addTab(tabLayout.newTab().setText("甲醛"));
+            tabLayout.addTab(tabLayout.newTab().setText("温度"));
+            tabLayout.addTab(tabLayout.newTab().setText("湿度"));
+        }
         cardiacRgrpNavigation.check(R.id.cardiac_tiem_rb);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        tabLayout.addTab(tabLayout.newTab().setText("PM2.5"));
-        tabLayout.addTab(tabLayout.newTab().setText("CO2"));
-        tabLayout.addTab(tabLayout.newTab().setText("TVOC"));
-        tabLayout.addTab(tabLayout.newTab().setText("甲醛"));
-        tabLayout.addTab(tabLayout.newTab().setText("温度"));
-        tabLayout.addTab(tabLayout.newTab().setText("湿度"));
+
+        tabLayout.getTabAt(indext).select();
         cardiacRgrpNavigation.setOnCheckedChangeListener(this);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

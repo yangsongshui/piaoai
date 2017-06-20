@@ -217,7 +217,7 @@ public class MonthFragment extends BaseFragment implements OnChartValueSelectedL
                 date.add("0" + x + "号");
             } else {
                 date.add(x + "号");
-            }
+            }y
         }
     }*/
 

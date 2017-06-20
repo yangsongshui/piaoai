@@ -35,6 +35,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -61,6 +62,7 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
     ProgressDialog progressDialog;
     private Map<String, String> map;
     private Activity activity;
+    List<String> mList;
 
     public DayFragment(Activity activity) {
         this.activity = activity;
@@ -69,7 +71,7 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
         String deviceID = activity.getIntent().getStringExtra("deviceID");
-        Log.e(TAG, deviceID);
+        mList = new ArrayList<>();
         toastor = new Toastor(getActivity());
         initChart();
         ((HistoryActivity) activity).setOnCheckedListener(this);
@@ -84,8 +86,10 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
         map.put("type", "1");
         //通过格式化输出日期
         String time = DateUtil.getCurrDate(LONG_DATE_FORMAT);
-        map.put("endDate", time + " 24:00");
-        map.put("beginDate", time + " 00:00");
+       /* map.put("endDate", time + " 24:00");
+        map.put("beginDate", time + " 00:00");*/
+        map.put("beginDate", "2017-06-19 00:00");
+        map.put("endDate", "2017-06-19 24:00");
 
     }
 
@@ -141,12 +145,25 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);//设置X轴在底部
         //不画网格
         xAxis.setDrawGridLines(false);
+        xAxis.setAxisMaximum(23);
+        IAxisValueFormatter formatter = new IAxisValueFormatter() {
+            String[] day = new String[]{"00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00"
+                    , "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"};
+
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return day[(int) value % day.length];
+            }
+
+
+        };
+        xAxis.setValueFormatter(formatter);
         mChart.getLegend().setEnabled(false);
         mChart.setOnChartValueSelectedListener(this);
-        CombinedData data = new CombinedData();
+    /*    CombinedData data = new CombinedData();
         data.setData(getdayData());
         mChart.setData(data);
-        mChart.invalidate();
+        mChart.invalidate();*/
     }
 
 
@@ -168,65 +185,33 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
 
     private LineData getdayData() {
 
-        mChart.getXAxis().setAxisMaximum(23);
-        IAxisValueFormatter formatter = new IAxisValueFormatter() {
-            String[] day = new String[]{"00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00"
-                    , "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"};
-
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                return day[(int) value % day.length];
+        ArrayList<Entry> values1 = new ArrayList<>();
+        if (mList.size() > 0)
+            for (int i = 3, j = 0; i < mList.size() - 1; i++, j++) {
+                Log.e(TAG, mList.get(i));
+                values1.add(new Entry(j, Integer.parseInt(mList.get(i))));
             }
 
-
-        };
-        mChart.getXAxis().setValueFormatter(formatter);
-        ArrayList<Entry> values1 = new ArrayList<>();
-        values1.add(new Entry(0, 300));
-        values1.add(new Entry(1, 400));
-        values1.add(new Entry(2, 512));
-        values1.add(new Entry(3, 700));
-        values1.add(new Entry(4, 124));
-        values1.add(new Entry(5, 567));
-        values1.add(new Entry(6, 234));
-        values1.add(new Entry(7, 323));
-        values1.add(new Entry(8, 232));
-        values1.add(new Entry(9, 283));
-        values1.add(new Entry(10, 456));
-        values1.add(new Entry(11, 234));
-        values1.add(new Entry(12, 334));
-        values1.add(new Entry(13, 434));
-        values1.add(new Entry(14, 534));
-        values1.add(new Entry(15, 634));
-        values1.add(new Entry(16, 734));
-        values1.add(new Entry(17, 834));
-        values1.add(new Entry(18, 134));
-        values1.add(new Entry(19, 434));
-        values1.add(new Entry(20, 634));
-        values1.add(new Entry(21, 334));
-        values1.add(new Entry(22, 834));
-        values1.add(new Entry(23, 634));
 
         LineDataSet set1;
         if (mChart.getData() != null &&
                 mChart.getData().getDataSetCount() > 0) {
             set1 = (LineDataSet) mChart.getData().getDataSetByIndex(0);
             set1.setValues(values1);
-            mChart.getData().notifyDataChanged();
-            mChart.notifyDataSetChanged();
         } else {
             set1 = new LineDataSet(values1, "");
+            set1.setLineWidth(2f);//设置线宽
+            set1.setCircleRadius(3f);//设置焦点圆心的大小
+            set1.setHighlightLineWidth(0.5f);//设置点击交点后显示高亮线宽
+            set1.setHighlightEnabled(true);//是否禁用点击高亮线
+            set1.setDrawHorizontalHighlightIndicator(false);//设置不显示水平高亮线
+            set1.setDrawCircles(false);  //设置有圆点
+            set1.setDrawValues(false);  //不显示数据
+            set1.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER); //设置为曲线
+            set1.setHighLightColor(Color.rgb(51, 51, 51));//设置点击交点后显示交高亮线的颜色
+            set1.setColor(Color.rgb(51, 153, 255));    //设置曲线的颜色
+
         }
-        set1.setLineWidth(2f);//设置线宽
-        set1.setCircleRadius(3f);//设置焦点圆心的大小
-        set1.setHighlightLineWidth(0.5f);//设置点击交点后显示高亮线宽
-        set1.setHighlightEnabled(true);//是否禁用点击高亮线
-        set1.setDrawHorizontalHighlightIndicator(false);//设置不显示水平高亮线
-        set1.setDrawCircles(false);  //设置有圆点
-        set1.setDrawValues(false);  //不显示数据
-        set1.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER); //设置为曲线
-        set1.setHighLightColor(Color.rgb(51, 51, 51));//设置点击交点后显示交高亮线的颜色
-        set1.setColor(Color.rgb(51, 153, 255));    //设置曲线的颜色
 
         return new LineData(set1);
     }
@@ -246,17 +231,25 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
         }
     }
 
+
     @Override
     public void loadDataSuccess(PMBean tData) {
         toastor.showSingletonToast(tData.getResMessage());
         if (tData.getResCode().equals("0")) {
-
+            if (tData.getResBody().getList().size() > 0) {
+                mList = tData.getResBody().getList().get(0);
+                CombinedData data = new CombinedData();
+                data.setData(getdayData());
+                mChart.setData(data);
+                mChart.invalidate();
+            }
         }
     }
 
     @Override
     public void loadDataError(Throwable throwable) {
-        Log.e(TAG, throwable.getMessage());
+
+        Log.e(TAG, throwable.toString());
         toastor.showSingletonToast("服务器连接异常");
     }
 
@@ -268,7 +261,6 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
                 pMdataPresenterImp.binding(map);
                 break;
             case 1:
-
                 codataPresenterImp.binding(map);
                 break;
             case 2:

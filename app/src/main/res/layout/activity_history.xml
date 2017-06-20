@@ -57,6 +57,7 @@
                 style="@style/SearchTabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 app:tabBackground="@color/white"
                 app:tabMode="fixed" />
 

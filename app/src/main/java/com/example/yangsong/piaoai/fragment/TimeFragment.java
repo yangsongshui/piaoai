@@ -132,20 +132,8 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);//设置X轴在底部
         //不画网格
         xAxis.setDrawGridLines(false);
-        mChart.getLegend().setEnabled(false);
-
-        CombinedData data = new CombinedData();
-
-        data.setData(gettimeData());
-        mChart.setOnChartValueSelectedListener(this);
-        mChart.setData(data);
-        mChart.setVisibleXRangeMaximum(7);
-        mChart.invalidate();
-    }
-
-    private LineData gettimeData() {
-        mChart.getXAxis().setAxisMaximum(11);
-        mChart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
+        xAxis.setAxisMaximum(11);
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
             String[] tiem = new String[]{"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "60"};
 
             @Override
@@ -155,6 +143,18 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
 
 
         });
+        mChart.getLegend().setEnabled(false);
+
+        CombinedData data = new CombinedData();
+        data.setData(gettimeData());
+        mChart.setOnChartValueSelectedListener(this);
+        mChart.setData(data);
+        mChart.setVisibleXRangeMaximum(7);
+        mChart.invalidate();
+    }
+
+    private LineData gettimeData() {
+
 
         ArrayList<Entry> values1 = new ArrayList<>();
         values1.add(new Entry(0, 300));
@@ -180,18 +180,19 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
             mChart.notifyDataSetChanged();
         } else {
             set1 = new LineDataSet(values1, "");
+            set1.setLineWidth(2f);//设置线宽
+            set1.setCircleRadius(3f);//设置焦点圆心的大小
+            //set1.enableDashedHighlightLine(1f, 0f, 1f);//点击后的高亮线的显示样式
+            set1.setHighlightLineWidth(0.5f);//设置点击交点后显示高亮线宽
+            set1.setHighlightEnabled(true);//是否禁用点击高亮线
+            set1.setDrawHorizontalHighlightIndicator(false);//设置不显示水平高亮线
+            set1.setDrawCircles(false);  //设置有圆点
+            set1.setDrawValues(false);  //不显示数据
+            set1.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER); //设置为曲线
+            set1.setHighLightColor(Color.rgb(51, 51, 51));//设置点击交点后显示交高亮线的颜色
+            set1.setColor(Color.rgb(51, 153, 255));    //设置曲线的颜色
         }
-        set1.setLineWidth(2f);//设置线宽
-        set1.setCircleRadius(3f);//设置焦点圆心的大小
-        //set1.enableDashedHighlightLine(1f, 0f, 1f);//点击后的高亮线的显示样式
-        set1.setHighlightLineWidth(0.5f);//设置点击交点后显示高亮线宽
-        set1.setHighlightEnabled(true);//是否禁用点击高亮线
-        set1.setDrawHorizontalHighlightIndicator(false);//设置不显示水平高亮线
-        set1.setDrawCircles(false);  //设置有圆点
-        set1.setDrawValues(false);  //不显示数据
-        set1.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER); //设置为曲线
-        set1.setHighLightColor(Color.rgb(51, 51, 51));//设置点击交点后显示交高亮线的颜色
-        set1.setColor(Color.rgb(51, 153, 255));    //设置曲线的颜色
+
         return new LineData(set1);
     }
 

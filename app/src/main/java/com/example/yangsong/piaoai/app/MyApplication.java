@@ -5,6 +5,8 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.pm.PackageManager;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.example.yangsong.piaoai.bean.User;
 import com.example.yangsong.piaoai.util.AppContextUtil;
 import com.example.yangsong.piaoai.util.Log;
@@ -20,7 +22,7 @@ public class MyApplication extends Application {
 
     private static MyApplication instance;
     public static List<Activity> activitiesList = new ArrayList<Activity>(); // 活动管理集合
-    private User user;
+    public User user;
 
 
     /**
@@ -36,9 +38,18 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        user=new User();
+        user = new User();
+        if (user.getResBody() == null)
+            user.setResBody(new User.ResBodyBean());
         AppContextUtil.init(this);
         SpUtils.init(this);
+    }
+
+    public RequestManager getGlide() {
+
+        return Glide.with(this);
+
+
     }
 
 
@@ -85,7 +96,7 @@ public class MyApplication extends Application {
         if (IsRemember) {
             SpUtils.putString("phone", user.getResBody().getPhoneNumber());
             SpUtils.putString("password", user.getResBody().getPsw());
-            Log.e("------",user.toString());
+            Log.e("------", user.toString());
         }
 
     }
@@ -97,7 +108,7 @@ public class MyApplication extends Application {
         Log.e("------", phone + " " + password);
         if (phone.equals("") || password.equals(""))
             return null;
-        user.setResBody(new User.ResBodyBean());
+
         user.getResBody().setPhoneNumber(phone);
         user.getResBody().setPsw(password);
         return user;

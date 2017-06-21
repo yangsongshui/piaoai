@@ -21,6 +21,7 @@ import com.example.yangsong.piaoai.api.ServiceApi;
 import com.example.yangsong.piaoai.app.MyApplication;
 import com.example.yangsong.piaoai.base.BaseActivity;
 import com.example.yangsong.piaoai.base.BaseFragment;
+import com.example.yangsong.piaoai.bean.PMBean;
 import com.example.yangsong.piaoai.bean.Weather;
 import com.example.yangsong.piaoai.fragment.DayFragment;
 import com.example.yangsong.piaoai.fragment.MonthFragment;
@@ -29,8 +30,11 @@ import com.example.yangsong.piaoai.fragment.WeekFragment;
 import com.example.yangsong.piaoai.inter.FragmentEvent;
 import com.example.yangsong.piaoai.myview.MyMarkerView;
 import com.example.yangsong.piaoai.myview.SharePopuoWindow;
+import com.example.yangsong.piaoai.presenter.PMdataPresenterImp;
+import com.example.yangsong.piaoai.util.DateUtil;
 import com.example.yangsong.piaoai.util.Log;
 import com.example.yangsong.piaoai.util.Toastor;
+import com.example.yangsong.piaoai.view.PMView;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -46,6 +50,9 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -56,9 +63,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.yangsong.piaoai.util.Constan.WEATHER_URL;
+import static com.example.yangsong.piaoai.util.DateUtil.LONG_DATE_FORMAT;
 
 
-public class HistoryActivity extends BaseActivity implements OnChartValueSelectedListener, RadioGroup.OnCheckedChangeListener {
+public class HistoryActivity extends BaseActivity implements OnChartValueSelectedListener, RadioGroup.OnCheckedChangeListener, PMView {
     private final static String TAG = HistoryActivity.class.getSimpleName();
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
@@ -92,7 +100,9 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
     public AMapLocationClientOption mLocationOption = null;
     Toastor toastor;
     Retrofit retrofit;
-
+    private Map<String, String> map;
+    PMdataPresenterImp pMdataPresenterImp;
+    List<String> mList;
     @Override
     protected int getContentView() {
         return R.layout.activity_history;
@@ -100,16 +110,26 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
 
     @Override
     protected void init(Bundle savedInstanceState) {
-
+        mList=new ArrayList<>();
         String deviceID = getIntent().getStringExtra("deviceID");
         type = getIntent().getStringExtra("type");
         indext = getIntent().getIntExtra("indext", 0);
+        pMdataPresenterImp = new PMdataPresenterImp(this, this);
         Log.e(TAG, deviceID);
         initData();
         initChart();
         initView();
-
-
+        initWerthc();
+        map = new HashMap<>();
+        map.put("imei", deviceID);
+        map.put("type", "1");
+        //通过格式化输出日期
+        String time = DateUtil.getCurrDate(LONG_DATE_FORMAT);
+       /* map.put("endDate", time + " 24:00");
+        map.put("beginDate", time + " 00:00");*/
+        map.put("beginDate", "2017-06-19 00:00");
+        map.put("endDate", "2017-06-19 24:00");
+        pMdataPresenterImp.binding(map);
     }
 
 
@@ -302,24 +322,9 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);//设置X轴在底部
         //不画网格
         xAxis.setDrawGridLines(false);
-        mChart.getLegend().setEnabled(false);
-
-        CombinedData data = new CombinedData();
-
-        data.setData(getLineData());
-
-
-        mChart.setOnChartValueSelectedListener(this);
-        mChart.setData(data);
-
-        mChart.invalidate();
-    }
-
-    private LineData getLineData() {
-        mChart.getXAxis().setAxisMaximum(23);
         IAxisValueFormatter formatter = new IAxisValueFormatter() {
             String[] day = new String[]{"00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00"
-                    , "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"};
+                    , "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "24:00"};
 
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
@@ -328,40 +333,30 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
 
 
         };
-        mChart.getXAxis().setValueFormatter(formatter);
+        xAxis.setValueFormatter(formatter);
+        mChart.getLegend().setEnabled(false);
+
+        mChart.setOnChartValueSelectedListener(this);
+
+    }
+
+    private LineData getLineData() {
+
         ArrayList<Entry> values1 = new ArrayList<>();
-        values1.add(new Entry(0, 300));
-        values1.add(new Entry(1, 400));
-        values1.add(new Entry(2, 512));
-        values1.add(new Entry(3, 700));
-        values1.add(new Entry(4, 124));
-        values1.add(new Entry(5, 567));
-        values1.add(new Entry(6, 234));
-        values1.add(new Entry(7, 323));
-        values1.add(new Entry(8, 232));
-        values1.add(new Entry(9, 283));
-        values1.add(new Entry(10, 456));
-        values1.add(new Entry(11, 234));
-        values1.add(new Entry(12, 334));
-        values1.add(new Entry(13, 434));
-        values1.add(new Entry(14, 534));
-        values1.add(new Entry(15, 634));
-        values1.add(new Entry(16, 734));
-        values1.add(new Entry(17, 834));
-        values1.add(new Entry(18, 134));
-        values1.add(new Entry(19, 434));
-        values1.add(new Entry(20, 634));
-        values1.add(new Entry(21, 334));
-        values1.add(new Entry(22, 834));
-        values1.add(new Entry(23, 634));
+        if (mList.size() > 0)
+            for (int i = 2, j = 0; i < 26; i++, j++) {
+                // Log.e(TAG, mList.get(i)+" " + i );
+                if (i == (mList.size() - 1)) {
+                    values1.add(new Entry(j, 0));
+                } else
+                    values1.add(new Entry(j, Integer.parseInt(mList.get(i))));
+            }
 
         LineDataSet set1;
         if (mChart.getData() != null &&
                 mChart.getData().getDataSetCount() > 0) {
             set1 = (LineDataSet) mChart.getData().getDataSetByIndex(0);
             set1.setValues(values1);
-            mChart.getData().notifyDataChanged();
-            mChart.notifyDataSetChanged();
         } else {
             set1 = new LineDataSet(values1, "");
         }
@@ -459,13 +454,45 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
             }
         }
     };
+
     private void initWeather(Weather weather) {
         MyApplication.newInstance().getGlide().load(weather.getShowapi_res_body().getNow().getWeather_pic()).into(historyTianqiIv);
         historyTianqiTv.setText(weather.getShowapi_res_body().getNow().getWeather());
-        historyWenduTv.setText(weather.getShowapi_res_body().getNow().getTemperature()+"℃");
+        historyWenduTv.setText(weather.getShowapi_res_body().getNow().getTemperature() + "℃");
         historyShiduTv.setText(weather.getShowapi_res_body().getNow().getSd());
         ziwaixianW.setText(weather.getShowapi_res_body().getF1().getZiwaixian());
 
     }
 
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void disimissProgress() {
+
+    }
+
+    @Override
+    public void loadDataSuccess(PMBean tData) {
+        if (tData.getResCode().equals("0")) {
+            if (tData.getResBody().getList().size() > 0) {
+                mList = tData.getResBody().getList().get(0);
+                CombinedData data = new CombinedData();
+                data.setData(getLineData());
+                mChart.setData(data);
+                mChart.invalidate();
+            } else {
+                mChart.clear();
+                mChart.invalidate();
+            }
+        }
+    }
+
+    @Override
+    public void loadDataError(Throwable throwable) {
+        android.util.Log.e(TAG, throwable.toString());
+        toastor.showSingletonToast("服务器连接异常");
+    }
 }

@@ -5,16 +5,15 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.yangsong.piaoai.R;
-import com.example.yangsong.piaoai.activity.HistoryActivity;
 import com.example.yangsong.piaoai.base.BaseFragment;
 import com.example.yangsong.piaoai.bean.PMBean;
-import com.example.yangsong.piaoai.inter.OnCheckedListener;
+import com.example.yangsong.piaoai.inter.FragmentEvent;
 import com.example.yangsong.piaoai.presenter.PMdataPresenterImp;
 import com.example.yangsong.piaoai.util.Toastor;
 import com.example.yangsong.piaoai.view.PMView;
@@ -30,6 +29,10 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,7 +44,7 @@ import butterknife.BindView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TimeFragment extends BaseFragment implements OnChartValueSelectedListener, PMView, OnCheckedListener {
+public class TimeFragment extends BaseFragment implements OnChartValueSelectedListener, PMView {
     private final static String TAG = TimeFragment.class.getSimpleName();
     @BindView(R.id.time_chart)
     CombinedChart mChart;
@@ -54,17 +57,20 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
     private Map<String, String> map;
 
     private Activity activity;
+    private int indext = 0;
 
-    public TimeFragment(Activity activity) {
+    public TimeFragment(Activity activity, int indext) {
         this.activity = activity;
+        this.indext = indext;
     }
 
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
+        //注册EventBus
+        EventBus.getDefault().register(this);
         initChart();
         String deviceID = getActivity().getIntent().getStringExtra("deviceID");
         toastor = new Toastor(getActivity());
-        ((HistoryActivity) getActivity()).setOnCheckedListener(this);
         pMdataPresenterImp = new PMdataPresenterImp(this, getActivity());
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("数据查询中...");
@@ -78,6 +84,7 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
         cal.add(Calendar.HOUR, -1);
         SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         map.put("beginDate", format2.format(cal.getTime()));
+
     }
 
     @Override
@@ -92,7 +99,6 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
          */
         // 是否在折线图上添加边框
         mChart.setDrawGridBackground(false);
-        mChart.setVisibleXRangeMaximum(7);
         mChart.setDrawBorders(false);
         // 设置右下角描述
         Description description = new Description();
@@ -106,12 +112,12 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
         //设置是否可以触摸，如为false，则不能拖动，缩放等
         mChart.setTouchEnabled(true);
         //设置是否可以拖拽
-        mChart.setDragEnabled(true);
+        mChart.setDragEnabled(false);
         //设置是否可以缩放
-        mChart.setScaleYEnabled(false);
+        mChart.setScaleEnabled(false);
         mChart.setDoubleTapToZoomEnabled(false);
         //设置是否能扩大扩小
-        mChart.setPinchZoom(true);
+        mChart.setPinchZoom(false);
         //设置四个边的间距
         // mChart.setViewPortOffsets(10, 0, 0, 10);
         //隐藏Y轴
@@ -132,9 +138,9 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);//设置X轴在底部
         //不画网格
         xAxis.setDrawGridLines(false);
-        xAxis.setAxisMaximum(11);
+        xAxis.setAxisMaximum(12);
         xAxis.setValueFormatter(new IAxisValueFormatter() {
-            String[] tiem = new String[]{"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "60"};
+            String[] tiem = new String[]{"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60"};
 
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
@@ -149,7 +155,7 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
         data.setData(gettimeData());
         mChart.setOnChartValueSelectedListener(this);
         mChart.setData(data);
-        mChart.setVisibleXRangeMaximum(7);
+
         mChart.invalidate();
     }
 
@@ -169,15 +175,14 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
         values1.add(new Entry(9, 283));
         values1.add(new Entry(10, 456));
         values1.add(new Entry(11, 234));
-
+        values1.add(new Entry(12, 123));
 
         LineDataSet set1;
         if (mChart.getData() != null &&
                 mChart.getData().getDataSetCount() > 0) {
             set1 = (LineDataSet) mChart.getData().getDataSetByIndex(0);
             set1.setValues(values1);
-            mChart.getData().notifyDataChanged();
-            mChart.notifyDataSetChanged();
+
         } else {
             set1 = new LineDataSet(values1, "");
             set1.setLineWidth(2f);//设置线宽
@@ -211,31 +216,6 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
         dyaMsg.setVisibility(View.GONE);
     }
 
-    @Override
-    public void onViewChecked(TabLayout.Tab buttonView, int position) {
-        switch (position) {
-            case 0:
-
-                break;
-            case 1:
-
-                break;
-            case 2:
-
-                break;
-            case 3:
-
-                break;
-            case 4:
-
-                break;
-            case 5:
-
-                break;
-            default:
-                break;
-        }
-    }
 
     @Override
     public void showProgress() {
@@ -262,5 +242,43 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
     @Override
     public void loadDataError(Throwable throwable) {
         toastor.showSingletonToast("服务器连接异常");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.e(TAG, "onNothingSelected ");
+        EventBus.getDefault().unregister(this);//反注册EventBus
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(FragmentEvent event) {
+        dyaMsg.setVisibility(View.INVISIBLE);
+        int position = event.getMsg();
+        Log.e(TAG, position + "");
+        switch (position) {
+            case 0:
+                pMdataPresenterImp.binding(map);
+                break;
+            case 1:
+                //codataPresenterImp.binding(map);
+                break;
+            case 2:
+                //tvoCdataPresenterImp.binding(map);
+                break;
+            case 3:
+                //methanalPresenterImp.binding(map);
+                break;
+            case 4:
+                //温度
+                break;
+            case 5:
+                // 湿度
+                break;
+            default:
+                break;
+        }
+
     }
 }

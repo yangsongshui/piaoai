@@ -1,5 +1,6 @@
 package com.example.yangsong.piaoai.activity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -73,6 +74,7 @@ public class OutsideActivity extends BaseActivity {
     public AMapLocationClient mLocationClient = null;
     //声明AMapLocationClientOption对象
     public AMapLocationClientOption mLocationOption = null;
+    ProgressDialog progressDialog;
     Retrofit retrofit;
     Toastor toastor;
 
@@ -83,6 +85,8 @@ public class OutsideActivity extends BaseActivity {
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("数据查询中...");
         //初始化定位
         mLocationClient = new AMapLocationClient(getApplicationContext());
         //设置定位回调监听
@@ -102,7 +106,7 @@ public class OutsideActivity extends BaseActivity {
                 .baseUrl(WEATHER_URL)
                 .build();
         toastor = new Toastor(this);
-
+        progressDialog.show();
 
     }
 
@@ -122,7 +126,7 @@ public class OutsideActivity extends BaseActivity {
                     Log.e("定位数据", aMapLocation.getCity());
                     locationTv.setText(aMapLocation.getCity());
                     ServiceApi service = retrofit.create(ServiceApi.class);
-                    Call<Weather> call = service.getWeather(aMapLocation.getCity());
+                    Call<Weather> call = service.getWeather(aMapLocation.getCity(),"1");
                     call.enqueue(new Callback<Weather>() {
                         @Override
                         public void onResponse(Call<Weather> call, Response<Weather> response) {
@@ -132,6 +136,7 @@ public class OutsideActivity extends BaseActivity {
                                 initWeather(weather);
                             } else {
                                 toastor.showSingletonToast("天气查询失败");
+                                progressDialog.dismiss();
                             }
 
                         }
@@ -139,6 +144,8 @@ public class OutsideActivity extends BaseActivity {
                         @Override
                         public void onFailure(Call<Weather> call, Throwable t) {
                             //请求失败操作
+                            progressDialog.dismiss();
+                            toastor.showSingletonToast("天气查询失败");
                         }
                     });
                 } else {
@@ -147,6 +154,7 @@ public class OutsideActivity extends BaseActivity {
                             + aMapLocation.getErrorCode() + ", errInfo:"
                             + aMapLocation.getErrorInfo());
                     toastor.showSingletonToast("定位失败:" + aMapLocation.getErrorInfo());
+                    progressDialog.dismiss();
                 }
             }
         }
@@ -163,7 +171,7 @@ public class OutsideActivity extends BaseActivity {
         tomorrow2WenduTv.setText(weather.getShowapi_res_body().getF3().getNight_air_temperature() + "/" + weather.getShowapi_res_body().getF3().getDay_air_temperature() + "℃");
         tomorrow3WenduTv.setText(weather.getShowapi_res_body().getF4().getNight_air_temperature() + "/" + weather.getShowapi_res_body().getF4().getDay_air_temperature() + "℃");
         historyTianqiTv.setText(weather.getShowapi_res_body().getNow().getWeather());
-        historyWenduTv.setText(weather.getShowapi_res_body().getNow().getTemperature());
+        historyWenduTv.setText(weather.getShowapi_res_body().getNow().getTemperature()+"℃");
         outsidePm.setText(weather.getShowapi_res_body().getNow().getAqiDetail().getPm2_5());
         shiduTv.setText(weather.getShowapi_res_body().getNow().getSd());
         ziwaixianTv.setText(weather.getShowapi_res_body().getF1().getZiwaixian());
@@ -188,7 +196,7 @@ public class OutsideActivity extends BaseActivity {
             pmJibie.setText("严重污染");
             pmJibie.setBackground(getResources().getDrawable(R.drawable.pm_yanzhong));
         }
-
+        progressDialog.dismiss();
     }
 
 }

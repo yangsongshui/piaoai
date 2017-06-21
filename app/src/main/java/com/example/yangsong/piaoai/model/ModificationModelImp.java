@@ -35,7 +35,7 @@ public class ModificationModelImp extends BaseModel implements BindingModel<Msg>
 
     @Override
     public void binding(Map<String, String> map, final IBaseRequestCallBack<Msg> iBaseRequestCallBack) {
-        mCompositeSubscription.add(serviceApi.binding(map)
+        mCompositeSubscription.add(serviceApi.updateDevice(map)
                 .observeOn(AndroidSchedulers.mainThread())//指定事件消费线程
                 .subscribeOn(Schedulers.io())   //指定 subscribe() 发生在 IO 线程
                 .subscribe(new Subscriber<Msg>() {

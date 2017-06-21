@@ -78,5 +78,5 @@ public interface ServiceApi {
     Observable<PMBean> getHistoryDataByJIAQUAN(@QueryMap Map<String, String> map);
     //查询甲醛历史数据
     @POST("9-2?showapi_appid=40725&showapi_sign=af0b4f5fee3e41169842eb6093b693f4")
-    Call<Weather> getWeather(@Query("area") String address);
+    Call<Weather> getWeather(@Query("area") String address ,@Query("needMoreDay") String needMoreDay);
 }

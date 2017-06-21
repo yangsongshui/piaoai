@@ -17,6 +17,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         layout = inflater.inflate(getContentView(), null);
         // 注解Fragment
         unbinder= ButterKnife.bind(this, layout);

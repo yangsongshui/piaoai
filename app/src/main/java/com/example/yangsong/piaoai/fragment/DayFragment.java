@@ -4,16 +4,14 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.yangsong.piaoai.R;
-import com.example.yangsong.piaoai.activity.HistoryActivity;
 import com.example.yangsong.piaoai.base.BaseFragment;
 import com.example.yangsong.piaoai.bean.PMBean;
-import com.example.yangsong.piaoai.inter.OnCheckedListener;
+import com.example.yangsong.piaoai.inter.FragmentEvent;
 import com.example.yangsong.piaoai.presenter.CodataPresenterImp;
 import com.example.yangsong.piaoai.presenter.MethanalPresenterImp;
 import com.example.yangsong.piaoai.presenter.PMdataPresenterImp;
@@ -33,6 +31,10 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +48,7 @@ import static com.example.yangsong.piaoai.util.DateUtil.LONG_DATE_FORMAT;
 /**
  * Created by Administrator on 2016/5/28.
  */
-public class DayFragment extends BaseFragment implements OnChartValueSelectedListener, PMView, OnCheckedListener {
+public class DayFragment extends BaseFragment implements OnChartValueSelectedListener, PMView {
     private final static String TAG = DayFragment.class.getSimpleName();
     @BindView(R.id.day_chart)
     CombinedChart mChart;
@@ -63,18 +65,20 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
     private Map<String, String> map;
     private Activity activity;
     List<String> mList;
-
-    public DayFragment(Activity activity) {
+    private int indext = 0;
+    public DayFragment(Activity activity,int indext) {
         this.activity = activity;
+        this.indext = indext;
     }
 
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
+        //注册EventBus
+        EventBus.getDefault().register(this);
         String deviceID = activity.getIntent().getStringExtra("deviceID");
         mList = new ArrayList<>();
         toastor = new Toastor(getActivity());
         initChart();
-        ((HistoryActivity) activity).setOnCheckedListener(this);
         pMdataPresenterImp = new PMdataPresenterImp(this, getActivity());
         codataPresenterImp = new CodataPresenterImp(this, getActivity());
         methanalPresenterImp = new MethanalPresenterImp(this, getActivity());
@@ -90,7 +94,19 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
         map.put("beginDate", time + " 00:00");*/
         map.put("beginDate", "2017-06-19 00:00");
         map.put("endDate", "2017-06-19 24:00");
-
+        if (indext == 0) {
+            //查询pm2.5
+            pMdataPresenterImp.binding(map);
+        } else if (indext == 1) {
+            //查询co2
+            codataPresenterImp.binding(map);
+        } else if (indext == 2) {
+            //查询TVOC
+            tvoCdataPresenterImp.binding(map);
+        } else if (indext == 3) {
+            //查询甲醛
+            methanalPresenterImp.binding(map);
+        }
     }
 
     @Override
@@ -118,12 +134,12 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
         //设置是否可以触摸，如为false，则不能拖动，缩放等
         mChart.setTouchEnabled(true);
         //设置是否可以拖拽
-        mChart.setDragEnabled(true);
+        mChart.setDragEnabled(false);
         //设置是否可以缩放
-        mChart.setScaleYEnabled(false);
+        mChart.setScaleEnabled(false);
         mChart.setDoubleTapToZoomEnabled(false);
         //设置是否能扩大扩小
-        mChart.setPinchZoom(true);
+        mChart.setPinchZoom(false);
         //设置四个边的间距
         // mChart.setViewPortOffsets(10, 0, 0, 10);
         //隐藏Y轴
@@ -137,7 +153,7 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
 
         XAxis xAxis = mChart.getXAxis();
 
-        xAxis.setAxisMinimum(-0.5f);
+        xAxis.setAxisMinimum(-1f);
         xAxis.setGranularity(0.3f);
 
         xAxis.setTextColor(R.color.spindle);
@@ -145,10 +161,10 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);//设置X轴在底部
         //不画网格
         xAxis.setDrawGridLines(false);
-        xAxis.setAxisMaximum(23);
+
         IAxisValueFormatter formatter = new IAxisValueFormatter() {
             String[] day = new String[]{"00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00"
-                    , "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"};
+                    , "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "24:00"};
 
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
@@ -160,10 +176,7 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
         xAxis.setValueFormatter(formatter);
         mChart.getLegend().setEnabled(false);
         mChart.setOnChartValueSelectedListener(this);
-    /*    CombinedData data = new CombinedData();
-        data.setData(getdayData());
-        mChart.setData(data);
-        mChart.invalidate();*/
+
     }
 
 
@@ -187,9 +200,12 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
 
         ArrayList<Entry> values1 = new ArrayList<>();
         if (mList.size() > 0)
-            for (int i = 3, j = 0; i < mList.size() - 1; i++, j++) {
-                Log.e(TAG, mList.get(i));
-                values1.add(new Entry(j, Integer.parseInt(mList.get(i))));
+            for (int i = 2, j = 0; i < 26; i++, j++) {
+                // Log.e(TAG, mList.get(i)+" " + i );
+                if (i == (mList.size() - 1)) {
+                    values1.add(new Entry(j, 0));
+                } else
+                    values1.add(new Entry(j, Integer.parseInt(mList.get(i))));
             }
 
 
@@ -242,6 +258,9 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
                 data.setData(getdayData());
                 mChart.setData(data);
                 mChart.invalidate();
+            } else {
+                mChart.clear();
+                mChart.invalidate();
             }
         }
     }
@@ -253,8 +272,18 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
         toastor.showSingletonToast("服务器连接异常");
     }
 
+
     @Override
-    public void onViewChecked(TabLayout.Tab buttonView, int position) {
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);//反注册EventBus
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(FragmentEvent event) {
+        dyaMsg.setVisibility(View.INVISIBLE);
+        int position = event.getMsg();
         Log.e(TAG, position + "");
         switch (position) {
             case 0:
@@ -278,5 +307,6 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
             default:
                 break;
         }
+
     }
 }

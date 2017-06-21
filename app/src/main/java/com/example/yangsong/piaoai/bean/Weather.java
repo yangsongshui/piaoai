@@ -1875,4 +1875,13 @@ public class Weather {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return "Weather{" +
+                "showapi_res_code=" + showapi_res_code +
+                ", showapi_res_error='" + showapi_res_error + '\'' +
+                ", showapi_res_body=" + showapi_res_body +
+                '}';
+    }
 }

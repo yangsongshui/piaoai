@@ -8,19 +8,29 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.example.yangsong.piaoai.R;
+import com.example.yangsong.piaoai.api.ServiceApi;
+import com.example.yangsong.piaoai.app.MyApplication;
 import com.example.yangsong.piaoai.base.BaseActivity;
 import com.example.yangsong.piaoai.base.BaseFragment;
+import com.example.yangsong.piaoai.bean.Weather;
 import com.example.yangsong.piaoai.fragment.DayFragment;
 import com.example.yangsong.piaoai.fragment.MonthFragment;
 import com.example.yangsong.piaoai.fragment.TimeFragment;
 import com.example.yangsong.piaoai.fragment.WeekFragment;
-import com.example.yangsong.piaoai.inter.OnCheckedListener;
+import com.example.yangsong.piaoai.inter.FragmentEvent;
 import com.example.yangsong.piaoai.myview.MyMarkerView;
 import com.example.yangsong.piaoai.myview.SharePopuoWindow;
 import com.example.yangsong.piaoai.util.Log;
+import com.example.yangsong.piaoai.util.Toastor;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -33,10 +43,19 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.yangsong.piaoai.util.Constan.WEATHER_URL;
 
 
 public class HistoryActivity extends BaseActivity implements OnChartValueSelectedListener, RadioGroup.OnCheckedChangeListener {
@@ -51,11 +70,28 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
     RadioGroup cardiacRgrpNavigation;
     String type;
     int indext = 0;
+    @BindView(R.id.address_w)
+    TextView addressW;
+    @BindView(R.id.history_wendu_tv)
+    TextView historyWenduTv;
+    @BindView(R.id.history_tianqi_tv)
+    TextView historyTianqiTv;
+    @BindView(R.id.history_tianqi_iv)
+    ImageView historyTianqiIv;
+    @BindView(R.id.ziwaixian_w)
+    TextView ziwaixianW;
+    @BindView(R.id.history_shidu_tv)
+    TextView historyShiduTv;
     private Fragment[] frags = new Fragment[6];
     protected BaseFragment baseFragment;
     private TimeFragment dataFragment;
     private SharePopuoWindow sharePopuoWindow;
-    OnCheckedListener onCheckedListener;
+    //声明AMapLocationClient类对象
+    public AMapLocationClient mLocationClient = null;
+    //声明AMapLocationClientOption对象
+    public AMapLocationClientOption mLocationOption = null;
+    Toastor toastor;
+    Retrofit retrofit;
 
     @Override
     protected int getContentView() {
@@ -64,9 +100,10 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
 
     @Override
     protected void init(Bundle savedInstanceState) {
+
         String deviceID = getIntent().getStringExtra("deviceID");
         type = getIntent().getStringExtra("type");
-        indext = getIntent().getIntExtra("indext",0);
+        indext = getIntent().getIntExtra("indext", 0);
         Log.e(TAG, deviceID);
         initData();
         initChart();
@@ -91,7 +128,7 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
 
     private void initData() {
         if (dataFragment == null) {
-            dataFragment = new TimeFragment(this);
+            dataFragment = new TimeFragment(this, indext);
         }
 
         if (!dataFragment.isAdded()) {
@@ -106,8 +143,8 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
             tabLayout.addTab(tabLayout.newTab().setText("TVOC"));
             tabLayout.addTab(tabLayout.newTab().setText("CO2"));
             tabLayout.addTab(tabLayout.newTab().setText("甲醛"));
-            tabLayout.addTab(tabLayout.newTab().setText("温度"));
-            tabLayout.addTab(tabLayout.newTab().setText("湿度"));
+            //tabLayout.addTab(tabLayout.newTab().setText("温度"));
+            //tabLayout.addTab(tabLayout.newTab().setText("湿度"));
         }
         cardiacRgrpNavigation.check(R.id.cardiac_tiem_rb);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -119,10 +156,8 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
             public void onTabSelected(TabLayout.Tab tab) {
                 //选中了tab的逻辑
                 Log.i("选中了", tab.getPosition() + "");
-                if (onCheckedListener != null) {
-                    onCheckedListener.onViewChecked(tab, tab.getPosition());
-                }
-
+                indext = tab.getPosition();
+                EventBus.getDefault().post(new FragmentEvent(tab.getPosition()));
             }
 
             @Override
@@ -153,6 +188,28 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
         });
     }
 
+    private void initWerthc() {
+        //初始化定位
+        mLocationClient = new AMapLocationClient(getApplicationContext());
+        //设置定位回调监听
+        mLocationClient.setLocationListener(mLocationListener);
+        //初始化AMapLocationClientOption对象
+        mLocationOption = new AMapLocationClientOption();
+        //获取一次定位结果
+        mLocationOption.setOnceLocation(true);
+        mLocationOption.setOnceLocationLatest(true);
+        mLocationOption.setNeedAddress(true);
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+        //启动定位
+        mLocationClient.startLocation();
+        retrofit = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(WEATHER_URL)
+                .build();
+        toastor = new Toastor(this);
+    }
+
     private void showFragment(int position) {
         if (frags[position] == null) {
             frags[position] = getFrag(position);
@@ -167,13 +224,13 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
                 if (dataFragment != null)
                     return dataFragment;
                 else
-                    return new TimeFragment(this);
+                    return new TimeFragment(this, indext);
             case 1:
-                return new DayFragment(this);
+                return new DayFragment(this, indext);
             case 2:
-                return new WeekFragment(this);
+                return new WeekFragment(this, indext);
             case 3:
-                return new MonthFragment(this);
+                return new MonthFragment(this, indext);
             default:
                 return null;
         }
@@ -353,7 +410,62 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
         }
     }
 
-    public void setOnCheckedListener(OnCheckedListener onCheckedListener) {
-        this.onCheckedListener = onCheckedListener;
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
+
+    //声明定位回调监听器
+    public AMapLocationListener mLocationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation aMapLocation) {
+            if (aMapLocation != null) {
+                if (aMapLocation.getErrorCode() == 0) {
+                    //可在其中解析amapLocation获取相应内容。
+                    Log.e("定位数据", aMapLocation.getCity());
+                    addressW.setText(aMapLocation.getCity());
+                    ServiceApi service = retrofit.create(ServiceApi.class);
+                    Call<Weather> call = service.getWeather(aMapLocation.getCity(), "1");
+                    call.enqueue(new Callback<Weather>() {
+                        @Override
+                        public void onResponse(Call<Weather> call, Response<Weather> response) {
+                            //请求成功操作
+                            Weather weather = response.body();
+                            if (weather.getShowapi_res_code() == 0) {
+                                initWeather(weather);
+                            } else {
+                                toastor.showSingletonToast("天气查询失败");
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<Weather> call, Throwable t) {
+                            //请求失败操作
+
+                            toastor.showSingletonToast("天气查询失败");
+                        }
+                    });
+                } else {
+                    //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
+                    Log.e("AmapError", "location Error, ErrCode:"
+                            + aMapLocation.getErrorCode() + ", errInfo:"
+                            + aMapLocation.getErrorInfo());
+                    toastor.showSingletonToast("定位失败:" + aMapLocation.getErrorInfo());
+
+                }
+            }
+        }
+    };
+    private void initWeather(Weather weather) {
+        MyApplication.newInstance().getGlide().load(weather.getShowapi_res_body().getNow().getWeather_pic()).into(historyTianqiIv);
+        historyTianqiTv.setText(weather.getShowapi_res_body().getNow().getWeather());
+        historyWenduTv.setText(weather.getShowapi_res_body().getNow().getTemperature()+"℃");
+        historyShiduTv.setText(weather.getShowapi_res_body().getNow().getSd());
+        ziwaixianW.setText(weather.getShowapi_res_body().getF1().getZiwaixian());
+
+    }
+
 }

@@ -61,9 +61,9 @@ public class DeployActivity extends BaseActivity implements OnSmartLinkListener 
                 finish();
                 break;
             case R.id.binding_tv:
-                startActivity(new Intent(this, ThreeActivity.class).putExtra("deviceID",deviceID));
+
                 //配置WIFI
-                //start();
+                start();
                 break;
         }
     }
@@ -132,6 +132,8 @@ public class DeployActivity extends BaseActivity implements OnSmartLinkListener 
     public void onCompleted() {
         //连接成功
         Log.e("----------", "连接成功");
+        toastor.showSingletonToast("配网成功");
+        startActivity(new Intent(this, ThreeActivity.class).putExtra("deviceID",deviceID));
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.example.yangsong.piaoai.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -57,6 +58,8 @@ public class MainActivity extends BaseActivity implements FacilityView {
     private Toastor toastor;
     Facility facility;
     Facility.ResBodyBean.ListBean device;
+    private Handler handler;
+    private Runnable myRunnable;
 
     @Override
     protected int getContentView() {
@@ -65,6 +68,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        handler = new Handler();
         mList = new ArrayList<>();
         toastor = new Toastor(this);
         progressDialog = new ProgressDialog(this);
@@ -97,6 +101,14 @@ public class MainActivity extends BaseActivity implements FacilityView {
 
             }
         });
+        myRunnable = new Runnable() {
+            @Override
+            public void run() {
+                facilityPresenerImp.findUserDevice(MyApplication.newInstance().getUser().getResBody().getPhoneNumber());
+
+            }
+        };
+
     }
 
 
@@ -147,6 +159,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
     protected void onStop() {
         super.onStop();
         activityMain.closeDrawer(Gravity.LEFT);
+        handler.removeCallbacks(myRunnable);
     }
 
     @Override
@@ -167,7 +180,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
     @Override
     public void loadDataSuccess(Facility tData) {
 
-        toastor.showSingletonToast(tData.getResMessage());
+
         if (tData.getResCode().equals("0")) {
             mList = tData.getResBody().getList();
             if (mList.size() > 0) {
@@ -182,9 +195,12 @@ public class MainActivity extends BaseActivity implements FacilityView {
                     tvMainRight.setVisibility(View.VISIBLE);
                 }
             } else {
+                toastor.showSingletonToast("无绑定设备");
                 startActivity(new Intent(this, BindingActivity.class));
             }
 
+        } else {
+            toastor.showSingletonToast(tData.getResMessage());
         }
 
     }
@@ -198,14 +214,15 @@ public class MainActivity extends BaseActivity implements FacilityView {
     protected void onResume() {
         super.onResume();
         facilityPresenerImp.findUserDevice(MyApplication.newInstance().getUser().getResBody().getPhoneNumber());
+        handler.postDelayed(myRunnable, 60000);
         String pic = MyApplication.newInstance().getUser().getResBody().getHeadPic();
         if (pic != null)
-             Log.e(TAG,pic);
-            if (pic.contains("http:")) {
-                MyApplication.newInstance().getGlide().load(pic).into(mePicIv);
-            } else {
-                mePicIv.setImageBitmap(stringtoBitmap(pic));
-            }
+            Log.e(TAG, pic);
+        if (pic.contains("http:")) {
+            MyApplication.newInstance().getGlide().load(pic).into(mePicIv);
+        } else {
+            mePicIv.setImageBitmap(stringtoBitmap(pic));
+        }
     }
 
     @Override

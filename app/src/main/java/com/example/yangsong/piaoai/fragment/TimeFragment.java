@@ -14,7 +14,11 @@ import com.example.yangsong.piaoai.R;
 import com.example.yangsong.piaoai.base.BaseFragment;
 import com.example.yangsong.piaoai.bean.PMBean;
 import com.example.yangsong.piaoai.inter.FragmentEvent;
+import com.example.yangsong.piaoai.presenter.CodataPresenterImp;
+import com.example.yangsong.piaoai.presenter.MethanalPresenterImp;
 import com.example.yangsong.piaoai.presenter.PMdataPresenterImp;
+import com.example.yangsong.piaoai.presenter.TVOCdataPresenterImp;
+import com.example.yangsong.piaoai.util.AppUtil;
 import com.example.yangsong.piaoai.util.Toastor;
 import com.example.yangsong.piaoai.view.PMView;
 import com.github.mikephil.charting.charts.CombinedChart;
@@ -37,6 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -50,14 +55,20 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
     CombinedChart mChart;
     @BindView(R.id.time_msg)
     TextView dyaMsg;
-
+    @BindView(R.id.day_msg_tv)
+    TextView dayMsgTv;
+    @BindView(R.id.day_unit_tv)
+    TextView DayUnitTv;
     private Toastor toastor;
-    PMdataPresenterImp pMdataPresenterImp;
     ProgressDialog progressDialog;
     private Map<String, String> map;
-
+    PMdataPresenterImp pMdataPresenterImp;
+    CodataPresenterImp codataPresenterImp;
+    MethanalPresenterImp methanalPresenterImp;
+    TVOCdataPresenterImp tvoCdataPresenterImp;
     private Activity activity;
     private int indext = 0;
+    List<String> mList;
 
     public TimeFragment(Activity activity, int indext) {
         this.activity = activity;
@@ -68,10 +79,14 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
     protected void initData(View layout, Bundle savedInstanceState) {
         //注册EventBus
         EventBus.getDefault().register(this);
-        initChart();
+        mList = new ArrayList<>();
         String deviceID = getActivity().getIntent().getStringExtra("deviceID");
+        initChart();
         toastor = new Toastor(getActivity());
         pMdataPresenterImp = new PMdataPresenterImp(this, getActivity());
+        codataPresenterImp = new CodataPresenterImp(this, getActivity());
+        methanalPresenterImp = new MethanalPresenterImp(this, getActivity());
+        tvoCdataPresenterImp = new TVOCdataPresenterImp(this, getActivity());
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("数据查询中...");
         map = new HashMap<>();
@@ -84,7 +99,34 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
         cal.add(Calendar.HOUR, -1);
         SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         map.put("beginDate", format2.format(cal.getTime()));
-
+        if (indext == 0) {
+            //查询pm2.5
+            DayUnitTv.setText("μg/m³");
+            pMdataPresenterImp.binding(map);
+            DayUnitTv.setVisibility(View.VISIBLE);
+        } else if (indext == 1) {
+            //查询co2
+            DayUnitTv.setText("PPM");
+            codataPresenterImp.binding(map);
+            DayUnitTv.setVisibility(View.VISIBLE);
+        } else if (indext == 2) {
+            //查询TVOC
+            DayUnitTv.setVisibility(View.INVISIBLE);
+            tvoCdataPresenterImp.binding(map);
+        } else if (indext == 3) {
+            //查询甲醛
+            DayUnitTv.setText("mg/m³");
+            methanalPresenterImp.binding(map);
+            DayUnitTv.setVisibility(View.VISIBLE);
+        } else if (indext == 4) {
+            //温度
+            DayUnitTv.setText("℃");
+            DayUnitTv.setVisibility(View.VISIBLE);
+        } else if (indext == 5) {
+            // 湿度
+            DayUnitTv.setText("%RH");
+            DayUnitTv.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -150,32 +192,26 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
 
         });
         mChart.getLegend().setEnabled(false);
-
-        CombinedData data = new CombinedData();
+     /*   CombinedData data = new CombinedData();
         data.setData(gettimeData());
         mChart.setOnChartValueSelectedListener(this);
         mChart.setData(data);
 
-        mChart.invalidate();
+        mChart.invalidate();*/
     }
 
     private LineData gettimeData() {
 
 
         ArrayList<Entry> values1 = new ArrayList<>();
-        values1.add(new Entry(0, 300));
-        values1.add(new Entry(1, 400));
-        values1.add(new Entry(2, 512));
-        values1.add(new Entry(3, 700));
-        values1.add(new Entry(4, 124));
-        values1.add(new Entry(5, 567));
-        values1.add(new Entry(6, 234));
-        values1.add(new Entry(7, 323));
-        values1.add(new Entry(8, 232));
-        values1.add(new Entry(9, 283));
-        values1.add(new Entry(10, 456));
-        values1.add(new Entry(11, 234));
-        values1.add(new Entry(12, 123));
+        if (mList.size() > 0)
+            for (int i = 2, j = 0; i < 14; i++, j++) {
+                // Log.e(TAG, mList.get(i)+" " + i );
+                if (i >= (mList.size())) {
+                    values1.add(new Entry(j, 0));
+                } else
+                    values1.add(new Entry(j, Integer.parseInt(mList.get(i))));
+            }
 
         LineDataSet set1;
         if (mChart.getData() != null &&
@@ -207,7 +243,25 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
         dyaMsg.setVisibility(View.VISIBLE);
         dyaMsg.setText((int) e.getY() + "");
         dyaMsg.setX((h.getXPx() - dyaMsg.getWidth() / 2));
-
+        if (indext == 0) {
+            //查询pm2.5
+            AppUtil.PM2_5(getActivity(), dayMsgTv, (int) e.getY());
+        } else if (indext == 1) {
+            //查询co2
+            AppUtil.CO2(getActivity(), dayMsgTv, (int) e.getY());
+        } else if (indext == 2) {
+            //TVOC
+            AppUtil.TVOC(getActivity(), dayMsgTv, (int) e.getY());
+        } else if (indext == 3) {
+            //甲醛
+            AppUtil.jiaquan(getActivity(), dayMsgTv, (int) e.getY());
+        } else if (indext == 4) {
+            //温度
+            AppUtil.wendu(getActivity(), dayMsgTv, (int) e.getY());
+        } else if (indext == 5) {
+            // 湿度
+            AppUtil.shidu(getActivity(), dayMsgTv, (int) e.getY());
+        }
     }
 
     @Override
@@ -235,7 +289,17 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
     public void loadDataSuccess(PMBean tData) {
         toastor.showSingletonToast(tData.getResMessage());
         if (tData.getResCode().equals("0")) {
-
+            if (tData.getResBody().getList().size() > 0) {
+                mList = tData.getResBody().getList().get(0);
+                mList.remove(mList.size() - 1);
+                CombinedData data = new CombinedData();
+                data.setData(gettimeData());
+                mChart.setData(data);
+                mChart.invalidate();
+            } else {
+                mChart.clear();
+                mChart.invalidate();
+            }
         }
     }
 
@@ -257,24 +321,36 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
         dyaMsg.setVisibility(View.INVISIBLE);
         int position = event.getMsg();
         Log.e(TAG, position + "");
+        indext = position;
         switch (position) {
             case 0:
+                DayUnitTv.setText("μg/m³");
                 pMdataPresenterImp.binding(map);
+                DayUnitTv.setVisibility(View.VISIBLE);
                 break;
             case 1:
-                //codataPresenterImp.binding(map);
+                DayUnitTv.setText("PPM");
+                codataPresenterImp.binding(map);
+                DayUnitTv.setVisibility(View.VISIBLE);
                 break;
             case 2:
-                //tvoCdataPresenterImp.binding(map);
+                DayUnitTv.setVisibility(View.INVISIBLE);
+                tvoCdataPresenterImp.binding(map);
                 break;
             case 3:
-                //methanalPresenterImp.binding(map);
+                DayUnitTv.setText("mg/m³");
+                DayUnitTv.setVisibility(View.VISIBLE);
+                methanalPresenterImp.binding(map);
                 break;
             case 4:
                 //温度
+                DayUnitTv.setText("℃");
+                DayUnitTv.setVisibility(View.VISIBLE);
                 break;
             case 5:
                 // 湿度
+                DayUnitTv.setText("%RH");
+                DayUnitTv.setVisibility(View.VISIBLE);
                 break;
             default:
                 break;

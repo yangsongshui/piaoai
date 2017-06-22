@@ -19,6 +19,7 @@ import com.example.yangsong.piaoai.presenter.CodataPresenterImp;
 import com.example.yangsong.piaoai.presenter.MethanalPresenterImp;
 import com.example.yangsong.piaoai.presenter.PMdataPresenterImp;
 import com.example.yangsong.piaoai.presenter.TVOCdataPresenterImp;
+import com.example.yangsong.piaoai.util.AppUtil;
 import com.example.yangsong.piaoai.util.DateUtil;
 import com.example.yangsong.piaoai.util.Toastor;
 import com.example.yangsong.piaoai.view.PMView;
@@ -59,6 +60,10 @@ public class MonthFragment extends BaseFragment implements OnChartValueSelectedL
     CombinedChart mChart;
     @BindView(R.id.month_msg)
     TextView dyaMsg;
+    @BindView(R.id.day_msg_tv)
+    TextView dayMsgTv;
+    @BindView(R.id.day_unit_tv)
+    TextView DayUnitTv;
     private Activity activity;
 
     private Toastor toastor;
@@ -71,7 +76,8 @@ public class MonthFragment extends BaseFragment implements OnChartValueSelectedL
     private Map<String, String> map;
     List<String> month;
     private int indext = 0;
-    public MonthFragment(Activity activity,int indext) {
+
+    public MonthFragment(Activity activity, int indext) {
         this.activity = activity;
         this.indext = indext;
     }
@@ -102,16 +108,30 @@ public class MonthFragment extends BaseFragment implements OnChartValueSelectedL
         map.put("beginDate", time2 + " 00:00");
         if (indext == 0) {
             //查询pm2.5
+            DayUnitTv.setText("μg/m³");
+            DayUnitTv.setVisibility(View.VISIBLE);
             pMdataPresenterImp.binding(map);
         } else if (indext == 1) {
             //查询co2
+            DayUnitTv.setText("PPM");
             codataPresenterImp.binding(map);
         } else if (indext == 2) {
             //查询TVOC
+            DayUnitTv.setVisibility(View.VISIBLE);
+            DayUnitTv.setVisibility(View.INVISIBLE);
             tvoCdataPresenterImp.binding(map);
         } else if (indext == 3) {
             //查询甲醛
+            DayUnitTv.setText("mg/m³");
             methanalPresenterImp.binding(map);
+        }else if (indext == 4){
+            //温度
+            DayUnitTv.setVisibility(View.VISIBLE);
+            DayUnitTv.setText("℃");
+        }else if (indext == 5){
+            // 湿度
+            DayUnitTv.setVisibility(View.VISIBLE);
+            DayUnitTv.setText("%RH");
         }
     }
 
@@ -160,7 +180,7 @@ public class MonthFragment extends BaseFragment implements OnChartValueSelectedL
         XAxis xAxis = mChart.getXAxis();
         xAxis.setAxisMinimum(-1f);
         xAxis.setGranularity(0.3f);
-        //xAxis.setAxisMaximum(29);
+        xAxis.setAxisMaximum(29);
         xAxis.setTextColor(R.color.spindle);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);//设置X轴在底部
         //不画网格
@@ -192,12 +212,15 @@ public class MonthFragment extends BaseFragment implements OnChartValueSelectedL
 
 
         ArrayList<Entry> values1 = new ArrayList<>();
-        for (int i = 2, j = 0; i < 14; i++, j++) {
-            Log.e(TAG, mList.get(i)+" " + i );
-            if (i == (mList.size() - 1)) {
+        for (int i = 2, j = 0; i < 32; i++, j++) {
+          if (i >=mList.size()-1) {
+                Log.e(TAG, i+"" );
                 values1.add(new Entry(j, 0));
-            } else
+            } else{
+               // Log.e(TAG,  mList.get(i) );
                 values1.add(new Entry(j, Integer.parseInt(mList.get(i))));
+            }
+
         }
 
         LineDataSet set1;
@@ -228,7 +251,25 @@ public class MonthFragment extends BaseFragment implements OnChartValueSelectedL
         dyaMsg.setVisibility(View.VISIBLE);
         dyaMsg.setText((int) e.getY() + "");
         dyaMsg.setX((h.getXPx() - dyaMsg.getWidth() / 2));
-
+        if (indext == 0) {
+            //查询pm2.5
+            AppUtil.PM2_5(getActivity(),dayMsgTv,(int) e.getY());
+        } else if (indext == 1) {
+            //查询co2
+            AppUtil.CO2(getActivity(),dayMsgTv,(int) e.getY());
+        } else if (indext == 2) {
+            //TVOC
+            AppUtil.TVOC(getActivity(),dayMsgTv,(int) e.getY());
+        } else if (indext == 3) {
+            //甲醛
+            AppUtil.jiaquan(getActivity(),dayMsgTv,(int) e.getY());
+        }else if (indext == 4){
+            //温度
+            AppUtil.wendu(getActivity(),dayMsgTv,(int) e.getY());
+        }else if (indext == 5){
+            // 湿度
+            AppUtil.shidu(getActivity(),dayMsgTv,(int) e.getY());
+        }
     }
 
     @Override
@@ -271,7 +312,7 @@ public class MonthFragment extends BaseFragment implements OnChartValueSelectedL
 
     @Override
     public void loadDataError(Throwable throwable) {
-        Log.e(TAG, "onNothingSelected ");
+        Log.e(TAG, throwable.getLocalizedMessage());
         toastor.showSingletonToast("服务器连接异常");
     }
 
@@ -297,24 +338,36 @@ public class MonthFragment extends BaseFragment implements OnChartValueSelectedL
         dyaMsg.setVisibility(View.INVISIBLE);
         int position = event.getMsg();
         Log.e(TAG, position + "");
+        indext=position;
         switch (position) {
             case 0:
+                DayUnitTv.setVisibility(View.VISIBLE);
+                DayUnitTv.setText("μg/m³");
                 pMdataPresenterImp.binding(map);
                 break;
             case 1:
+                DayUnitTv.setVisibility(View.VISIBLE);
+                DayUnitTv.setText("PPM");
                 codataPresenterImp.binding(map);
                 break;
             case 2:
+                DayUnitTv.setVisibility(View.INVISIBLE);
                 tvoCdataPresenterImp.binding(map);
                 break;
             case 3:
+                DayUnitTv.setVisibility(View.VISIBLE);
+                DayUnitTv.setText("mg/m³");
                 methanalPresenterImp.binding(map);
                 break;
             case 4:
                 //温度
+                DayUnitTv.setVisibility(View.VISIBLE);
+                DayUnitTv.setText("℃");
                 break;
             case 5:
                 // 湿度
+                DayUnitTv.setVisibility(View.VISIBLE);
+                DayUnitTv.setText("%RH");
                 break;
             default:
                 break;

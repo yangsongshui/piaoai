@@ -18,7 +18,7 @@ import com.example.yangsong.piaoai.R;
  */
 
 public class SharePopuoWindow extends PopupWindow {
-    private ImageView weixin_iv, QQ_tv;
+    private ImageView weixin_iv, QQ_tv,wxcircle_iv;
     private TextView cancel_tv;
     private View mMenuView;
 
@@ -29,11 +29,13 @@ public class SharePopuoWindow extends PopupWindow {
         mMenuView = inflater.inflate(R.layout.share_pop, null);
         cancel_tv = (TextView) mMenuView.findViewById(R.id.cancel_tv);
         weixin_iv = (ImageView) mMenuView.findViewById(R.id.weixin_iv);
+        wxcircle_iv = (ImageView) mMenuView.findViewById(R.id.wxcircle_iv);
         QQ_tv = (ImageView) mMenuView.findViewById(R.id.QQ_tv);
         //设置按钮监听
         cancel_tv.setOnClickListener(itemsOnClick);
         weixin_iv.setOnClickListener(itemsOnClick);
         QQ_tv.setOnClickListener(itemsOnClick);
+        wxcircle_iv.setOnClickListener(itemsOnClick);
         //设置SelectPicPopupWindow的View
         this.setContentView(mMenuView);
         //设置SelectPicPopupWindow弹出窗体的宽

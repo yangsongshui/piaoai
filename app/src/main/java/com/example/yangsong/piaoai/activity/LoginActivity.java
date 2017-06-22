@@ -3,30 +3,30 @@ package com.example.yangsong.piaoai.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.yangsong.piaoai.R;
 import com.example.yangsong.piaoai.app.MyApplication;
 import com.example.yangsong.piaoai.base.BaseActivity;
 import com.example.yangsong.piaoai.bean.User;
 import com.example.yangsong.piaoai.presenter.LoginPresenterImp;
-import com.example.yangsong.piaoai.util.DateUtil;
 import com.example.yangsong.piaoai.util.MD5;
 import com.example.yangsong.piaoai.util.SpUtils;
 import com.example.yangsong.piaoai.util.Toastor;
 import com.example.yangsong.piaoai.view.LoginView;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
-import java.util.Calendar;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static com.example.yangsong.piaoai.util.DateUtil.LONG_DATE_FORMAT;
 
 public class LoginActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener, LoginView {
 
@@ -44,6 +44,7 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
     private Toastor toastor;
     Boolean IsRemember;
     String psw;
+    UMShareAPI mShareAPI;
 
     @Override
     protected int getContentView() {
@@ -59,7 +60,7 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
         loginPresenterImp = new LoginPresenterImp(this, this);
         Boolean IsRemember = SpUtils.getBoolean("remember", true);
         loginJizhuCb.setChecked(IsRemember);
-
+        mShareAPI = UMShareAPI.get(this);
 
     }
 
@@ -78,6 +79,7 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
                     toastor.showSingletonToast("登陆信息有误");
                 break;
             case R.id.login_wechat_iv:
+                mShareAPI.getPlatformInfo(LoginActivity.this, SHARE_MEDIA.WEIXIN, umAuthListener);
                 break;
             case R.id.login_register_tv:
                 startActivity(new Intent(this, RegisterActivity.class));
@@ -100,7 +102,7 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
         if (MyApplication.newInstance().getUser() != null) {
             User user = MyApplication.newInstance().getUser();
             psw = user.getResBody().getPsw();
-            loginPresenterImp.loadLogin(user.getResBody().getPhoneNumber(),psw);
+            loginPresenterImp.loadLogin(user.getResBody().getPhoneNumber(), psw);
         }
     }
 
@@ -134,5 +136,35 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
     @Override
     public void loadDataError(Throwable throwable) {
         toastor.showSingletonToast("服务器连接失败");
+    }
+
+    private UMAuthListener umAuthListener = new UMAuthListener() {
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+            //授权开始的回调
+        }
+
+        @Override
+        public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
+            Toast.makeText(getApplicationContext(), "Authorize succeed", Toast.LENGTH_SHORT).show();
+
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, int action, Throwable t) {
+            Toast.makeText(getApplicationContext(), "Authorize fail", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform, int action) {
+            Toast.makeText(getApplicationContext(), "Authorize cancel", Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+
     }
 }

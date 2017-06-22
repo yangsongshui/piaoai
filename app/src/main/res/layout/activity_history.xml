@@ -68,26 +68,13 @@
                 android:background="@color/white"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/hint_rim"
-                    android:paddingBottom="3dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingTop="3dp"
-                    android:text="重度污染"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
+
 
 
                 <FrameLayout
                     android:id="@+id/cardiac_fl"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp" />
+                    android:layout_height="330dp" />
 
                 <RadioGroup
                     android:id="@+id/cardiac_rgrpNavigation"
@@ -164,9 +151,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/location"
+
                             android:drawablePadding="6dp"
                             android:padding="10dp"
-                            android:text="深圳市"
+                            android:text=""
                             android:textColor="@color/white"
                             android:textSize="12dp" />
 
@@ -176,7 +164,8 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:padding="10dp"
-                            android:text="26°C"
+                            android:layout_centerVertical="true"
+                            android:text=""
                             android:textColor="@color/white"
                             android:textSize="12dp" />
 
@@ -184,9 +173,9 @@
                             android:id="@+id/history_tianqi_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
+                           android:layout_centerVertical="true"
                             android:layout_toLeftOf="@+id/history_wendu_tv"
-                            android:padding="10dp"
+                            android:gravity="center"
                             android:text="小雨"
                             android:textColor="@color/white"
                             android:textSize="12dp" />

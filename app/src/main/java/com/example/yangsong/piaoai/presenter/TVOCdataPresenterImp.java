@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.yangsong.piaoai.base.BasePresenterImp;
 import com.example.yangsong.piaoai.bean.PMBean;
 import com.example.yangsong.piaoai.model.TVOCDataModelImp;
+import com.example.yangsong.piaoai.model.TVOCHourModelImp;
 import com.example.yangsong.piaoai.view.PMView;
 
 import java.util.Map;
@@ -13,9 +14,10 @@ import java.util.Map;
 /**
  * 描述：MVP中的P实现类
  */
-public class TVOCdataPresenterImp extends BasePresenterImp<PMView,PMBean> implements BindingPresenter {
+public class TVOCdataPresenterImp extends BasePresenterImp<PMView, PMBean> implements BindingPresenter {
     private Context context = null;
     private TVOCDataModelImp tvocDataModelImp = null;
+    private TVOCHourModelImp tvocHourModelImp = null;
 
     /**
      * @param view 具体业务的视图接口对象
@@ -27,16 +29,21 @@ public class TVOCdataPresenterImp extends BasePresenterImp<PMView,PMBean> implem
         super(view);
         this.context = context;
         this.tvocDataModelImp = new TVOCDataModelImp(context);
+        this.tvocHourModelImp = new TVOCHourModelImp(context);
     }
 
     @Override
     public void binding(Map<String, String> map) {
-        tvocDataModelImp.GetData(map, this);
+        if (map.get("type").equals("0"))
+            tvocHourModelImp.GetData(map, this);
+        else
+            tvocDataModelImp.GetData(map, this);
     }
 
     @Override
     public void unSubscribe() {
         tvocDataModelImp.onUnsubscribe();
+        tvocHourModelImp.onUnsubscribe();
     }
 }
 

@@ -70,13 +70,25 @@ public interface ServiceApi {
     //查询CO2历史数据
     @POST("getHistoryDataByCO2?")
     Observable<PMBean> getHistoryDataByCO2(@QueryMap Map<String, String> map);
-    //查询TVOC历史数据 getHistoryDataByJIAQUAN
+    //查询TVOC历史数据
     @POST("getHistoryDataByTVOC?")
     Observable<PMBean> getHistoryDataByTVOC(@QueryMap Map<String, String> map);
     //查询甲醛历史数据
     @POST("getHistoryDataByJIAQUAN?")
     Observable<PMBean> getHistoryDataByJIAQUAN(@QueryMap Map<String, String> map);
-    //查询甲醛历史数据
+    //天气查询接口
     @POST("9-2?showapi_appid=40725&showapi_sign=af0b4f5fee3e41169842eb6093b693f4")
     Call<Weather> getWeather(@Query("area") String address ,@Query("needMoreDay") String needMoreDay);
+    //查询PM2.5时历史数据
+    @POST("getHourDataByPM2_5?")
+    Observable<PMBean> getHourDataByPM2_5(@QueryMap Map<String, String> map);
+    //查询CO2时历史数据
+    @POST("getHourDataByCO2?")
+    Observable<PMBean> getHourDataByCO2(@QueryMap Map<String, String> map);
+    //查询TVOC时历史数据
+    @POST("getHourDataByTVOC?")
+    Observable<PMBean> getHourDataByTVOC(@QueryMap Map<String, String> map);
+    //查询甲醛时历史数据
+    @POST("getHourDataByJIAQUAN?")
+    Observable<PMBean> getHourDataByJIAQUAN(@QueryMap Map<String, String> map);
 }

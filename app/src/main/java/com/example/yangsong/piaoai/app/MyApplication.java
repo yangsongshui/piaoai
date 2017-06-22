@@ -11,6 +11,8 @@ import com.example.yangsong.piaoai.bean.User;
 import com.example.yangsong.piaoai.util.AppContextUtil;
 import com.example.yangsong.piaoai.util.Log;
 import com.example.yangsong.piaoai.util.SpUtils;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,7 +26,11 @@ public class MyApplication extends Application {
     public static List<Activity> activitiesList = new ArrayList<Activity>(); // 活动管理集合
     public User user;
 
+    {
 
+        PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
+        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
+    }
     /**
      * 获取单例
      *
@@ -38,6 +44,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        UMShareAPI.get(this);
         user = new User();
         if (user.getResBody() == null)
             user.setResBody(new User.ResBodyBean());

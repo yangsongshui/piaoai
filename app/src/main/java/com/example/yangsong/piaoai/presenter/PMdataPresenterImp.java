@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.yangsong.piaoai.base.BasePresenterImp;
 import com.example.yangsong.piaoai.bean.PMBean;
 import com.example.yangsong.piaoai.model.PMDataModelImp;
+import com.example.yangsong.piaoai.model.PMHourModelImp;
 import com.example.yangsong.piaoai.view.PMView;
 
 import java.util.Map;
@@ -16,7 +17,7 @@ import java.util.Map;
 public class PMdataPresenterImp extends BasePresenterImp<PMView,PMBean> implements BindingPresenter {
     private Context context = null;
     private PMDataModelImp pmDataModelImp = null;
-
+    private PMHourModelImp pmHourModelImp = null;
     /**
      * @param view 具体业务的视图接口对象
      * @descriptoin 构造方法
@@ -27,16 +28,21 @@ public class PMdataPresenterImp extends BasePresenterImp<PMView,PMBean> implemen
         super(view);
         this.context = context;
         this.pmDataModelImp = new PMDataModelImp(context);
+        this.pmHourModelImp = new PMHourModelImp(context);
     }
 
     @Override
     public void binding(Map<String, String> map) {
-        pmDataModelImp.GetData(map, this);
+        if (map.get("type").equals("0"))
+            pmHourModelImp.GetData(map, this);
+        else
+            pmDataModelImp.GetData(map, this);
     }
 
     @Override
     public void unSubscribe() {
         pmDataModelImp.onUnsubscribe();
+        pmHourModelImp.onUnsubscribe();
     }
 }
 

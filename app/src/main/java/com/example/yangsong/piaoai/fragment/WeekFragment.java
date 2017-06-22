@@ -19,6 +19,7 @@ import com.example.yangsong.piaoai.presenter.CodataPresenterImp;
 import com.example.yangsong.piaoai.presenter.MethanalPresenterImp;
 import com.example.yangsong.piaoai.presenter.PMdataPresenterImp;
 import com.example.yangsong.piaoai.presenter.TVOCdataPresenterImp;
+import com.example.yangsong.piaoai.util.AppUtil;
 import com.example.yangsong.piaoai.util.DateUtil;
 import com.example.yangsong.piaoai.util.Toastor;
 import com.example.yangsong.piaoai.view.PMView;
@@ -59,7 +60,10 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
     CombinedChart mChart;
     @BindView(R.id.week_msg)
     TextView dyaMsg;
-
+    @BindView(R.id.day_msg_tv)
+    TextView dayMsgTv;
+    @BindView(R.id.day_unit_tv)
+    TextView DayUnitTv;
     private Toastor toastor;
     PMdataPresenterImp pMdataPresenterImp;
     CodataPresenterImp codataPresenterImp;
@@ -105,16 +109,31 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
         map.put("beginDate", time2 + " 00:00");
         if (indext == 0) {
             //查询pm2.5
+            DayUnitTv.setText("μg/m³");
+            DayUnitTv.setVisibility(View.VISIBLE);
             pMdataPresenterImp.binding(map);
         } else if (indext == 1) {
             //查询co2
+            DayUnitTv.setVisibility(View.VISIBLE);
+            DayUnitTv.setText("PPM");
             codataPresenterImp.binding(map);
         } else if (indext == 2) {
             //查询TVOC
+            DayUnitTv.setVisibility(View.INVISIBLE);
             tvoCdataPresenterImp.binding(map);
         } else if (indext == 3) {
             //查询甲醛
+            DayUnitTv.setText("mg/m³");
+            DayUnitTv.setVisibility(View.VISIBLE);
             methanalPresenterImp.binding(map);
+        }else if (indext == 4){
+            //温度
+            DayUnitTv.setVisibility(View.VISIBLE);
+            DayUnitTv.setText("℃");
+        }else if (indext == 5){
+            // 湿度
+            DayUnitTv.setVisibility(View.VISIBLE);
+            DayUnitTv.setText("%RH");
         }
     }
 
@@ -205,7 +224,7 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
         ArrayList<Entry> values1 = new ArrayList<>();
         for (int i = 2, j = 0; i < 9; i++, j++) {
             Log.e(TAG, mList.get(i) + " " + i);
-            if (i == (mList.size() - 1)) {
+            if (i >= (mList.size())) {
                 values1.add(new Entry(j, 0));
             } else
                 values1.add(new Entry(j, Integer.parseInt(mList.get(i))));
@@ -238,7 +257,25 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
         dyaMsg.setVisibility(View.VISIBLE);
         dyaMsg.setText((int) e.getY() + "");
         dyaMsg.setX((h.getXPx() - dyaMsg.getWidth() / 2));
-
+        if (indext == 0) {
+            //查询pm2.5
+            AppUtil.PM2_5(getActivity(),dayMsgTv,(int) e.getY());
+        } else if (indext == 1) {
+            //查询co2
+            AppUtil.CO2(getActivity(),dayMsgTv,(int) e.getY());
+        } else if (indext == 2) {
+            //TVOC
+            AppUtil.TVOC(getActivity(),dayMsgTv,(int) e.getY());
+        } else if (indext == 3) {
+            //甲醛
+            AppUtil.jiaquan(getActivity(),dayMsgTv,(int) e.getY());
+        }else if (indext == 4){
+            //温度
+            AppUtil.wendu(getActivity(),dayMsgTv,(int) e.getY());
+        }else if (indext == 5){
+            // 湿度
+            AppUtil.shidu(getActivity(),dayMsgTv,(int) e.getY());
+        }
     }
 
     @Override
@@ -266,6 +303,7 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
         toastor.showSingletonToast(tData.getResMessage());
         if (tData.getResBody().getList().size() > 0) {
             mList = tData.getResBody().getList().get(0);
+            mList.remove(mList.size()-1);
             CombinedData data = new CombinedData();
             data.setData(getLineData());
             mChart.setData(data);
@@ -305,24 +343,36 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
         dyaMsg.setVisibility(View.INVISIBLE);
         int position = event.getMsg();
         Log.e(TAG, position + "");
+        indext=position;
         switch (position) {
             case 0:
+                DayUnitTv.setText("μg/m³");
+                DayUnitTv.setVisibility(View.VISIBLE);
                 pMdataPresenterImp.binding(map);
                 break;
             case 1:
+                DayUnitTv.setText("PPM");
+                DayUnitTv.setVisibility(View.VISIBLE);
                 codataPresenterImp.binding(map);
                 break;
             case 2:
+                DayUnitTv.setVisibility(View.INVISIBLE);
                 tvoCdataPresenterImp.binding(map);
                 break;
             case 3:
+                DayUnitTv.setText("mg/m³");
                 methanalPresenterImp.binding(map);
+                DayUnitTv.setVisibility(View.VISIBLE);
                 break;
             case 4:
                 //温度
+                DayUnitTv.setText("℃");
+                DayUnitTv.setVisibility(View.VISIBLE);
                 break;
             case 5:
                 // 湿度
+                DayUnitTv.setText("%RH");
+                DayUnitTv.setVisibility(View.VISIBLE);
                 break;
             default:
                 break;

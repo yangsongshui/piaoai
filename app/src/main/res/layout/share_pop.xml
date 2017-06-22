@@ -32,8 +32,15 @@
                 android:layout_marginRight="5dp"
                 android:gravity="center"
                 android:padding="10dp"
-                android:src="@drawable/share_wechat" />
-
+                android:src="@drawable/umeng_socialize_wechat" />
+            <ImageView
+                android:id="@+id/wxcircle_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:src="@drawable/umeng_socialize_wxcircle" />
             <ImageView
                 android:id="@+id/weixin_iv"
                 android:layout_width="wrap_content"
@@ -41,7 +48,7 @@
                 android:layout_marginLeft="5dp"
                 android:gravity="center"
                 android:padding="10dp"
-                android:src="@drawable/share_qq" />
+                android:src="@drawable/umeng_socialize_qq" />
         </LinearLayout>
 
         <ImageView

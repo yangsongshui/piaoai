@@ -43,6 +43,18 @@ public class MainFragment extends BaseFragment {
 
 
     Facility.ResBodyBean.ListBean facility;
+    @BindView(R.id.home_TVOC_tv)
+    TextView homeTVOCTv;
+    @BindView(R.id.home_CO2_tv)
+    TextView homeCO2Tv;
+    @BindView(R.id.home_PM10_tv)
+    TextView homePM10Tv;
+    @BindView(R.id.home_electric_tv)
+    TextView homeElectricTv;
+    @BindView(R.id.home_humidity_tv)
+    TextView homeHumidityTv;
+    @BindView(R.id.home_methanal_tv)
+    TextView homeMethanalTv;
 
 
     public MainFragment(Facility.ResBodyBean.ListBean facility) {
@@ -59,33 +71,50 @@ public class MainFragment extends BaseFragment {
             //TVOC
             if (TextUtils.isEmpty(facility.getTvoc()))
                 roundProgressBarTVOC.setProgress(0);
-            else
+            else {
                 roundProgressBarTVOC.setProgress(Integer.parseInt(facility.getTvoc()));
+                homeTVOCTv.setText(facility.getTvoc());
+            }
+
             //CO2
             if (TextUtils.isEmpty(facility.getCo2()))
                 roundProgressBarCO2.setProgress(0);
-            else
+            else {
                 roundProgressBarCO2.setProgress(Integer.parseInt(facility.getCo2()));
+                homeCO2Tv.setText(facility.getCo2());
+            }
+
             //PM10
             if (TextUtils.isEmpty(facility.getPm10()))
                 roundProgressBarPM10.setProgress(0);
-            else
+            else {
                 roundProgressBarPM10.setProgress(Integer.parseInt(facility.getPm10()));
+                homePM10Tv.setText(facility.getPm10());
+            }
+
             //电量
             if (TextUtils.isEmpty(facility.getDianliang()))
                 roundProgressBarElectric.setProgress(0);
-            else
+            else {
                 roundProgressBarElectric.setProgress(Integer.parseInt(facility.getDianliang()));
+                homeElectricTv.setText(facility.getDianliang());
+            }
+
             //湿度
             if (TextUtils.isEmpty(facility.getShidu()))
                 roundProgressBarHumidity.setProgress(0);
-            else
+            else {
                 roundProgressBarHumidity.setProgress(Integer.parseInt(facility.getShidu()));
+                homeHumidityTv.setText(facility.getShidu());
+            }
+
             //甲醛
             if (TextUtils.isEmpty(facility.getJiaquan()))
                 roundProgressBarMethanal.setProgress(0);
-            else
+            else {
                 roundProgressBarMethanal.setProgress(Integer.parseInt(facility.getJiaquan()));
+                homeMethanalTv.setText(facility.getJiaquan());
+            }
 
 
         }
@@ -127,12 +156,13 @@ public class MainFragment extends BaseFragment {
                 intent.putExtra("indext", 2);
                 break;
             case R.id.home_humidity_rl:
-                intent.putExtra("indext", 5);
+                //intent.putExtra("indext", 5);
                 break;
             case R.id.home_methanal_rl:
-                intent.putExtra("indext",3);
+                intent.putExtra("indext", 3);
                 break;
         }
         startActivity(intent);
     }
+
 }

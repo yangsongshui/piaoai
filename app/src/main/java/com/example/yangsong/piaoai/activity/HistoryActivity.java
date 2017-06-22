@@ -1,5 +1,7 @@
 package com.example.yangsong.piaoai.activity;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -46,6 +48,11 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -197,11 +204,16 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
             public void onClick(View view) {
                 switch (view.getId()) {
                     case R.id.QQ_tv:
+                        UMShare(SHARE_MEDIA.QQ);
                         break;
                     case R.id.cancel_tv:
                         sharePopuoWindow.dismiss();
                         break;
                     case R.id.weixin_iv:
+                        UMShare(SHARE_MEDIA.WEIXIN);
+                        break;
+                    case R.id.wxcircle_iv:
+                        UMShare(SHARE_MEDIA.WEIXIN_CIRCLE);
                         break;
                 }
             }
@@ -315,7 +327,7 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
 
         xAxis.setAxisMinimum(-0.5f);
         xAxis.setGranularity(0.3f);
-
+        xAxis.setAxisMaximum(24);
         xAxis.setTextColor(Color.rgb(255, 255, 255));
         xAxis.setAxisLineColor(Color.argb(148, 255, 255, 255));
         xAxis.setTextSize(10);
@@ -494,5 +506,54 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
     public void loadDataError(Throwable throwable) {
         android.util.Log.e(TAG, throwable.toString());
         toastor.showSingletonToast("服务器连接异常");
+    }
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+            //分享开始的回调
+        }
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            Log.d("plat","platform"+platform);
+            toastor.showSingletonToast( platform + " 分享成功啦");
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            toastor.showSingletonToast( platform + " 分享失败啦");
+
+            if(t!=null){
+                Log.d("throw","throw:"+t.getMessage());
+            }
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            toastor.showSingletonToast( platform + " 分享取消了");
+
+        }
+    };
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+
+    }
+    private void UMShare(SHARE_MEDIA platform){
+        View viewScreen = getWindow().getDecorView();
+        viewScreen.setDrawingCacheEnabled(true);
+        viewScreen.buildDrawingCache();
+        //获取当前屏幕的大小
+        int width = getWindow().getDecorView().getRootView().getWidth();
+        int height = getWindow().getDecorView().getRootView().getHeight();
+        Bitmap bitmap = Bitmap.createBitmap(viewScreen.getDrawingCache(), 0, 0, width, height);
+        viewScreen.destroyDrawingCache();
+        UMImage image = new UMImage(HistoryActivity.this, bitmap);//bitmap文件
+        image.compressStyle = UMImage.CompressStyle.QUALITY;
+        new ShareAction(HistoryActivity.this).setPlatform(platform)
+                .withText("飘爱检测仪")
+                .withMedia(image)
+                .setCallback(umShareListener)
+                .share();
     }
 }

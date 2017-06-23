@@ -31,6 +31,7 @@ public class MyApplication extends Application {
         PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
         PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
     }
+
     /**
      * 获取单例
      *
@@ -110,15 +111,23 @@ public class MyApplication extends Application {
 
 
     public User getUser() {
-        String phone = SpUtils.getString("phone", "");
-        String password = SpUtils.getString("password", "");
-        Log.e("------", phone + " " + password);
-        if (phone.equals("") || password.equals(""))
-            return null;
+        Boolean IsRemember = SpUtils.getBoolean("remember", true);
+        if (IsRemember) {
+            String phone = SpUtils.getString("phone", "");
+            String password = SpUtils.getString("password", "");
+            Log.e("------", phone + " " + password);
+            if (phone.equals("") || password.equals(""))
+                return null;
 
-        user.getResBody().setPhoneNumber(phone);
-        user.getResBody().setPsw(password);
-        return user;
+            user.getResBody().setPhoneNumber(phone);
+            user.getResBody().setPsw(password);
+            return user;
+        } else if (user.getResBody().getPhoneNumber() != null) {
+            return user;
+        } else {
+            return null;
+        }
+
     }
 
     public void outLogin() {

@@ -1,5 +1,6 @@
 package com.example.yangsong.piaoai.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -11,7 +12,7 @@ import com.example.yangsong.piaoai.bean.Facility;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
+@SuppressLint("ValidFragment")
 public class IonicFragment extends BaseFragment {
 
 

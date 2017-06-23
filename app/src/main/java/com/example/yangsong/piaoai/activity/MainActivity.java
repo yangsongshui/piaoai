@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -53,6 +54,8 @@ public class MainActivity extends BaseActivity implements FacilityView {
     ImageView tvMainRight;
     TestFragmentAdapter mAdapter;
     List<Facility.ResBodyBean.ListBean> mList;
+    @BindView(R.id.main_fragment)
+    LinearLayout mainFragment;
     private ProgressDialog progressDialog = null;
     private FacilityPresenerImp facilityPresenerImp = null;
     private Toastor toastor;
@@ -120,7 +123,10 @@ public class MainActivity extends BaseActivity implements FacilityView {
                 activityMain.openDrawer(GravityCompat.START);
                 break;
             case R.id.tv_main_right:
-                startActivity(new Intent(this, HistoryActivity.class).putExtra("deviceID", device.getDeviceid()).putExtra("type", device.getType()));
+                if (mList.size() > 0)
+                    startActivity(new Intent(this, HistoryActivity.class).putExtra("deviceID", device.getDeviceid()).putExtra("type", device.getType()));
+                else
+                    toastor.showSingletonToast("无绑定设备");
                 break;
             case R.id.main_equipment_tv:
                 startActivityForResult((new Intent(this, EquipmentActivity.class).putExtra("facility", facility)), RESULT);
@@ -176,6 +182,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
         }
     }
 
+    boolean isOne = false;
 
     @Override
     public void loadDataSuccess(Facility tData) {
@@ -194,9 +201,17 @@ public class MainActivity extends BaseActivity implements FacilityView {
                 } else {
                     tvMainRight.setVisibility(View.VISIBLE);
                 }
-            } else {
+                mainFragment.setVisibility(View.GONE);
+            } else if (!isOne) {
+                isOne = true;
+                mainFragment.setVisibility(View.VISIBLE);
                 toastor.showSingletonToast("无绑定设备");
                 startActivity(new Intent(this, BindingActivity.class));
+            } else {
+                // toastor.showSingletonToast("无绑定设备");
+                mAdapter.setCount(tData.getResBody().getList());
+                indicator.notifyDataSetChanged();
+                mainFragment.setVisibility(View.VISIBLE);
             }
 
         } else {
@@ -216,12 +231,13 @@ public class MainActivity extends BaseActivity implements FacilityView {
         facilityPresenerImp.findUserDevice(MyApplication.newInstance().getUser().getResBody().getPhoneNumber());
         handler.postDelayed(myRunnable, 60000);
         String pic = MyApplication.newInstance().getUser().getResBody().getHeadPic();
-        if (pic != null)
-            Log.e(TAG, pic);
-        if (pic.contains("http:")) {
-            MyApplication.newInstance().getGlide().load(pic).into(mePicIv);
-        } else {
-            mePicIv.setImageBitmap(stringtoBitmap(pic));
+        if (pic != null && pic.length() > 5) {
+            Log.e("pic", pic);
+            if (pic.contains("http:")) {
+                MyApplication.newInstance().getGlide().load(pic).into(mePicIv);
+            } else {
+                mePicIv.setImageBitmap(stringtoBitmap(pic));
+            }
         }
     }
 
@@ -233,5 +249,12 @@ public class MainActivity extends BaseActivity implements FacilityView {
             int position = bundle.getInt("position");
             pager.setCurrentItem(position);
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

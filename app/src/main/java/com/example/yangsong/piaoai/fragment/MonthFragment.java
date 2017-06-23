@@ -1,6 +1,7 @@
 package com.example.yangsong.piaoai.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Color;
@@ -54,6 +55,7 @@ import static com.example.yangsong.piaoai.util.DateUtil.LONG_DATE_FORMAT;
 /**
  * A simple {@link Fragment} subclass.
  */
+@SuppressLint("ValidFragment")
 public class MonthFragment extends BaseFragment implements OnChartValueSelectedListener, PMView {
     private final static String TAG = MonthFragment.class.getSimpleName();
     @BindView(R.id.month_chart)

@@ -22,6 +22,7 @@ import com.example.yangsong.piaoai.util.Log;
 import com.example.yangsong.piaoai.util.Toastor;
 import com.example.yangsong.piaoai.view.MsgView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +59,10 @@ public class EquipmentActivity extends BaseActivity implements SwipeMenuListView
         deleteDevicePresenterImp = new DeleteDevicePresenterImp(this, this);
         toastor = new Toastor(this);
         Facility facility = (Facility) getIntent().getSerializableExtra("facility");
-        mList = facility.getResBody().getList();
+        if (facility!= null)
+            mList = facility.getResBody().getList();
+        else
+            mList = new ArrayList<>();
         adapter = new EquipmentAdapter(mList, this);
         listView.setAdapter(adapter);
         listView.setMenuCreator(creator);

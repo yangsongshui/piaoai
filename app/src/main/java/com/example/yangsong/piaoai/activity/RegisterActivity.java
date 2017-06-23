@@ -2,8 +2,11 @@ package com.example.yangsong.piaoai.activity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.yangsong.piaoai.R;
 import com.example.yangsong.piaoai.app.MyApplication;
@@ -35,6 +38,8 @@ public class RegisterActivity extends BaseActivity implements MsgView {
     EditText pswEt;
     @BindView(R.id.psw2_et)
     EditText psw2Et;
+    @BindView(R.id.get_code_tv)
+    TextView get_code_tv;
     /**
      * 对象定义
      **/
@@ -44,6 +49,7 @@ public class RegisterActivity extends BaseActivity implements MsgView {
     private Toastor toastor;
     String code;
     private User user;
+    private CountDownTimer timer;
 
     @Override
     protected int getContentView() {
@@ -55,6 +61,8 @@ public class RegisterActivity extends BaseActivity implements MsgView {
         loginPresenterImp = new MsgPresenterImp(this, this);
         toastor = new Toastor(this);
         user = new User();
+        if (user.getResBody() == null)
+            user.setResBody(new User.ResBodyBean());
         getCodePresenterImp = new GetCodePresenterImp(new GetCodeView() {
             @Override
             public void showProgress() {
@@ -71,6 +79,7 @@ public class RegisterActivity extends BaseActivity implements MsgView {
                 toastor.showSingletonToast(identify.getResMessage());
                 if (identify.getResCode().equals("0"))
                     code = identify.getResBody().getIdentify();
+                Log.e("code", code + " " + identify.getResBody().getIdentify());
             }
 
             @Override
@@ -81,6 +90,19 @@ public class RegisterActivity extends BaseActivity implements MsgView {
         progressDialog = new ProgressDialog(this);
 //        progressDialog.setTitle();
         progressDialog.setMessage("注册中,请稍后");
+        timer = new CountDownTimer(60 * 1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                //每隔countDownInterval秒会回调一次onTick()方法
+                get_code_tv.setText(millisUntilFinished / 1000 + "s后重新发送");
+            }
+
+            @Override
+            public void onFinish() {
+                get_code_tv.setText("获取短信验证码");
+                get_code_tv.setEnabled(true);
+            }
+        };
     }
 
 
@@ -92,15 +114,18 @@ public class RegisterActivity extends BaseActivity implements MsgView {
                 finish();
                 break;
             case R.id.get_code_tv:
-                if (phone.length() == 11)
+                if (phone.length() == 11) {
+                    get_code_tv.setEnabled(false);
+                    timer.start();// 开始计时
                     getCodePresenterImp.GetCode(phone, "0");
-                else
+                } else
                     toastor.showSingletonToast("手机号输入不正确");
                 break;
             case R.id.register_tv:
                 String psw = pswEt.getText().toString().trim();
                 String psw2 = psw2Et.getText().toString().trim();
                 String identify = codeEt.getText().toString().trim();
+                Log.e("code", code + " " + identify);
                 if (identify.equals(code))
                     if (phone.length() == 11 && psw.equals(psw2)) {
                         Map<String, String> map = new HashMap<>();

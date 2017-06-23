@@ -1,6 +1,7 @@
 package com.example.yangsong.piaoai.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Color;
@@ -49,6 +50,7 @@ import butterknife.BindView;
 /**
  * A simple {@link Fragment} subclass.
  */
+@SuppressLint("ValidFragment")
 public class TimeFragment extends BaseFragment implements OnChartValueSelectedListener, PMView {
     private final static String TAG = TimeFragment.class.getSimpleName();
     @BindView(R.id.time_chart)

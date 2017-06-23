@@ -2,8 +2,10 @@ package com.example.yangsong.piaoai.activity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.yangsong.piaoai.R;
 import com.example.yangsong.piaoai.base.BaseActivity;
@@ -32,11 +34,14 @@ public class ForgetPasswordActivity extends BaseActivity implements MsgView {
     EditText pswEt;
     @BindView(R.id.psw2_et)
     EditText psw2Et;
+    @BindView(R.id.get_code_tv)
+    TextView get_code_tv;
     private PswPresenterImp pswPresenterImp = null;
     private GetCodePresenterImp getCodePresenterImp = null;
     private ProgressDialog progressDialog = null;
     private Toastor toastor;
     String code;
+    private CountDownTimer timer;
 
     @Override
     protected int getContentView() {
@@ -72,6 +77,19 @@ public class ForgetPasswordActivity extends BaseActivity implements MsgView {
         }, this);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("数据修改中,请稍后");
+        timer = new CountDownTimer(60 * 1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                //每隔countDownInterval秒会回调一次onTick()方法
+                get_code_tv.setText(millisUntilFinished / 1000 + "s后重新发送");
+            }
+
+            @Override
+            public void onFinish() {
+                get_code_tv.setText("获取短信验证码");
+                get_code_tv.setEnabled(true);
+            }
+        };
     }
 
 
@@ -83,9 +101,11 @@ public class ForgetPasswordActivity extends BaseActivity implements MsgView {
                 finish();
                 break;
             case R.id.get_code_tv:
-                if (phone.length() == 11)
+                if (phone.length() == 11) {
+                    get_code_tv.setEnabled(false);
+                    timer.start();// 开始计时
                     getCodePresenterImp.GetCode(phone, "2");
-                else
+                } else
                     toastor.showSingletonToast("手机号输入不正确");
                 break;
             case R.id.confirm_tv:

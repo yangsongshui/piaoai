@@ -1,5 +1,6 @@
 package com.example.yangsong.piaoai.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Color;
@@ -49,6 +50,7 @@ import static com.example.yangsong.piaoai.util.DateUtil.LONG_DATE_FORMAT;
 /**
  * Created by Administrator on 2016/5/28.
  */
+@SuppressLint("ValidFragment")
 public class DayFragment extends BaseFragment implements OnChartValueSelectedListener, PMView {
     private final static String TAG = DayFragment.class.getSimpleName();
     @BindView(R.id.day_chart)
@@ -71,9 +73,12 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
     List<String> mList;
     private int indext = 0;
 
-    public DayFragment(Activity activity, int indext) {
+    public DayFragment() {
+    }
+
+    public DayFragment(Activity activity, int i) {
         this.activity = activity;
-        this.indext = indext;
+        this.indext = i;
     }
 
     @Override

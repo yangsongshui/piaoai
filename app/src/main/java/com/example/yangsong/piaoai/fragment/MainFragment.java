@@ -1,5 +1,6 @@
 package com.example.yangsong.piaoai.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,7 +20,7 @@ import butterknife.OnClick;
 /**
  * Created by yangsong on 2017/5/14.
  */
-
+@SuppressLint("ValidFragment")
 public class MainFragment extends BaseFragment {
 
     @BindView(R.id.roundProgressBar_TVOC)

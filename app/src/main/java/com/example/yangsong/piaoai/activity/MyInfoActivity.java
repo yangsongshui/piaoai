@@ -29,6 +29,7 @@ import com.example.yangsong.piaoai.myview.CompilePopupWindow;
 import com.example.yangsong.piaoai.presenter.UpdatePresenterImp;
 import com.example.yangsong.piaoai.util.DateUtil;
 import com.example.yangsong.piaoai.util.GetCity;
+import com.example.yangsong.piaoai.util.Log;
 import com.example.yangsong.piaoai.util.Toastor;
 import com.example.yangsong.piaoai.view.MsgView;
 
@@ -242,7 +243,7 @@ public class MyInfoActivity extends BaseActivity implements MsgView {
             bitmap = extras.getParcelable("data");
             compilePicIv.setImageBitmap(bitmap);
             byte[] bytes = bitmap2Bytes(bitmap);
-            photo = Base64.encodeToString(bytes, 0, bytes.length, Base64.DEFAULT);
+            photo = Base64.encodeToString(bytes, Base64.DEFAULT);
 
         }
     }
@@ -430,6 +431,7 @@ public class MyInfoActivity extends BaseActivity implements MsgView {
 
     @Override
     public void loadDataError(Throwable throwable) {
+        Log.e("loadDataError",throwable.getLocalizedMessage());
         toastor.showSingletonToast("服务器连接失败");
 
     }

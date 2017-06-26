@@ -194,26 +194,22 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
 
         });
         mChart.getLegend().setEnabled(false);
-     /*   CombinedData data = new CombinedData();
-        data.setData(gettimeData());
         mChart.setOnChartValueSelectedListener(this);
+            /*   CombinedData data = new CombinedData();
+        data.setData(gettimeData());
         mChart.setData(data);
-
         mChart.invalidate();*/
     }
 
     private LineData gettimeData() {
-
-
         ArrayList<Entry> values1 = new ArrayList<>();
-        if (mList.size() > 0)
-            for (int i = 2, j = 0; i < 14; i++, j++) {
-                // Log.e(TAG, mList.get(i)+" " + i );
-                if (i >= (mList.size())) {
-                    values1.add(new Entry(j, 0));
-                } else
-                    values1.add(new Entry(j, Integer.parseInt(mList.get(i))));
-            }
+        for (int i = 2, j = 0; i < 15; i++, j++) {
+            Log.e(TAG, mList.size() + " " + i);
+            if (i >= (mList.size())) {
+                values1.add(new Entry(j, 0));
+            } else
+                values1.add(new Entry(j, Integer.parseInt(mList.get(i))));
+        }
 
         LineDataSet set1;
         if (mChart.getData() != null &&
@@ -294,26 +290,24 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
             if (tData.getResBody().getList().size() > 0) {
                 mList = tData.getResBody().getList().get(0);
                 mList.remove(mList.size() - 1);
-                CombinedData data = new CombinedData();
-                data.setData(gettimeData());
-                mChart.setData(data);
-                mChart.invalidate();
-            } else {
-                mChart.clear();
-                mChart.invalidate();
             }
+            CombinedData data = new CombinedData();
+            data.setData(gettimeData());
+            mChart.setData(data);
+            mChart.invalidate();
         }
     }
 
     @Override
     public void loadDataError(Throwable throwable) {
+        Log.e(TAG, throwable.getLocalizedMessage());
         toastor.showSingletonToast("服务器连接异常");
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.e(TAG, "onNothingSelected ");
+       // Log.e(TAG, "onNothingSelected ");
         EventBus.getDefault().unregister(this);//反注册EventBus
 
     }

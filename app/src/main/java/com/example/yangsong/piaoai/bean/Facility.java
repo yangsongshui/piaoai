@@ -171,5 +171,21 @@ public class Facility implements Serializable{
                 this.jiaquan = jiaquan;
             }
         }
+
+        @Override
+        public String toString() {
+            return "ResBodyBean{" +
+                    "list=" + list +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Facility{" +
+                "resCode='" + resCode + '\'' +
+                ", resMessage='" + resMessage + '\'' +
+                ", resBody=" + resBody +
+                '}';
     }
 }

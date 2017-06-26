@@ -46,7 +46,7 @@ public class FeedbackActivity extends BaseActivity implements MsgView {
                 finish();
                 break;
             case R.id.submit_tv:
-                if (suggestInputEt.getText().toString().trim().length() >1)
+                if (suggestInputEt.getText().toString().trim().length() > 1)
                     feedbackPresenterImp.addRemark(MyApplication.newInstance().getUser().getResBody().getPhoneNumber(), suggestInputEt.getText().toString());
                 break;
         }
@@ -68,8 +68,9 @@ public class FeedbackActivity extends BaseActivity implements MsgView {
 
     @Override
     public void loadDataSuccess(Msg tData) {
-        toastor.showSingletonToast(tData.getResMessage());
+
         if (tData.getResCode().equals("0")) {
+            toastor.showSingletonToast("感谢您的宝贵意见!");
             finish();
         }
     }

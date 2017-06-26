@@ -126,11 +126,11 @@ public class MonthFragment extends BaseFragment implements OnChartValueSelectedL
             //查询甲醛
             DayUnitTv.setText("mg/m³");
             methanalPresenterImp.binding(map);
-        }else if (indext == 4){
+        } else if (indext == 4) {
             //温度
             DayUnitTv.setVisibility(View.VISIBLE);
             DayUnitTv.setText("℃");
-        }else if (indext == 5){
+        } else if (indext == 5) {
             // 湿度
             DayUnitTv.setVisibility(View.VISIBLE);
             DayUnitTv.setText("%RH");
@@ -180,9 +180,10 @@ public class MonthFragment extends BaseFragment implements OnChartValueSelectedL
         mChart.getAxisLeft().setAxisMinimum(0);
         mChart.getAxisLeft().setTextColor(R.color.silver_sand);
         XAxis xAxis = mChart.getXAxis();
-        xAxis.setAxisMinimum(-1f);
+        xAxis.setAxisMinimum(-0.99f);
         xAxis.setGranularity(0.3f);
         xAxis.setAxisMaximum(29);
+        xAxis.setLabelCount(6, true);
         xAxis.setTextColor(R.color.spindle);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);//设置X轴在底部
         //不画网格
@@ -193,6 +194,7 @@ public class MonthFragment extends BaseFragment implements OnChartValueSelectedL
 
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
+                Log.e("date", month.get((int) value));
                 return month.get((int) value % month.size());
             }
 
@@ -214,12 +216,12 @@ public class MonthFragment extends BaseFragment implements OnChartValueSelectedL
 
 
         ArrayList<Entry> values1 = new ArrayList<>();
-        for (int i = 2, j = 0; i < 32; i++, j++) {
-          if (i >=mList.size()-1) {
-                Log.e(TAG, i+"" );
+        for (int i = 2, j = 0; i < 33; i++, j++) {
+            if (i >= mList.size() - 1) {
+                Log.e(TAG, i + "");
                 values1.add(new Entry(j, 0));
-            } else{
-               // Log.e(TAG,  mList.get(i) );
+            } else {
+                // Log.e(TAG,  mList.get(i) );
                 values1.add(new Entry(j, Integer.parseInt(mList.get(i))));
             }
 
@@ -255,22 +257,22 @@ public class MonthFragment extends BaseFragment implements OnChartValueSelectedL
         dyaMsg.setX((h.getXPx() - dyaMsg.getWidth() / 2));
         if (indext == 0) {
             //查询pm2.5
-            AppUtil.PM2_5(getActivity(),dayMsgTv,(int) e.getY());
+            AppUtil.PM2_5(getActivity(), dayMsgTv, (int) e.getY());
         } else if (indext == 1) {
             //查询co2
-            AppUtil.CO2(getActivity(),dayMsgTv,(int) e.getY());
+            AppUtil.CO2(getActivity(), dayMsgTv, (int) e.getY());
         } else if (indext == 2) {
             //TVOC
-            AppUtil.TVOC(getActivity(),dayMsgTv,(int) e.getY());
+            AppUtil.TVOC(getActivity(), dayMsgTv, (int) e.getY());
         } else if (indext == 3) {
             //甲醛
-            AppUtil.jiaquan(getActivity(),dayMsgTv,(int) e.getY());
-        }else if (indext == 4){
+            AppUtil.jiaquan(getActivity(), dayMsgTv, (int) e.getY());
+        } else if (indext == 4) {
             //温度
-            AppUtil.wendu(getActivity(),dayMsgTv,(int) e.getY());
-        }else if (indext == 5){
+            AppUtil.wendu(getActivity(), dayMsgTv, (int) e.getY());
+        } else if (indext == 5) {
             // 湿度
-            AppUtil.shidu(getActivity(),dayMsgTv,(int) e.getY());
+            AppUtil.shidu(getActivity(), dayMsgTv, (int) e.getY());
         }
     }
 
@@ -301,14 +303,12 @@ public class MonthFragment extends BaseFragment implements OnChartValueSelectedL
         if (tData.getResCode().equals("0")) {
             if (tData.getResBody().getList().size() > 0) {
                 mList = tData.getResBody().getList().get(0);
-                CombinedData data = new CombinedData();
-                data.setData(getLineData());
-                mChart.setData(data);
-                mChart.invalidate();
-            } else {
-                mChart.clear();
-                mChart.invalidate();
+
             }
+            CombinedData data = new CombinedData();
+            data.setData(getLineData());
+            mChart.setData(data);
+            mChart.invalidate();
         }
     }
 
@@ -324,6 +324,7 @@ public class MonthFragment extends BaseFragment implements OnChartValueSelectedL
         SimpleDateFormat format2 = new SimpleDateFormat("dd");
         for (int i = 0; i < 30; i++) {
             string = format2.format(DateUtil.nextDay(data, -i)) + "号";
+
             month.add(0, string);
         }
     }
@@ -340,7 +341,7 @@ public class MonthFragment extends BaseFragment implements OnChartValueSelectedL
         dyaMsg.setVisibility(View.INVISIBLE);
         int position = event.getMsg();
         Log.e(TAG, position + "");
-        indext=position;
+        indext = position;
         switch (position) {
             case 0:
                 DayUnitTv.setVisibility(View.VISIBLE);

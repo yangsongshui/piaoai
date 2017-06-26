@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -63,6 +62,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
     Facility.ResBodyBean.ListBean device;
     private Handler handler;
     private Runnable myRunnable;
+    private String  type = "0";
 
     @Override
     protected int getContentView() {
@@ -87,7 +87,9 @@ public class MainActivity extends BaseActivity implements FacilityView {
                 device = mList.get(position);
                 mainTitleTv.setText(device.getDeviceName());
                 Log.e(TAG, device.getDeviceid());
-                if (device.getType().equals("3")) {
+                type=device.getType();
+                if (type.equals("3")) {
+
                     tvMainRight.setVisibility(View.GONE);
                 } else {
                     tvMainRight.setVisibility(View.VISIBLE);
@@ -123,6 +125,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
                 activityMain.openDrawer(GravityCompat.START);
                 break;
             case R.id.tv_main_right:
+
                 if (mList.size() > 0)
                     startActivity(new Intent(this, HistoryActivity.class).putExtra("deviceID", device.getDeviceid()).putExtra("type", device.getType()));
                 else
@@ -186,7 +189,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
 
     @Override
     public void loadDataSuccess(Facility tData) {
-
+        Log.e(TAG, tData.toString());
 
         if (tData.getResCode().equals("0")) {
             mList = tData.getResBody().getList();
@@ -196,7 +199,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
                 facility = tData;
                 device = mList.get(0);
                 mainTitleTv.setText(device.getDeviceName());
-                if (device.getType().equals("3")) {
+                if (device.getType().equals("3")||type.equals("3")) {
                     tvMainRight.setVisibility(View.GONE);
                 } else {
                     tvMainRight.setVisibility(View.VISIBLE);
@@ -251,10 +254,5 @@ public class MainActivity extends BaseActivity implements FacilityView {
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+
 }

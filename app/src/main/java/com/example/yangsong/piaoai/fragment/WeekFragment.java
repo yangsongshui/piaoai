@@ -225,7 +225,7 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
     private LineData getLineData() {
         ArrayList<Entry> values1 = new ArrayList<>();
         for (int i = 2, j = 0; i < 9; i++, j++) {
-            Log.e(TAG, mList.get(i) + " " + i);
+           // Log.e(TAG, mList.get(i) + " " + i);
             if (i >= (mList.size())) {
                 values1.add(new Entry(j, 0));
             } else
@@ -303,22 +303,21 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
     @Override
     public void loadDataSuccess(PMBean tData) {
         toastor.showSingletonToast(tData.getResMessage());
-        if (tData.getResBody().getList().size() > 0) {
-            mList = tData.getResBody().getList().get(0);
-            mList.remove(mList.size()-1);
+        if (tData.getResCode().equals("0")) {
+            if (tData.getResBody().getList().size() > 0) {
+                mList = tData.getResBody().getList().get(0);
+                mList.remove(mList.size() - 1);
+            }
             CombinedData data = new CombinedData();
             data.setData(getLineData());
             mChart.setData(data);
-            mChart.invalidate();
-        } else {
-            mChart.clear();
             mChart.invalidate();
         }
     }
 
     @Override
     public void loadDataError(Throwable throwable) {
-        Log.e(TAG, "onNothingSelected ");
+        Log.e(TAG, throwable.toString());
         toastor.showSingletonToast("服务器连接异常");
     }
 

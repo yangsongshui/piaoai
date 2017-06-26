@@ -12,6 +12,7 @@ import com.example.yangsong.piaoai.bean.Facility;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
 @SuppressLint("ValidFragment")
 public class IonicFragment extends BaseFragment {
 
@@ -28,9 +29,11 @@ public class IonicFragment extends BaseFragment {
     LinearLayout onOffControlLl;
 
     Facility.ResBodyBean.ListBean facility;
+
     public IonicFragment(Facility.ResBodyBean.ListBean facility) {
         this.facility = facility;
     }
+
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
         ionicControlLl.setAlpha(0f);
@@ -74,9 +77,11 @@ public class IonicFragment extends BaseFragment {
                 Visibility(false, 0);
                 break;
             case R.id.on_tv:
+                homeTVOCTv.setText(6 + "组");
                 Visibility(false, 1);
                 break;
             case R.id.off_tv:
+                homeTVOCTv.setText("关");
                 Visibility(false, 1);
                 break;
         }

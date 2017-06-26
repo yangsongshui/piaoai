@@ -100,10 +100,10 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
         map.put("type", "1");
         //通过格式化输出日期
         String time = DateUtil.getCurrDate(LONG_DATE_FORMAT);
-       /* map.put("endDate", time + " 24:00");
-        map.put("beginDate", time + " 00:00");*/
-        map.put("beginDate", "2017-06-19 00:00");
-        map.put("endDate", "2017-06-19 24:00");
+       map.put("endDate", time + " 24:00");
+        map.put("beginDate", time + " 00:00");
+/*        map.put("beginDate", "2017-06-19 00:00");
+        map.put("endDate", "2017-06-19 24:00");*/
         if (indext == 0) {
             //查询pm2.5
             DayUnitTv.setText("μg/m³");
@@ -177,9 +177,10 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
 
         XAxis xAxis = mChart.getXAxis();
 
-        xAxis.setAxisMinimum(-1f);
+        xAxis.setAxisMinimum(-0.99f);
         xAxis.setGranularity(0.3f);
         xAxis.setAxisMaximum(23);
+        xAxis.setLabelCount(7,true);
         xAxis.setTextColor(R.color.spindle);
 
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);//设置X轴在底部
@@ -235,7 +236,7 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
 
     @Override
     public void onNothingSelected() {
-        Log.e(TAG, "onNothingSelected ");
+
         dyaMsg.setVisibility(View.GONE);
     }
 
@@ -243,14 +244,13 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
     private LineData getdayData() {
 
         ArrayList<Entry> values1 = new ArrayList<>();
-        if (mList.size() > 0)
-            for (int i = 2, j = 0; i < 26; i++, j++) {
-                // Log.e(TAG, mList.get(i)+" " + i );
-                if (i >= (mList.size())) {
-                    values1.add(new Entry(j, 0));
-                } else
-                    values1.add(new Entry(j, Integer.parseInt(mList.get(i))));
-            }
+        for (int i = 2, j = 0; i < 26; i++, j++) {
+            // Log.e(TAG, mList.get(i)+" " + i );
+            if (i >= (mList.size())) {
+                values1.add(new Entry(j, 0));
+            } else
+                values1.add(new Entry(j, Integer.parseInt(mList.get(i))));
+        }
 
 
         LineDataSet set1;
@@ -299,21 +299,18 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
             if (tData.getResBody().getList().size() > 0) {
                 mList = tData.getResBody().getList().get(0);
                 mList.remove(mList.size() - 1);
-                CombinedData data = new CombinedData();
-                data.setData(getdayData());
-                mChart.setData(data);
-                mChart.invalidate();
-            } else {
-                mChart.clear();
-                mChart.invalidate();
             }
+            CombinedData data = new CombinedData();
+            data.setData(getdayData());
+            mChart.setData(data);
+            mChart.invalidate();
         }
     }
 
     @Override
     public void loadDataError(Throwable throwable) {
 
-        Log.e(TAG, throwable.toString());
+        Log.e(TAG, throwable.getLocalizedMessage());
         toastor.showSingletonToast("服务器连接异常");
     }
 

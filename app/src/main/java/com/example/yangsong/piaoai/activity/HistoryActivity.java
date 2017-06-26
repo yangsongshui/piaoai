@@ -1,5 +1,6 @@
 package com.example.yangsong.piaoai.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -110,6 +111,7 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
     private Map<String, String> map;
     PMdataPresenterImp pMdataPresenterImp;
     List<String> mList;
+    ProgressDialog progressDialog;
     @Override
     protected int getContentView() {
         return R.layout.activity_history;
@@ -117,10 +119,12 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        mList=new ArrayList<>();
+        mList = new ArrayList<>();
         String deviceID = getIntent().getStringExtra("deviceID");
         type = getIntent().getStringExtra("type");
         indext = getIntent().getIntExtra("indext", 0);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("正在分享...");
         pMdataPresenterImp = new PMdataPresenterImp(this, this);
         Log.e(TAG, deviceID);
         initData();
@@ -132,10 +136,10 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
         map.put("type", "1");
         //通过格式化输出日期
         String time = DateUtil.getCurrDate(LONG_DATE_FORMAT);
-       /* map.put("endDate", time + " 24:00");
-        map.put("beginDate", time + " 00:00");*/
-        map.put("beginDate", "2017-06-19 00:00");
-        map.put("endDate", "2017-06-19 24:00");
+        map.put("endDate", time + " 24:00");
+        map.put("beginDate", time + " 00:00");
+       /*  map.put("beginDate", "2017-06-19 00:00");
+        map.put("endDate", "2017-06-19 24:00");*/
         pMdataPresenterImp.binding(map);
     }
 
@@ -309,11 +313,12 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
         //设置是否可以触摸，如为false，则不能拖动，缩放等
         mChart.setTouchEnabled(true);
         //设置是否可以拖拽
-        mChart.setDragEnabled(true);
+        mChart.setDragEnabled(false);
         //设置是否可以缩放
-        mChart.setScaleYEnabled(false);
+        mChart.setScaleEnabled(false);
+        mChart.setDoubleTapToZoomEnabled(false);
         //设置是否能扩大扩小
-        mChart.setPinchZoom(true);
+        mChart.setPinchZoom(false);
         //设置四个边的间距
         // mChart.setViewPortOffsets(10, 0, 0, 10);
         //隐藏Y轴
@@ -324,10 +329,10 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
         mChart.setMarker(mv); // Set the marker to the chart
 
         XAxis xAxis = mChart.getXAxis();
-
         xAxis.setAxisMinimum(-0.5f);
         xAxis.setGranularity(0.3f);
-        xAxis.setAxisMaximum(24);
+        xAxis.setAxisMaximum(23);
+        xAxis.setLabelCount(7,true);
         xAxis.setTextColor(Color.rgb(255, 255, 255));
         xAxis.setAxisLineColor(Color.argb(148, 255, 255, 255));
         xAxis.setTextSize(10);
@@ -335,7 +340,7 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
         //不画网格
         xAxis.setDrawGridLines(false);
         IAxisValueFormatter formatter = new IAxisValueFormatter() {
-            String[] day = new String[]{"00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00"
+            String[] day = new String[]{"01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00"
                     , "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "24:00"};
 
             @Override
@@ -355,14 +360,14 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
     private LineData getLineData() {
 
         ArrayList<Entry> values1 = new ArrayList<>();
-        if (mList.size() > 0)
-            for (int i = 2, j = 0; i < 26; i++, j++) {
-                // Log.e(TAG, mList.get(i)+" " + i );
-                if (i == (mList.size() - 1)) {
-                    values1.add(new Entry(j, 0));
-                } else
-                    values1.add(new Entry(j, Integer.parseInt(mList.get(i))));
-            }
+
+        for (int i = 2, j = 0; i < 26; i++, j++) {
+            // Log.e(TAG, mList.get(i)+" " + i );
+            if (i >=  mList.size()) {
+                values1.add(new Entry(j, 0));
+            } else
+                values1.add(new Entry(j, Integer.parseInt(mList.get(i))));
+        }
 
         LineDataSet set1;
         if (mChart.getData() != null &&
@@ -488,58 +493,63 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
 
     @Override
     public void loadDataSuccess(PMBean tData) {
-        if (tData.getResCode().equals("0")) {
-            if (tData.getResBody().getList().size() > 0) {
-                mList = tData.getResBody().getList().get(0);
-                CombinedData data = new CombinedData();
-                data.setData(getLineData());
-                mChart.setData(data);
-                mChart.invalidate();
-            } else {
-                mChart.clear();
-                mChart.invalidate();
-            }
+        if (tData.getResBody().getList().size() > 0) {
+            mList = tData.getResBody().getList().get(0);
+            mList.remove(mList.size() - 1);
         }
+        CombinedData data = new CombinedData();
+        data.setData(getLineData());
+        mChart.setData(data);
+        mChart.invalidate();
+
     }
 
     @Override
     public void loadDataError(Throwable throwable) {
-        android.util.Log.e(TAG, throwable.toString());
+        Log.e(TAG, throwable.toString());
         toastor.showSingletonToast("服务器连接异常");
     }
+
     private UMShareListener umShareListener = new UMShareListener() {
         @Override
         public void onStart(SHARE_MEDIA platform) {
             //分享开始的回调
+            progressDialog.show();
         }
+
         @Override
         public void onResult(SHARE_MEDIA platform) {
-            Log.d("plat","platform"+platform);
-            toastor.showSingletonToast( platform + " 分享成功啦");
+            Log.d("plat", "platform" + platform);
+            toastor.showSingletonToast(platform + " 分享成功啦");
+            progressDialog.dismiss();
         }
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            toastor.showSingletonToast( platform + " 分享失败啦");
-
-            if(t!=null){
-                Log.d("throw","throw:"+t.getMessage());
+            toastor.showSingletonToast(platform + " 分享失败啦");
+            progressDialog.dismiss();
+            if (t != null) {
+                Log.d("throw", "throw:" + t.getMessage());
             }
         }
 
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-            toastor.showSingletonToast( platform + " 分享取消了");
+            progressDialog.dismiss();
+            toastor.showSingletonToast(platform + " 分享取消了");
 
         }
     };
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
 
     }
-    private void UMShare(SHARE_MEDIA platform){
+
+    private void UMShare(SHARE_MEDIA platform) {
+
         View viewScreen = getWindow().getDecorView();
         viewScreen.setDrawingCacheEnabled(true);
         viewScreen.buildDrawingCache();
@@ -552,7 +562,7 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
         image.compressStyle = UMImage.CompressStyle.QUALITY;
         new ShareAction(HistoryActivity.this).setPlatform(platform)
                 .withText("飘爱检测仪")
-                .withMedia(image)
+               .withMedia(image)
                 .setCallback(umShareListener)
                 .share();
     }

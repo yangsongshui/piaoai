@@ -15,6 +15,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.OptionsPickerView;
@@ -68,9 +69,12 @@ public class MyInfoActivity extends BaseActivity implements MsgView {
     TextView compileAddressTv;
     @BindView(R.id.compile_department_tv)
     TextView compileDepartmentTv;
+    @BindView(R.id.compile_ll)
+    LinearLayout compile_ll;
     //自定义的弹出框类
     CompilePopupWindow menuWindow;
     Bitmap bitmap;
+
     private TimePickerView timePickerView;
     private OptionsPickerView optionsPickerView;//地区选择
     private GetCity getCity;
@@ -273,20 +277,33 @@ public class MyInfoActivity extends BaseActivity implements MsgView {
         resBody = MyApplication.newInstance().getUser().getResBody();
 
         compilePhoneTv.setText(resBody.getPhoneNumber());
-        if (resBody.getCity() != null)
-            compileAddressTv.setText(resBody.getCity());
+
         if (resBody.getBirthday() != null)
             compileBirthdayTv.setText(resBody.getBirthday());
         if (resBody.getEmail() != null)
             compileMailboxTv.setText(resBody.getEmail());
         if (resBody.getNickName() != null)
             compileNameTv.setText(resBody.getNickName());
-        if (resBody.getPosition() != null)
-            compilePositionTv.setText(resBody.getPosition());
-        if (resBody.getPosition() != null)
-            compileDepartmentTv.setText(resBody.getDepartment());
+        if (resBody.getRole().equals("0")) {
+            compile_ll.setVisibility(View.GONE);
+        } else {
+            if (resBody.getPosition() != null)
+                compilePositionTv.setText(resBody.getPosition());
+            if (resBody.getDepartment() != null)
+                compileDepartmentTv.setText(resBody.getDepartment());
+            if (resBody.getCity() != null)
+                compileAddressTv.setText(resBody.getCity());
+        }
+        if (resBody.getHeadPic() != null && resBody.getHeadPic().length() > 5) {
+            if (resBody.getHeadPic().contains("http:")) {
+                MyApplication.newInstance().getGlide().load(resBody.getHeadPic()).into(compilePicIv);
+            }
+        }
         if (resBody.getSex() != null)
-            compileSexTv.setText(resBody.getSex());
+            if (resBody.getSex().equals("1"))
+                compileSexTv.setText("男");
+            else
+                compileSexTv.setText("女");
         getCity = new GetCity(this);
         optionsPickerView = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
             @Override
@@ -348,35 +365,43 @@ public class MyInfoActivity extends BaseActivity implements MsgView {
     private void complete() {
         String name = compileNameTv.getText().toString();
         String sex = compileSexTv.getText().toString();
-        String address = compileAddressTv.getText().toString();
         String mail = compileMailboxTv.getText().toString();
         String birthday = compileBirthdayTv.getText().toString();
-        String position = compilePositionTv.getText().toString();
-        String department = compileDepartmentTv.getText().toString();
         String phone = compilePhoneTv.getText().toString();
         Map<String, String> map = new HashMap<>();
         map.put("phoneNumber", phone);
-        map.put("headPicByte", photo);
+        if (photo.length() > 5) {
+            resBody.setHeadPic(photo);
+            map.put("headPicByte", photo);
+        }
         map.put("nickName", name);
-        map.put("city", address);
         map.put("sex", sex);
         map.put("birthday", birthday);
         map.put("email", mail);
-        map.put("position", position);
-        map.put("department", department);
+        if (!resBody.getRole().equals("0")) {
+            String address = compileAddressTv.getText().toString();
+            String position = compilePositionTv.getText().toString();
+            String department = compileDepartmentTv.getText().toString();
+            map.put("position", position);
+            map.put("department", department);
+            map.put("city", address);
+            resBody.setPosition(position);
+            resBody.setDepartment(department);
+            resBody.setCity(address);
+        }
         resBody.setBirthday(birthday);
         resBody.setNickName(name);
-        resBody.setCity(address);
         resBody.setSex(sex);
         resBody.setEmail(mail);
-        resBody.setPosition(position);
-        resBody.setDepartment(department);
-        resBody.setHeadPic(photo);
+
         if (mail.length() > 3)
             if (isEmail(mail))
                 updatePresenterImp.updateUser(map);
             else
                 toastor.showSingletonToast("邮箱输入不合法");
+        else if (mail.equals("未设置")) {
+            updatePresenterImp.updateUser(map);
+        }
     }
 
     @Override
@@ -408,4 +433,5 @@ public class MyInfoActivity extends BaseActivity implements MsgView {
         toastor.showSingletonToast("服务器连接失败");
 
     }
+
 }

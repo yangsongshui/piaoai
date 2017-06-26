@@ -8,9 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
-import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -20,6 +18,7 @@ import android.widget.TextView;
 
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.TimePickerView;
+import com.bumptech.glide.Glide;
 import com.example.yangsong.piaoai.R;
 import com.example.yangsong.piaoai.app.MyApplication;
 import com.example.yangsong.piaoai.base.BaseActivity;
@@ -32,6 +31,16 @@ import com.example.yangsong.piaoai.util.GetCity;
 import com.example.yangsong.piaoai.util.Log;
 import com.example.yangsong.piaoai.util.Toastor;
 import com.example.yangsong.piaoai.view.MsgView;
+import com.jph.takephoto.app.TakePhoto;
+import com.jph.takephoto.app.TakePhotoImpl;
+import com.jph.takephoto.compress.CompressConfig;
+import com.jph.takephoto.model.CropOptions;
+import com.jph.takephoto.model.InvokeParam;
+import com.jph.takephoto.model.TContextWrap;
+import com.jph.takephoto.model.TResult;
+import com.jph.takephoto.permission.InvokeListener;
+import com.jph.takephoto.permission.PermissionManager;
+import com.jph.takephoto.permission.TakePhotoInvocationHandler;
 
 import java.io.File;
 import java.util.Date;
@@ -42,11 +51,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.example.yangsong.piaoai.util.AppUtil.bitmap2Bytes;
-import static com.example.yangsong.piaoai.util.AppUtil.hasSdcard;
 import static com.example.yangsong.piaoai.util.AppUtil.isEmail;
 
-public class MyInfoActivity extends BaseActivity implements MsgView {
+public class MyInfoActivity extends BaseActivity implements MsgView, TakePhoto.TakeResultListener, InvokeListener {
     private static final int RESULT = 1;
     private static final int PHOTO_REQUEST_CUT = 2;
     private static final int CODE_CAMERA_REQUEST = 3;
@@ -84,6 +91,8 @@ public class MyInfoActivity extends BaseActivity implements MsgView {
     private ProgressDialog progressDialog = null;
     private UpdatePresenterImp updatePresenterImp = null;
     User.ResBodyBean resBody;
+    private TakePhoto takePhoto;
+    private InvokeParam invokeParam;
 
     @Override
     protected int getContentView() {
@@ -92,6 +101,7 @@ public class MyInfoActivity extends BaseActivity implements MsgView {
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        getTakePhoto().onCreate(savedInstanceState);
         toastor = new Toastor(this);
         initView();
         progressDialog = new ProgressDialog(this);
@@ -148,15 +158,18 @@ public class MyInfoActivity extends BaseActivity implements MsgView {
     private View.OnClickListener itemsOnClick = new View.OnClickListener() {
 
         public void onClick(View v) {
-
+            File file = new File(Environment.getExternalStorageDirectory(), "/temp/" + System.currentTimeMillis() + ".jpg");
+            if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
+            Uri imageUri = Uri.fromFile(file);
+            configCompress(takePhoto);
             switch (v.getId()) {
                 case R.id.compile_photo_tv:
                     //相册
-                    openGallery();
+                    takePhoto.onPickFromGalleryWithCrop(imageUri, getCropOptions());
                     break;
                 case R.id.compile_camera_tv:
                     //相机
-                    openGamera();
+
 
                     break;
                 default:
@@ -168,92 +181,76 @@ public class MyInfoActivity extends BaseActivity implements MsgView {
 
     };
 
-    /**
-     * 打开相机
-     */
-    private void openGamera() {
-        // 跳转至拍照界面
-        Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+    private CropOptions getCropOptions() {
 
-        // 判断存储卡是否可用，存储照片文件
-        if (hasSdcard()) {
-            intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, Uri
-                    .fromFile(new File(Environment
-                            .getExternalStorageDirectory(), IMAGE_FILE_NAME)));
-        }
 
-        startActivityForResult(intentFromCapture, CODE_CAMERA_REQUEST);
+        CropOptions.Builder builder = new CropOptions.Builder();
+        builder.setAspectX(250).setAspectY(250);
+        builder.setOutputX(250).setOutputY(250);
+        builder.setWithOwnCrop(false);
+        return builder.create();
     }
 
-    /**
-     * 打开相册
-     */
-    public void openGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK);// 打开相册
-        intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI, "image/*");
-        intent.setType("image/*");
-        startActivityForResult(intent, RESULT);
-    }
+    private void configCompress(TakePhoto takePhoto) {
 
-    /**
-     * 裁剪图片
-     */
-    private void crop(Uri uri) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        intent.putExtra("crop", "true");
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        intent.putExtra("outputX", 250);
-        intent.putExtra("outputY", 250);
-        intent.putExtra("return-data", true);
-        startActivityForResult(intent, PHOTO_REQUEST_CUT);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RESULT) {
-            if (data != null) {
-                Uri uri = data.getData();
-                crop(uri);
-            }
-        } else if (requestCode == PHOTO_REQUEST_CUT) {
-            if (data != null) {
-                setImageToHeadView(data);
-            }
-        } else if (requestCode == CODE_CAMERA_REQUEST) {
-            if (hasSdcard()) {
-                File tempFile = new File(
-                        Environment.getExternalStorageDirectory(),
-                        IMAGE_FILE_NAME);
-                crop(Uri.fromFile(tempFile));
-            } else {
-                toastor.showSingletonToast("没有SDCard!");
-            }
+        int maxSize = 1024;
+        int width = 250;
+        int height = 250;
+        boolean showProgressBar = false;
+        boolean enableRawFile = false;
+        CompressConfig config;
+        config = new CompressConfig.Builder()
+                .setMaxSize(maxSize)
+                .setMaxPixel(width >= height ? width : height)
+                .enableReserveRaw(enableRawFile)
+                .create();
+        takePhoto.onEnableCompress(config, showProgressBar);
 
 
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-
-    }
-
-    private void setImageToHeadView(Intent intent) {
-        Bundle extras = intent.getExtras();
-        if (extras != null) {
-            bitmap = extras.getParcelable("data");
-            compilePicIv.setImageBitmap(bitmap);
-            byte[] bytes = bitmap2Bytes(bitmap);
-            photo = Base64.encodeToString(bytes, Base64.DEFAULT);
-
-        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        compilePicIv = null;
-        if (bitmap != null)
-            bitmap.recycle();
+
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        //以下代码为处理Android6.0、7.0动态权限所需
+        PermissionManager.TPermissionType type = PermissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionManager.handlePermissionsResult(this, type, invokeParam, this);
+    }
+
+    @Override
+    public PermissionManager.TPermissionType invoke(InvokeParam invokeParam) {
+        PermissionManager.TPermissionType type = PermissionManager.checkPermission(TContextWrap.of(this), invokeParam.getMethod());
+        if (PermissionManager.TPermissionType.WAIT.equals(type)) {
+            this.invokeParam = invokeParam;
+        }
+        return type;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        getTakePhoto().onSaveInstanceState(outState);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        getTakePhoto().onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    public TakePhoto getTakePhoto() {
+        if (takePhoto == null) {
+            takePhoto = (TakePhoto) TakePhotoInvocationHandler.of(this).bind(new TakePhotoImpl(this, this));
+        }
+        return takePhoto;
     }
 
     private void showDialog() {
@@ -431,9 +428,25 @@ public class MyInfoActivity extends BaseActivity implements MsgView {
 
     @Override
     public void loadDataError(Throwable throwable) {
-        Log.e("loadDataError",throwable.getLocalizedMessage());
+        Log.e("loadDataError", throwable.getLocalizedMessage());
         toastor.showSingletonToast("服务器连接失败");
 
     }
 
+    @Override
+    public void takeSuccess(TResult result) {
+        Log.i(MyInfoActivity.class.getName(), "takeSuccess：" + result.getImage().getCompressPath());
+        Glide.with(this).load(new File(result.getImage().getCompressPath())).into(compilePicIv);
+    }
+
+    @Override
+    public void takeFail(TResult result, String msg) {
+        Log.e(MyInfoActivity.class.getName(), "takeFail:" + msg);
+
+    }
+
+    @Override
+    public void takeCancel() {
+        Log.i(MyInfoActivity.class.getName(), "操作已取消");
+    }
 }

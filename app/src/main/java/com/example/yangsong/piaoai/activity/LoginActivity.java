@@ -8,13 +8,14 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.yangsong.piaoai.R;
 import com.example.yangsong.piaoai.app.MyApplication;
 import com.example.yangsong.piaoai.base.BaseActivity;
 import com.example.yangsong.piaoai.bean.User;
 import com.example.yangsong.piaoai.presenter.LoginPresenterImp;
+import com.example.yangsong.piaoai.presenter.ThirdLoginPresenterImp;
+import com.example.yangsong.piaoai.util.Log;
 import com.example.yangsong.piaoai.util.MD5;
 import com.example.yangsong.piaoai.util.SpUtils;
 import com.example.yangsong.piaoai.util.Toastor;
@@ -41,10 +42,12 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
     EditText loginPswEt;
     private ProgressDialog progressDialog = null;
     private LoginPresenterImp loginPresenterImp = null;
+    private ThirdLoginPresenterImp thirdLoginPresenterImp = null;
     private Toastor toastor;
     Boolean IsRemember;
     String psw;
     UMShareAPI mShareAPI;
+    String openid;
 
     @Override
     protected int getContentView() {
@@ -58,6 +61,40 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("登陆中,请稍后");
         loginPresenterImp = new LoginPresenterImp(this, this);
+        thirdLoginPresenterImp = new ThirdLoginPresenterImp(new LoginView() {
+            @Override
+            public void showProgress() {
+
+            }
+
+            @Override
+            public void disimissProgress() {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void loadDataSuccess(User tData) {
+
+                if (tData.getResCode().equals("0")) {
+                    toastor.showSingletonToast(tData.getResMessage());
+                    // tData.getResBody().setPsw(psw);
+                    // tData.getResBody().setPsw(MD5.getMD5("123456"));
+                    MyApplication.newInstance().setUser(tData);
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    finish();
+                } else if (tData.getResMessage().equals("不存在此用户！")) {
+                    toastor.showSingletonToast("认证该账号");
+                    startActivity(new Intent(LoginActivity.this, RegisterActivity.class).putExtra("openid", openid));
+                }
+            }
+
+            @Override
+            public void loadDataError(Throwable throwable) {
+                toastor.showSingletonToast("服务器连接失败");
+            }
+        }, this);
         Boolean IsRemember = SpUtils.getBoolean("remember", true);
         loginJizhuCb.setChecked(IsRemember);
         mShareAPI = UMShareAPI.get(this);
@@ -101,7 +138,7 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
         super.onResume();
         if (MyApplication.newInstance().getUser() != null) {
             User user = MyApplication.newInstance().getUser();
-            psw = user.getResBody().getPsw();
+            psw = user.getResBody().getPassWord();
             loginPresenterImp.loadLogin(user.getResBody().getPhoneNumber(), psw);
         }
     }
@@ -125,8 +162,7 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
     public void loadDataSuccess(User tData) {
         toastor.showSingletonToast(tData.getResMessage());
         if (tData.getResCode().equals("0")) {
-
-            tData.getResBody().setPsw(psw);
+            tData.getResBody().setPassWord(psw);
             MyApplication.newInstance().setUser(tData);
             startActivity(new Intent(this, MainActivity.class));
             finish();
@@ -142,22 +178,29 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
         @Override
         public void onStart(SHARE_MEDIA platform) {
             //授权开始的回调
+            if (progressDialog != null && !progressDialog.isShowing()) {
+                progressDialog.show();
+            }
         }
 
         @Override
         public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
-            Toast.makeText(getApplicationContext(), "Authorize succeed", Toast.LENGTH_SHORT).show();
-
+            Log.e("onComplete", "openid:" + data.get("openid") + "/n gender: " + data.get("gender") + "/niconurl:" + data.get("iconurl"));
+            thirdLoginPresenterImp.loadLogin(data.get("openid"));
+            openid = data.get("openid");
         }
 
         @Override
         public void onError(SHARE_MEDIA platform, int action, Throwable t) {
-            Toast.makeText(getApplicationContext(), "Authorize fail", Toast.LENGTH_SHORT).show();
+            toastor.showSingletonToast("第三方登陆失败");
+
+            Log.e("onError", t.getLocalizedMessage());
         }
 
         @Override
         public void onCancel(SHARE_MEDIA platform, int action) {
-            Toast.makeText(getApplicationContext(), "Authorize cancel", Toast.LENGTH_SHORT).show();
+            toastor.showSingletonToast("第三方登陆取消");
+
         }
     };
 

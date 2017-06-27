@@ -51,6 +51,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.example.yangsong.piaoai.util.AppUtil.bitmapToString;
 import static com.example.yangsong.piaoai.util.AppUtil.isEmail;
 
 public class MyInfoActivity extends BaseActivity implements MsgView, TakePhoto.TakeResultListener, InvokeListener {
@@ -168,9 +169,8 @@ public class MyInfoActivity extends BaseActivity implements MsgView, TakePhoto.T
                     takePhoto.onPickFromGalleryWithCrop(imageUri, getCropOptions());
                     break;
                 case R.id.compile_camera_tv:
+                    takePhoto.onPickFromCaptureWithCrop(imageUri, getCropOptions());
                     //相机
-
-
                     break;
                 default:
                     break;
@@ -185,17 +185,17 @@ public class MyInfoActivity extends BaseActivity implements MsgView, TakePhoto.T
 
 
         CropOptions.Builder builder = new CropOptions.Builder();
-        builder.setAspectX(250).setAspectY(250);
-        builder.setOutputX(250).setOutputY(250);
+        builder.setAspectX(500).setAspectY(500);
+        builder.setOutputX(500).setOutputY(500);
         builder.setWithOwnCrop(false);
         return builder.create();
     }
 
     private void configCompress(TakePhoto takePhoto) {
 
-        int maxSize = 1024;
-        int width = 250;
-        int height = 250;
+        int maxSize = 1024 * 10;
+        int width = 400;
+        int height = 400;
         boolean showProgressBar = false;
         boolean enableRawFile = false;
         CompressConfig config;
@@ -276,20 +276,20 @@ public class MyInfoActivity extends BaseActivity implements MsgView, TakePhoto.T
 
         compilePhoneTv.setText(resBody.getPhoneNumber());
 
-        if (resBody.getBirthday() != null)
+        if (resBody.getBirthday() != null && resBody.getBirthday().length() > 0)
             compileBirthdayTv.setText(resBody.getBirthday());
-        if (resBody.getEmail() != null)
+        if (resBody.getEmail() != null && resBody.getEmail().length() > 0)
             compileMailboxTv.setText(resBody.getEmail());
-        if (resBody.getNickName() != null)
+        if (resBody.getNickName() != null && resBody.getNickName().length() > 0)
             compileNameTv.setText(resBody.getNickName());
         if (resBody.getRole().equals("0")) {
             compile_ll.setVisibility(View.GONE);
         } else {
-            if (resBody.getPosition() != null)
+            if (resBody.getPosition() != null && resBody.getPosition().length() > 0)
                 compilePositionTv.setText(resBody.getPosition());
-            if (resBody.getDepartment() != null)
+            if (resBody.getDepartment() != null && resBody.getDepartment().length() > 0)
                 compileDepartmentTv.setText(resBody.getDepartment());
-            if (resBody.getCity() != null)
+            if (resBody.getCity() != null && resBody.getCity().length() > 0)
                 compileAddressTv.setText(resBody.getCity());
         }
         if (resBody.getHeadPic() != null && resBody.getHeadPic().length() > 5) {
@@ -374,32 +374,42 @@ public class MyInfoActivity extends BaseActivity implements MsgView, TakePhoto.T
         }
         map.put("nickName", name);
         map.put("sex", sex);
-        map.put("birthday", birthday);
-        map.put("email", mail);
+        if (birthday.equals("未设置"))
+            map.put("birthday", "");
+        else
+            map.put("birthday", birthday);
+
         if (!resBody.getRole().equals("0")) {
             String address = compileAddressTv.getText().toString();
             String position = compilePositionTv.getText().toString();
             String department = compileDepartmentTv.getText().toString();
-            map.put("position", position);
-            map.put("department", department);
-            map.put("city", address);
-            resBody.setPosition(position);
-            resBody.setDepartment(department);
-            resBody.setCity(address);
+            if (address.length() > 0 && position.length() > 0 && department.length() > 0) {
+                map.put("position", position);
+                map.put("department", department);
+                map.put("city", address);
+                resBody.setPosition(position);
+                resBody.setDepartment(department);
+                resBody.setCity(address);
+            } else {
+                toastor.showSingletonToast("个人公司地址等信息不能为空");
+                return;
+            }
         }
         resBody.setBirthday(birthday);
         resBody.setNickName(name);
         resBody.setSex(sex);
         resBody.setEmail(mail);
-
-        if (mail.length() > 3)
-            if (isEmail(mail))
-                updatePresenterImp.updateUser(map);
-            else
-                toastor.showSingletonToast("邮箱输入不合法");
-        else if (mail.equals("未设置")) {
+        if (mail.equals("未设置")) {
+            map.put("email", "");
             updatePresenterImp.updateUser(map);
+        } else if (isEmail(mail)) {
+            map.put("email", mail);
+            updatePresenterImp.updateUser(map);
+        } else {
+            toastor.showSingletonToast("邮箱输入不合法");
+            return;
         }
+
     }
 
     @Override
@@ -437,6 +447,7 @@ public class MyInfoActivity extends BaseActivity implements MsgView, TakePhoto.T
     public void takeSuccess(TResult result) {
         Log.i(MyInfoActivity.class.getName(), "takeSuccess：" + result.getImage().getCompressPath());
         Glide.with(this).load(new File(result.getImage().getCompressPath())).into(compilePicIv);
+        photo = bitmapToString(result.getImage().getCompressPath());
     }
 
     @Override

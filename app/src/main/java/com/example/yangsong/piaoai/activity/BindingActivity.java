@@ -55,10 +55,10 @@ public class BindingActivity extends BaseActivity {
                 break;
             default:
                 String deviceID = bindingEt.getText().toString();
-
+                deviceID = deviceID.toLowerCase();
                 if (deviceID.length() == 14){
                     String type = deviceID.substring(0, 2);
-                    if (type.equals("F1")) {
+                    if (type.equals("f1")) {
                         //WiFi设备
                         startActivity(new Intent(this, OneActivity.class).putExtra("deviceID", deviceID));
                     } else {
@@ -81,13 +81,15 @@ public class BindingActivity extends BaseActivity {
             String scanResult = bundle.getString("qr_scan_result");
             //将扫描出的信息显示出来
             bindingEt.setText(scanResult);
+            scanResult = scanResult.toLowerCase();
             if (scanResult.length() == 14){
                 String type = scanResult.substring(0, 2);
-                if (type.equals("F1")) {
+                if (type.equals("f1")) {
                     //WiFi设备
                     startActivity(new Intent(this, OneActivity.class).putExtra("deviceID", scanResult));
                 } else {
                     //无需配置WiFi直接添加设备
+
                     startActivity(new Intent(this, ThreeActivity.class).putExtra("deviceID", scanResult));
                 }
             } else

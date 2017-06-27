@@ -28,7 +28,7 @@ public class MyApplication extends Application {
 
     {
 
-        PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
+        PlatformConfig.setWeixin("wxc17969721937b08c", "9ed65111189e5491a09f5d001cc7326d");
         PlatformConfig.setQQZone("1106247638", "rpOJlkPcBYCMIUOe");
     }
 
@@ -103,7 +103,7 @@ public class MyApplication extends Application {
         Boolean IsRemember = SpUtils.getBoolean("remember", true);
         if (IsRemember) {
             SpUtils.putString("phone", user.getResBody().getPhoneNumber());
-            SpUtils.putString("password", user.getResBody().getPsw());
+            SpUtils.putString("password", user.getResBody().getPassWord());
             Log.e("------", user.toString());
         }
 
@@ -120,7 +120,7 @@ public class MyApplication extends Application {
                 return null;
 
             user.getResBody().setPhoneNumber(phone);
-            user.getResBody().setPsw(password);
+            user.getResBody().setPassWord(password);
             return user;
         } else if (user.getResBody().getPhoneNumber() != null) {
             return user;

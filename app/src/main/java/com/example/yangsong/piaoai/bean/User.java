@@ -6,15 +6,25 @@ package com.example.yangsong.piaoai.bean;
 
 public class User {
 
+
     /**
      * resCode : 0
      * resMessage : 登录成功！
-     * resBody : {"position":"","birthday":"","sex":"","phoneNumber":"12345678901","email":"","nickName":"","department":"","role":"0","headPic":"","date":"2017-06-12 15:43:18","city":""}
+     * resBody : {"position":"","birthday":"","sex":"","phoneNumber":"18212345678","email":"","nickName":"","department":"","role":"0","headPic":"","date":"2017-06-27 14:54:44","passWord":"e10adc3949ba59abbe56e057f20f883e","city":""}
      */
 
     private String resCode;
     private String resMessage;
     private ResBodyBean resBody;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "resCode='" + resCode + '\'' +
+                ", resMessage='" + resMessage + '\'' +
+                ", resBody=" + resBody +
+                '}';
+    }
 
     public String getResCode() {
         return resCode;
@@ -45,13 +55,14 @@ public class User {
          * position :
          * birthday :
          * sex :
-         * phoneNumber : 12345678901
+         * phoneNumber : 18212345678
          * email :
          * nickName :
          * department :
          * role : 0
          * headPic :
-         * date : 2017-06-12 15:43:18
+         * date : 2017-06-27 14:54:44
+         * passWord : e10adc3949ba59abbe56e057f20f883e
          * city :
          */
 
@@ -65,8 +76,8 @@ public class User {
         private String role;
         private String headPic;
         private String date;
+        private String passWord;
         private String city;
-        private String psw;
 
         public String getPosition() {
             return position;
@@ -148,6 +159,14 @@ public class User {
             this.date = date;
         }
 
+        public String getPassWord() {
+            return passWord;
+        }
+
+        public void setPassWord(String passWord) {
+            this.passWord = passWord;
+        }
+
         public String getCity() {
             return city;
         }
@@ -155,41 +174,5 @@ public class User {
         public void setCity(String city) {
             this.city = city;
         }
-
-        public String getPsw() {
-            return psw;
-        }
-
-        public void setPsw(String psw) {
-            if (psw != null && psw.length() >= 6)
-                this.psw = psw;
-        }
-
-        @Override
-        public String toString() {
-            return "ResBodyBean{" +
-                    "position='" + position + '\'' +
-                    ", birthday='" + birthday + '\'' +
-                    ", sex='" + sex + '\'' +
-                    ", phoneNumber='" + phoneNumber + '\'' +
-                    ", email='" + email + '\'' +
-                    ", nickName='" + nickName + '\'' +
-                    ", department='" + department + '\'' +
-                    ", role='" + role + '\'' +
-                    ", headPic='" + headPic + '\'' +
-                    ", date='" + date + '\'' +
-                    ", city='" + city + '\'' +
-                    ", psw='" + psw + '\'' +
-                    '}';
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "resCode='" + resCode + '\'' +
-                ", resMessage='" + resMessage + '\'' +
-                ", resBody=" + resBody +
-                '}';
     }
 }

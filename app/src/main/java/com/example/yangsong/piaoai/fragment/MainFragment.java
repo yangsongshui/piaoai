@@ -64,7 +64,7 @@ public class MainFragment extends BaseFragment {
 
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
-        pm25.setText(facility.get_$Pm25322());
+        pm25.setText(facility.get_$Pm25267());
 
         if (facility.getType().equals("2")) {
             shujv_ll.setVisibility(View.INVISIBLE);
@@ -119,7 +119,7 @@ public class MainFragment extends BaseFragment {
 
 
         }
-        int pm = Integer.parseInt(facility.get_$Pm25322());
+        int pm = Integer.parseInt(facility.get_$Pm25267());
         if (pm >= 0 || pm <= 35) {
             pm_tv.setText("优");
         } else if (pm > 35 || pm <= 75) {

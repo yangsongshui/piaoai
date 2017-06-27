@@ -40,8 +40,29 @@
     <ListView
         android:id="@+id/police_list_lv"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:divider="#00000000"
         android:dividerHeight="9dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp" />
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/write_ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_write" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="暂无故障报告"
+            android:textSize="16sp" />
+    </LinearLayout>
 </LinearLayout>

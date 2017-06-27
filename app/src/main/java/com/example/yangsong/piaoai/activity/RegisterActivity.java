@@ -48,8 +48,10 @@ public class RegisterActivity extends BaseActivity implements MsgView {
     private ProgressDialog progressDialog = null;
     private Toastor toastor;
     String code;
+    String openid;
     private User user;
     private CountDownTimer timer;
+
 
     @Override
     protected int getContentView() {
@@ -58,11 +60,17 @@ public class RegisterActivity extends BaseActivity implements MsgView {
 
     @Override
     protected void init(Bundle savedInstanceState) {
+
+        openid = getIntent().getStringExtra("openid");
         loginPresenterImp = new MsgPresenterImp(this, this);
         toastor = new Toastor(this);
         user = new User();
         if (user.getResBody() == null)
             user.setResBody(new User.ResBodyBean());
+        if (openid != null) {
+            pswEt.setVisibility(View.GONE);
+            psw2Et.setVisibility(View.GONE);
+        }
         getCodePresenterImp = new GetCodePresenterImp(new GetCodeView() {
             @Override
             public void showProgress() {
@@ -127,17 +135,32 @@ public class RegisterActivity extends BaseActivity implements MsgView {
                 String identify = codeEt.getText().toString().trim();
                 Log.e("code", code + " " + identify);
                 if (identify.equals(code))
-                    if (phone.length() == 11 && psw.equals(psw2)) {
-                        Map<String, String> map = new HashMap<>();
-                        map.put("phoneNumber", phone);
-                        map.put("passWord", MD5.getMD5(psw));
-                        map.put("isThird", "0");
-                        map.put("role", "0");
-                        user.getResBody().setPhoneNumber(phone);
-                        user.getResBody().setPsw(MD5.getMD5(psw));
-                        loginPresenterImp.loadWeather(map);
+                    if (phone.length() == 11) {
+                        if (openid != null) {
+                            Map<String, String> map = new HashMap<>();
+                            map.put("phoneNumber", phone);
+                            map.put("passWord", MD5.getMD5("123456"));
+                            map.put("isThird", "1");
+                            map.put("role", "0");
+                            map.put("openID", openid);
+                            user.getResBody().setPhoneNumber(phone);
+                            user.getResBody().setPassWord(MD5.getMD5(psw));
+                            loginPresenterImp.loadWeather(map);
+                        } else {
+                            if (psw.equals(psw2) && psw.length() > 5) {
+                                Map<String, String> map = new HashMap<>();
+                                map.put("phoneNumber", phone);
+                                map.put("passWord", MD5.getMD5(psw));
+                                map.put("isThird", "0");
+                                map.put("role", "0");
+                                user.getResBody().setPhoneNumber(phone);
+                                user.getResBody().setPassWord(MD5.getMD5(psw));
+                                loginPresenterImp.loadWeather(map);
+                            } else
+                                toastor.showSingletonToast("密码输入长度不正确或密码输入不一致");
+                        }
                     } else
-                        toastor.showSingletonToast("手机号输入不正确或密码输入不一致");
+                        toastor.showSingletonToast("手机号输入不正确");
                 else
                     toastor.showSingletonToast("验证码有误");
                 break;

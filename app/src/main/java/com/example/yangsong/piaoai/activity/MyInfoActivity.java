@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -89,8 +88,6 @@ public class MyInfoActivity extends BaseActivity implements TakePhoto.TakeResult
     LinearLayout compile_ll;
     //自定义的弹出框类
     CompilePopupWindow menuWindow;
-    Bitmap bitmap;
-
     private TimePickerView timePickerView;
     private OptionsPickerView optionsPickerView;//地区选择
     private GetCity getCity;
@@ -125,7 +122,6 @@ public class MyInfoActivity extends BaseActivity implements TakePhoto.TakeResult
                 break;
             case R.id.tv_toolbar_right:
                 //提交修改
-                //complete();
                 postAsynHttp();
                 break;
             case R.id.compile_pic_ll:
@@ -369,90 +365,6 @@ public class MyInfoActivity extends BaseActivity implements TakePhoto.TakeResult
         });
         tempDialog.show();
     }
-/*
-    private void complete() {
-        String name = compileNameTv.getText().toString();
-        String sex = compileSexTv.getText().toString();
-        String mail = compileMailboxTv.getText().toString();
-        String birthday = compileBirthdayTv.getText().toString();
-        String phone = compilePhoneTv.getText().toString();
-        Map<String, String> map = new HashMap<>();
-        map.put("phoneNumber", phone);
-        if (photo.length() > 5) {
-            resBody.setHeadPic(photo);
-            map.put("headPicByte", photo);
-        }
-        map.put("nickName", name);
-        map.put("sex", sex);
-        if (birthday.equals("未设置"))
-            map.put("birthday", "");
-        else
-            map.put("birthday", birthday);
-
-        if (!resBody.getRole().equals("0")) {
-            String address = compileAddressTv.getText().toString();
-            String position = compilePositionTv.getText().toString();
-            String department = compileDepartmentTv.getText().toString();
-            if (address.length() > 0 && position.length() > 0 && department.length() > 0) {
-                map.put("position", position);
-                map.put("department", department);
-                map.put("city", address);
-                resBody.setPosition(position);
-                resBody.setDepartment(department);
-                resBody.setCity(address);
-            } else {
-                toastor.showSingletonToast("个人公司地址等信息不能为空");
-                return;
-            }
-        }
-        resBody.setBirthday(birthday);
-        resBody.setNickName(name);
-        resBody.setSex(sex);
-        resBody.setEmail(mail);
-        if (mail.equals("未设置")) {
-            map.put("email", "");
-            updatePresenterImp.updateUser(map);
-        } else if (isEmail(mail)) {
-            map.put("email", mail);
-            updatePresenterImp.updateUser(map);
-        } else {
-            toastor.showSingletonToast("邮箱输入不合法");
-            return;
-        }
-
-    }
-
-    @Override
-    public void showProgress() {
-        if (progressDialog != null && !progressDialog.isShowing()) {
-            progressDialog.show();
-        }
-
-    }
-
-    @Override
-    public void disimissProgress() {
-        if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
-    }
-
-    @Override
-    public void loadDataSuccess(Msg tData) {
-        toastor.showSingletonToast(tData.getResMessage());
-        if (tData.getResCode().equals("0")) {
-            MyApplication.newInstance().getUser().setResBody(resBody);
-            finish();
-        }
-    }
-
-    @Override
-    public void loadDataError(Throwable throwable) {
-        Log.e("loadDataError", throwable.getLocalizedMessage());
-        toastor.showSingletonToast("服务器连接失败");
-
-    }*/
-
     @Override
     public void takeSuccess(TResult result) {
         Log.i(MyInfoActivity.class.getName(), "takeSuccess：" + result.getImage().getCompressPath());
@@ -486,8 +398,7 @@ public class MyInfoActivity extends BaseActivity implements TakePhoto.TakeResult
             //map.put("headPicByte", photo);
             builder.add("headPicByte", photo);
         }
-     /*   map.put("nickName", name);
-        map.put("sex", sex);*/
+
         builder.add("sex", sex)
                 .add("nickName", name);
         if (birthday.equals("未设置"))
@@ -517,13 +428,13 @@ public class MyInfoActivity extends BaseActivity implements TakePhoto.TakeResult
         resBody.setSex(sex);
         resBody.setEmail(mail);
         if (mail.equals("未设置")) {
-            // map.put("email", "");
+
             builder.add("email", "");
-            //  updatePresenterImp.updateUser(map);
+
         } else if (isEmail(mail)) {
-            //map.put("email", mail);
+
             builder.add("email", mail);
-            // updatePresenterImp.updateUser(map);
+
         } else {
             toastor.showSingletonToast("邮箱输入不合法");
             return;

@@ -12,18 +12,22 @@ import android.widget.ImageView;
 import com.example.yangsong.piaoai.R;
 import com.example.yangsong.piaoai.app.MyApplication;
 import com.example.yangsong.piaoai.base.BaseActivity;
+import com.example.yangsong.piaoai.bean.Msg;
 import com.example.yangsong.piaoai.bean.User;
 import com.example.yangsong.piaoai.presenter.LoginPresenterImp;
+import com.example.yangsong.piaoai.presenter.MsgPresenterImp;
 import com.example.yangsong.piaoai.presenter.ThirdLoginPresenterImp;
 import com.example.yangsong.piaoai.util.Log;
 import com.example.yangsong.piaoai.util.MD5;
 import com.example.yangsong.piaoai.util.SpUtils;
 import com.example.yangsong.piaoai.util.Toastor;
 import com.example.yangsong.piaoai.view.LoginView;
+import com.example.yangsong.piaoai.view.MsgView;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -42,6 +46,7 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
     EditText loginPswEt;
     private ProgressDialog progressDialog = null;
     private LoginPresenterImp loginPresenterImp = null;
+    private MsgPresenterImp msgPresenterImp = null;
     private ThirdLoginPresenterImp thirdLoginPresenterImp = null;
     private Toastor toastor;
     Boolean IsRemember;
@@ -61,6 +66,37 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("登陆中,请稍后");
         loginPresenterImp = new LoginPresenterImp(this, this);
+        msgPresenterImp = new MsgPresenterImp(new MsgView() {
+            @Override
+            public void showProgress() {
+                if (progressDialog != null && !progressDialog.isShowing()) {
+                    progressDialog.show();
+                }
+            }
+
+            @Override
+            public void disimissProgress() {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void loadDataSuccess(Msg tData) {
+                if (tData.getResCode().equals("0")){
+                    MyApplication.newInstance().getUser().getResBody().setPhoneNumber(openid);
+                    MyApplication.newInstance().getUser().getResBody().setPassWord(MD5.getMD5("123456"));
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    finish();
+                }
+
+            }
+
+            @Override
+            public void loadDataError(Throwable throwable) {
+
+            }
+        }, this);
         thirdLoginPresenterImp = new ThirdLoginPresenterImp(new LoginView() {
             @Override
             public void showProgress() {
@@ -85,8 +121,14 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
                 } else if (tData.getResMessage().equals("不存在此用户！")) {
-                    toastor.showSingletonToast("认证该账号");
-                    startActivity(new Intent(LoginActivity.this, RegisterActivity.class).putExtra("openid", openid));
+                    Map<String, String> map = new HashMap<>();
+                    map.put("phoneNumber", openid);
+                    map.put("passWord", MD5.getMD5("123456"));
+                    map.put("isThird", "1");
+                    map.put("role", "0");
+                    map.put("openID", openid);
+                    msgPresenterImp.loadWeather(map);
+                    //  startActivity(new Intent(LoginActivity.this, RegisterActivity.class).putExtra("openid", openid));
                 }
             }
 
@@ -136,7 +178,8 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
     @Override
     protected void onResume() {
         super.onResume();
-        if (MyApplication.newInstance().getUser() != null) {
+        Boolean IsRemember = SpUtils.getBoolean("remember", true);
+        if (MyApplication.newInstance().getUser() != null&&IsRemember) {
             User user = MyApplication.newInstance().getUser();
             psw = user.getResBody().getPassWord();
             loginPresenterImp.loadLogin(user.getResBody().getPhoneNumber(), psw);

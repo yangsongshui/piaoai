@@ -22,15 +22,12 @@ import com.bumptech.glide.Glide;
 import com.example.yangsong.piaoai.R;
 import com.example.yangsong.piaoai.app.MyApplication;
 import com.example.yangsong.piaoai.base.BaseActivity;
-import com.example.yangsong.piaoai.bean.Msg;
 import com.example.yangsong.piaoai.bean.User;
 import com.example.yangsong.piaoai.myview.CompilePopupWindow;
-import com.example.yangsong.piaoai.presenter.UpdatePresenterImp;
 import com.example.yangsong.piaoai.util.DateUtil;
 import com.example.yangsong.piaoai.util.GetCity;
 import com.example.yangsong.piaoai.util.Log;
 import com.example.yangsong.piaoai.util.Toastor;
-import com.example.yangsong.piaoai.view.MsgView;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
 import com.jph.takephoto.compress.CompressConfig;
@@ -42,19 +39,29 @@ import com.jph.takephoto.permission.InvokeListener;
 import com.jph.takephoto.permission.PermissionManager;
 import com.jph.takephoto.permission.TakePhotoInvocationHandler;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 import static com.example.yangsong.piaoai.util.AppUtil.bitmapToString;
 import static com.example.yangsong.piaoai.util.AppUtil.isEmail;
+import static com.example.yangsong.piaoai.util.AppUtil.stringtoBitmap;
 
-public class MyInfoActivity extends BaseActivity implements MsgView, TakePhoto.TakeResultListener, InvokeListener {
+public class MyInfoActivity extends BaseActivity implements TakePhoto.TakeResultListener, InvokeListener {
     private static final int RESULT = 1;
     private static final int PHOTO_REQUEST_CUT = 2;
     private static final int CODE_CAMERA_REQUEST = 3;
@@ -90,7 +97,7 @@ public class MyInfoActivity extends BaseActivity implements MsgView, TakePhoto.T
     private String photo = "";
     private Toastor toastor;
     private ProgressDialog progressDialog = null;
-    private UpdatePresenterImp updatePresenterImp = null;
+
     User.ResBodyBean resBody;
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
@@ -107,7 +114,7 @@ public class MyInfoActivity extends BaseActivity implements MsgView, TakePhoto.T
         initView();
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("数据提交中,请稍后");
-        updatePresenterImp = new UpdatePresenterImp(this, this);
+        //  updatePresenterImp = new UpdatePresenterImp(this, this);
     }
 
     @OnClick({R.id.iv_toolbar_left, R.id.tv_toolbar_right, R.id.compile_pic_ll, R.id.compile_name_ll, R.id.compile_sex_ll, R.id.compile_birthday_ll, R.id.compile_mailbox_ll, R.id.compile_phone_ll, R.id.compile_position_ll, R.id.compile_address_ll, R.id.compile_department_ll})
@@ -118,7 +125,8 @@ public class MyInfoActivity extends BaseActivity implements MsgView, TakePhoto.T
                 break;
             case R.id.tv_toolbar_right:
                 //提交修改
-                complete();
+                //complete();
+                postAsynHttp();
                 break;
             case R.id.compile_pic_ll:
                 //点击头像
@@ -162,13 +170,15 @@ public class MyInfoActivity extends BaseActivity implements MsgView, TakePhoto.T
             File file = new File(Environment.getExternalStorageDirectory(), "/temp/" + System.currentTimeMillis() + ".jpg");
             if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
             Uri imageUri = Uri.fromFile(file);
-            configCompress(takePhoto);
+
             switch (v.getId()) {
                 case R.id.compile_photo_tv:
                     //相册
+                    configCompress(takePhoto, 500, 500);
                     takePhoto.onPickFromGalleryWithCrop(imageUri, getCropOptions());
                     break;
                 case R.id.compile_camera_tv:
+                    configCompress(takePhoto, 500, 500);
                     takePhoto.onPickFromCaptureWithCrop(imageUri, getCropOptions());
                     //相机
                     break;
@@ -182,8 +192,6 @@ public class MyInfoActivity extends BaseActivity implements MsgView, TakePhoto.T
     };
 
     private CropOptions getCropOptions() {
-
-
         CropOptions.Builder builder = new CropOptions.Builder();
         builder.setAspectX(500).setAspectY(500);
         builder.setOutputX(500).setOutputY(500);
@@ -191,11 +199,10 @@ public class MyInfoActivity extends BaseActivity implements MsgView, TakePhoto.T
         return builder.create();
     }
 
-    private void configCompress(TakePhoto takePhoto) {
+    private void configCompress(TakePhoto takePhoto, int width, int height) {
 
         int maxSize = 1024 * 10;
-        int width = 400;
-        int height = 400;
+
         boolean showProgressBar = false;
         boolean enableRawFile = false;
         CompressConfig config;
@@ -273,8 +280,10 @@ public class MyInfoActivity extends BaseActivity implements MsgView, TakePhoto.T
 
     private void initView() {
         resBody = MyApplication.newInstance().getUser().getResBody();
-
         compilePhoneTv.setText(resBody.getPhoneNumber());
+        if (resBody.getPhoneNumber().length() > 11)
+            compilePhoneTv.setVisibility(View.INVISIBLE);
+
 
         if (resBody.getBirthday() != null && resBody.getBirthday().length() > 0)
             compileBirthdayTv.setText(resBody.getBirthday());
@@ -295,10 +304,11 @@ public class MyInfoActivity extends BaseActivity implements MsgView, TakePhoto.T
         if (resBody.getHeadPic() != null && resBody.getHeadPic().length() > 5) {
             if (resBody.getHeadPic().contains("http:")) {
                 MyApplication.newInstance().getGlide().load(resBody.getHeadPic()).into(compilePicIv);
-            }
+            } else
+                compilePicIv.setImageBitmap(stringtoBitmap(resBody.getHeadPic()));
         }
         if (resBody.getSex() != null)
-            if (resBody.getSex().equals("1"))
+            if (resBody.getSex().equals("0") || resBody.getSex().equals("男"))
                 compileSexTv.setText("男");
             else
                 compileSexTv.setText("女");
@@ -359,7 +369,7 @@ public class MyInfoActivity extends BaseActivity implements MsgView, TakePhoto.T
         });
         tempDialog.show();
     }
-
+/*
     private void complete() {
         String name = compileNameTv.getText().toString();
         String sex = compileSexTv.getText().toString();
@@ -441,7 +451,7 @@ public class MyInfoActivity extends BaseActivity implements MsgView, TakePhoto.T
         Log.e("loadDataError", throwable.getLocalizedMessage());
         toastor.showSingletonToast("服务器连接失败");
 
-    }
+    }*/
 
     @Override
     public void takeSuccess(TResult result) {
@@ -459,5 +469,104 @@ public class MyInfoActivity extends BaseActivity implements MsgView, TakePhoto.T
     @Override
     public void takeCancel() {
         Log.i(MyInfoActivity.class.getName(), "操作已取消");
+    }
+
+
+    private void postAsynHttp() {
+        FormBody.Builder builder = new FormBody.Builder();
+        String name = compileNameTv.getText().toString();
+        String sex = compileSexTv.getText().toString();
+        String mail = compileMailboxTv.getText().toString();
+        String birthday = compileBirthdayTv.getText().toString();
+        String phone = compilePhoneTv.getText().toString();
+
+        builder.add("phoneNumber", phone);
+        if (photo.length() > 5) {
+            resBody.setHeadPic(photo);
+            //map.put("headPicByte", photo);
+            builder.add("headPicByte", photo);
+        }
+     /*   map.put("nickName", name);
+        map.put("sex", sex);*/
+        builder.add("sex", sex)
+                .add("nickName", name);
+        if (birthday.equals("未设置"))
+            builder.add("birthday", "");
+        else
+            builder.add("birthday", birthday);
+
+
+        if (!resBody.getRole().equals("0")) {
+            String address = compileAddressTv.getText().toString();
+            String position = compilePositionTv.getText().toString();
+            String department = compileDepartmentTv.getText().toString();
+            if (address.length() > 0 && position.length() > 0 && department.length() > 0) {
+                builder.add("position", position);
+                builder.add("department", department);
+                builder.add("city", address);
+                resBody.setPosition(position);
+                resBody.setDepartment(department);
+                resBody.setCity(address);
+            } else {
+                toastor.showSingletonToast("个人公司地址等信息不能为空");
+                return;
+            }
+        }
+        resBody.setBirthday(birthday);
+        resBody.setNickName(name);
+        resBody.setSex(sex);
+        resBody.setEmail(mail);
+        if (mail.equals("未设置")) {
+            // map.put("email", "");
+            builder.add("email", "");
+            //  updatePresenterImp.updateUser(map);
+        } else if (isEmail(mail)) {
+            //map.put("email", mail);
+            builder.add("email", mail);
+            // updatePresenterImp.updateUser(map);
+        } else {
+            toastor.showSingletonToast("邮箱输入不合法");
+            return;
+        }
+        RequestBody formBody = builder.build();
+        OkHttpClient mOkHttpClient = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url("http://47.52.24.148:8080/t_user_app/updateUser?")
+                .post(formBody)
+                .build();
+        Call call = mOkHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        toastor.showSingletonToast("服务器连接失败");
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String str = response.body().string();
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject dataJson = new JSONObject(str);
+                            toastor.showSingletonToast(dataJson.optString("resMessage"));
+                            if (dataJson.optString("resCode").equals("0")){
+                                MyApplication.newInstance().getUser().setResBody(resBody);
+                                finish();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
     }
 }

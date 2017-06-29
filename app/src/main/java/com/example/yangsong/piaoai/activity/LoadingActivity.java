@@ -48,13 +48,13 @@ public class LoadingActivity extends BaseActivity {
     @PermissionGrant(REQUECT_CODE_COARSE)
     public void requestSdcardSuccess() {
         handler.postDelayed(myRunnable, 1500);
-        Toast.makeText(this, "权限获取成功", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, "权限获取成功", Toast.LENGTH_SHORT).show();
     }
 
     @PermissionDenied(REQUECT_CODE_COARSE)
     public void requestSdcardFailed() {
-        Toast.makeText(this, "定位权限获取失败", Toast.LENGTH_SHORT).show();
-
-
+        Toast.makeText(this, "权限获取失败,请重新授权", Toast.LENGTH_SHORT).show();
+        MPermissions.requestPermissions(LoadingActivity.this, REQUECT_CODE_COARSE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA);
     }
 }

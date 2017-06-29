@@ -118,12 +118,14 @@ public class MyApplication extends Application {
             Log.e("------", phone + " " + password);
             if (phone.equals("") || password.equals(""))
                 return null;
-
             user.getResBody().setPhoneNumber(phone);
             user.getResBody().setPassWord(password);
             return user;
-        } else if (user.getResBody().getPhoneNumber() != null) {
-            return user;
+        } else if (user.getResBody() != null) {
+            if (user.getResBody().getPhoneNumber() != null)
+                return user;
+            else
+                return null;
         } else {
             return null;
         }
@@ -131,7 +133,7 @@ public class MyApplication extends Application {
     }
 
     public void outLogin() {
-        user = null;
+        user.setResBody(null);
 
         SpUtils.putString("username", "");
         SpUtils.putString("password", "");

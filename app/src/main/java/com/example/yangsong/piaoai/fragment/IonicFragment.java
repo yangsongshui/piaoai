@@ -52,6 +52,7 @@ public class IonicFragment extends BaseFragment implements FLZView {
     ProgressDialog progressDialog;
     private Map<String, String> map;
     private Toastor toastor;
+    boolean onOff = true;
 
     public IonicFragment(Facility.ResBodyBean.ListBean facility) {
         this.facility = facility;
@@ -59,6 +60,7 @@ public class IonicFragment extends BaseFragment implements FLZView {
 
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
+        toastor = new Toastor(getActivity());
         initView();
         addPresenterImp = new AddPresenterImp(this, getContext());
         reducePresenterImp = new ReducePresenterImp(this, getContext());
@@ -101,7 +103,7 @@ public class IonicFragment extends BaseFragment implements FLZView {
                         .setListener(null);
                 break;
             case R.id.min_tv:
-                map.put("num","1");
+                map.put("num", "1");
                 minPresenterImp.loadWeather(map);
                 Visibility(false, 0);
                 break;
@@ -114,7 +116,7 @@ public class IonicFragment extends BaseFragment implements FLZView {
                 addPresenterImp.loadWeather(map);
                 break;
             case R.id.max_tv:
-                map.put("num","8");
+                map.put("num", "8");
                 Visibility(false, 0);
                 maxPresenterImp.loadWeather(map);
                 break;
@@ -172,11 +174,11 @@ public class IonicFragment extends BaseFragment implements FLZView {
 
     @Override
     public void loadDataSuccess(FLZDevice tData) {
-            if (tData.getResBody().getNum()==0){
-                homeTVOCTv.setText("关");
-            }else {
-                homeTVOCTv.setText(tData.getResBody().getNum() + "组");
-            }
+        if (tData.getResBody().getNum() == 0) {
+            homeTVOCTv.setText("关");
+        } else {
+            homeTVOCTv.setText(tData.getResBody().getNum() + "组");
+        }
     }
 
     @Override

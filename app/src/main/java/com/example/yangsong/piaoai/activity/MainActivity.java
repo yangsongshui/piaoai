@@ -62,7 +62,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
     Facility.ResBodyBean.ListBean device;
     private Handler handler;
     private Runnable myRunnable;
-    private String  type = "0";
+    private String type = "0";
 
     @Override
     protected int getContentView() {
@@ -87,7 +87,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
                 device = mList.get(position);
                 mainTitleTv.setText(device.getDeviceName());
                 Log.e(TAG, device.getDeviceid());
-                type=device.getType();
+                type = device.getType();
                 if (type.equals("3")) {
 
                     tvMainRight.setVisibility(View.GONE);
@@ -110,7 +110,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
             @Override
             public void run() {
                 facilityPresenerImp.findUserDevice(MyApplication.newInstance().getUser().getResBody().getPhoneNumber());
-
+                handler.postDelayed(myRunnable, 60000);
             }
         };
 
@@ -172,6 +172,14 @@ public class MainActivity extends BaseActivity implements FacilityView {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacks(myRunnable);
+        handler = null;
+        facilityPresenerImp = null;
+    }
+
+    @Override
     public void showProgress() {
         if (progressDialog != null && !progressDialog.isShowing()) {
             progressDialog.show();
@@ -199,7 +207,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
                 facility = tData;
                 device = mList.get(0);
                 mainTitleTv.setText(device.getDeviceName());
-                if (device.getType().equals("3")||type.equals("3")) {
+                if (device.getType().equals("3") || type.equals("3")) {
                     tvMainRight.setVisibility(View.GONE);
                 } else {
                     tvMainRight.setVisibility(View.VISIBLE);

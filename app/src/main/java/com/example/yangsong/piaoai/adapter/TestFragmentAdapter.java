@@ -2,7 +2,9 @@ package com.example.yangsong.piaoai.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 
 import com.example.yangsong.piaoai.bean.Facility;
 import com.example.yangsong.piaoai.fragment.IonicFragment;
@@ -11,7 +13,7 @@ import com.viewpagerindicator.IconPagerAdapter;
 
 import java.util.List;
 
-public class TestFragmentAdapter extends FragmentPagerAdapter implements IconPagerAdapter {
+public class TestFragmentAdapter extends FragmentStatePagerAdapter implements IconPagerAdapter {
     List<Facility.ResBodyBean.ListBean> mList;
     private int mCount;
 
@@ -23,6 +25,7 @@ public class TestFragmentAdapter extends FragmentPagerAdapter implements IconPag
 
     @Override
     public Fragment getItem(int position) {
+        Log.e("Fragment", "IonicFragment");
         if (mList.get(position).getType().equals("3")) {
             return new IonicFragment(mList.get(position));
         } else if (mList.get(position).getType().equals("1")) {
@@ -50,4 +53,9 @@ public class TestFragmentAdapter extends FragmentPagerAdapter implements IconPag
         notifyDataSetChanged();
     }
 
+    /*继承FragmentStatePagerAdapter重写改方法 数据和页面可以动态更改*/
+    @Override
+    public int getItemPosition(Object object) {
+        return PagerAdapter.POSITION_NONE;
+    }
 }

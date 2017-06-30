@@ -221,6 +221,7 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
         @Override
         public void onStart(SHARE_MEDIA platform) {
             //授权开始的回调
+
             if (progressDialog != null && !progressDialog.isShowing()) {
                 progressDialog.show();
             }

@@ -171,8 +171,8 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
     private void initView() {
         tabLayout.addTab(tabLayout.newTab().setText("PM2.5"));
         if (type.equals("1")) {
-            tabLayout.addTab(tabLayout.newTab().setText("TVOC"));
             tabLayout.addTab(tabLayout.newTab().setText("CO2"));
+            tabLayout.addTab(tabLayout.newTab().setText("TVOC"));
             tabLayout.addTab(tabLayout.newTab().setText("甲醛"));
             //tabLayout.addTab(tabLayout.newTab().setText("温度"));
             //tabLayout.addTab(tabLayout.newTab().setText("湿度"));

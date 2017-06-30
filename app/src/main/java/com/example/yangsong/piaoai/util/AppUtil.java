@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  * Created by ys on 2017/3/11.
  */
 
-public class AppUtil {
+public class    AppUtil {
 
     /**
      * 检查设备是否存在SDCard的工具方法
@@ -107,27 +107,19 @@ public class AppUtil {
         return bitmap;
     }
 
-    public static void TVOC(Context context, TextView textView, int tvoc) {
-        if (tvoc >= 0 && tvoc <= 35) {
-            textView.setText("优");
-        } else if (tvoc > 35 && tvoc <= 75) {
-            textView.setText("良");
-            textView.setBackground(context.getResources().getDrawable(R.drawable.pm_liang));
-        } else if (tvoc > 75 && tvoc <= 115) {
+    public static void TVOC(Context context, TextView textView, double tvoc) {
+        if (tvoc >= 0.0 && tvoc <= 0.6) {
+            textView.setText("良好");
+            textView.setBackground(context.getResources().getDrawable(R.drawable.point_selected));
+        } else if (tvoc > 0.6 && tvoc <= 1.0) {
             textView.setText("轻度污染");
-            textView.setBackground(context.getResources().getDrawable(R.drawable.pm_qingdu));
-        } else if (tvoc > 116 && tvoc <= 150) {
+            textView.setBackground(context.getResources().getDrawable(R.drawable.pm_liang));
+        } else if (tvoc > 1.1 && tvoc <= 1.6) {
             textView.setText("中度污染");
-            textView.setBackground(context.getResources().getDrawable(R.drawable.pm_zhongdu));
-        } else if (tvoc > 151 && tvoc <= 250) {
+            textView.setBackground(context.getResources().getDrawable(R.drawable.pm_qingdu));
+        } else if (tvoc > 1.6 && tvoc <= 150) {
             textView.setText("重度污染");
-            textView.setBackground(context.getResources().getDrawable(R.drawable.pm_zhong));
-        } else if (tvoc > 251 && tvoc <= 500) {
-            textView.setText("严重污染");
-            textView.setBackground(context.getResources().getDrawable(R.drawable.pm_yanzhong));
-        } else {
-            textView.setText("严重污染");
-            textView.setBackground(context.getResources().getDrawable(R.drawable.pm_yanzhong));
+            textView.setBackground(context.getResources().getDrawable(R.drawable.pm_zhongdu));
         }
     }
 

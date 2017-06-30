@@ -100,7 +100,7 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
         map.put("type", "1");
         //通过格式化输出日期
         String time = DateUtil.getCurrDate(LONG_DATE_FORMAT);
-       map.put("endDate", time + " 24:00");
+        map.put("endDate", time + " 24:00");
         map.put("beginDate", time + " 00:00");
 /*        map.put("beginDate", "2017-06-19 00:00");
         map.put("endDate", "2017-06-19 24:00");*/
@@ -131,6 +131,7 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
             DayUnitTv.setText("%RH");
             DayUnitTv.setVisibility(View.VISIBLE);
         }
+        initYLabel(indext);
     }
 
     @Override
@@ -171,8 +172,7 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
 
         //不画网格
         mChart.getAxisLeft().setDrawGridLines(false);
-        mChart.getAxisLeft().setAxisMaximum(1000);
-        mChart.getAxisLeft().setAxisMinimum(0);
+
         mChart.getAxisLeft().setTextColor(R.color.silver_sand);
 
         XAxis xAxis = mChart.getXAxis();
@@ -180,7 +180,7 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
         xAxis.setAxisMinimum(-0.99f);
         xAxis.setGranularity(0.3f);
         xAxis.setAxisMaximum(23);
-        xAxis.setLabelCount(7,true);
+        xAxis.setLabelCount(7, true);
         xAxis.setTextColor(R.color.spindle);
 
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);//设置X轴在底部
@@ -213,14 +213,13 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
         dyaMsg.setX((h.getXPx() - dyaMsg.getWidth() / 2));
         if (indext == 0) {
             //查询pm2.5
-
             AppUtil.PM2_5(getActivity(), dayMsgTv, (int) e.getY());
         } else if (indext == 1) {
             //查询co2
             AppUtil.CO2(getActivity(), dayMsgTv, (int) e.getY());
         } else if (indext == 2) {
             //TVOC
-            AppUtil.TVOC(getActivity(), dayMsgTv, (int) e.getY());
+            AppUtil.TVOC(getActivity(), dayMsgTv, (double) e.getY());
         } else if (indext == 3) {
             //甲醛
             AppUtil.jiaquan(getActivity(), dayMsgTv, (int) e.getY());
@@ -338,6 +337,9 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
                 DayUnitTv.setText("PPM");
                 codataPresenterImp.binding(map);
                 DayUnitTv.setVisibility(View.VISIBLE);
+                mChart.getAxisLeft().setAxisMaximum(1500);
+                mChart.getAxisLeft().setAxisMinimum(0);
+
                 break;
             case 2:
                 DayUnitTv.setVisibility(View.INVISIBLE);
@@ -357,10 +359,53 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
                 // 湿度
                 DayUnitTv.setText("%RH");
                 DayUnitTv.setVisibility(View.VISIBLE);
+               break;
+            default:
+                break;
+        }
+        initYLabel(position);
+    }
+    private void initYLabel(int type){
+        switch (type) {
+            case 0:
+                //PM2.5
+                mChart.getAxisLeft().setAxisMaximum(1000);
+                mChart.getAxisLeft().setAxisMinimum(0);
+                break;
+            case 1:
+                //CO2
+                mChart.getAxisLeft().setAxisMaximum(1500);
+                mChart.getAxisLeft().setAxisMinimum(0);
+                break;
+            case 2:
+                //tvoc
+                mChart.getAxisLeft().setAxisMaximum(1000);
+                mChart.getAxisLeft().setAxisMinimum(0);
+
+                break;
+            case 3:
+                //甲醛
+                mChart.getAxisLeft().setAxisMaximum((float)1.6);
+                mChart.getAxisLeft().setAxisMinimum(0);
+                break;
+            case 4:
+                //温度
+                mChart.getAxisLeft().setAxisMaximum(40);
+                mChart.getAxisLeft().setAxisMinimum(-20);
+
+                break;
+            case 5:
+                // 湿度
+
+                mChart.getAxisLeft().setAxisMaximum(100);
+                mChart.getAxisLeft().setAxisMinimum(0);
+
                 break;
             default:
                 break;
         }
-
+        mChart.getAxisLeft().setLabelCount(6,true);
+        mChart.notifyDataSetChanged();
+        mChart.invalidate();
     }
 }

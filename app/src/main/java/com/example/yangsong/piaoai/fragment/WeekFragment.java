@@ -137,6 +137,7 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
             DayUnitTv.setVisibility(View.VISIBLE);
             DayUnitTv.setText("%RH");
         }
+        initYLabel(indext);
     }
 
     @Override
@@ -344,17 +345,18 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
         dyaMsg.setVisibility(View.INVISIBLE);
         int position = event.getMsg();
         Log.e(TAG, position + "");
-        indext=position;
+        indext = position;
         switch (position) {
             case 0:
                 DayUnitTv.setText("μg/m³");
-                DayUnitTv.setVisibility(View.VISIBLE);
                 pMdataPresenterImp.binding(map);
+                DayUnitTv.setVisibility(View.VISIBLE);
                 break;
             case 1:
                 DayUnitTv.setText("PPM");
-                DayUnitTv.setVisibility(View.VISIBLE);
                 codataPresenterImp.binding(map);
+                DayUnitTv.setVisibility(View.VISIBLE);
+
                 break;
             case 2:
                 DayUnitTv.setVisibility(View.INVISIBLE);
@@ -369,6 +371,9 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
                 //温度
                 DayUnitTv.setText("℃");
                 DayUnitTv.setVisibility(View.VISIBLE);
+                mChart.getAxisLeft().setAxisMaximum(40);
+                mChart.getAxisLeft().setAxisMinimum(-20);
+
                 break;
             case 5:
                 // 湿度
@@ -378,6 +383,49 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
             default:
                 break;
         }
+        initYLabel(position);
+    }
+    private void initYLabel(int type){
+        switch (type) {
+            case 0:
+                //PM2.5
+                mChart.getAxisLeft().setAxisMaximum(1000);
+                mChart.getAxisLeft().setAxisMinimum(0);
+                break;
+            case 1:
+                //CO2
+                mChart.getAxisLeft().setAxisMaximum(1500);
+                mChart.getAxisLeft().setAxisMinimum(0);
+                break;
+            case 2:
+                //tvoc
+                mChart.getAxisLeft().setAxisMaximum(1000);
+                mChart.getAxisLeft().setAxisMinimum(0);
 
+                break;
+            case 3:
+                //甲醛
+                mChart.getAxisLeft().setAxisMaximum((float)1.6);
+                mChart.getAxisLeft().setAxisMinimum(0);
+                break;
+            case 4:
+                //温度
+                mChart.getAxisLeft().setAxisMaximum(40);
+                mChart.getAxisLeft().setAxisMinimum(-20);
+
+                break;
+            case 5:
+                // 湿度
+
+                mChart.getAxisLeft().setAxisMaximum(100);
+                mChart.getAxisLeft().setAxisMinimum(0);
+
+                break;
+            default:
+                break;
+        }
+        mChart.getAxisLeft().setLabelCount(6,true);
+        mChart.notifyDataSetChanged();
+        mChart.invalidate();
     }
 }

@@ -236,14 +236,18 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
         @Override
         public void onError(SHARE_MEDIA platform, int action, Throwable t) {
             toastor.showSingletonToast("第三方登陆失败");
-
+            if (progressDialog != null && progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
             Log.e("onError", t.getLocalizedMessage());
         }
 
         @Override
         public void onCancel(SHARE_MEDIA platform, int action) {
             toastor.showSingletonToast("第三方登陆取消");
-
+            if (progressDialog != null && progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
         }
     };
 

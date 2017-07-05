@@ -35,6 +35,7 @@ public class DeployActivity extends BaseActivity implements OnSmartLinkListener 
     TextView wifiName;
     Toastor toastor;
     String  deviceID;
+    String sn;
     public static ISmartLinker mSnifferSmartLinker;
     ProgressDialog progressDialog;
     @Override
@@ -46,6 +47,7 @@ public class DeployActivity extends BaseActivity implements OnSmartLinkListener 
     protected void init(Bundle savedInstanceState) {
         toastor = new Toastor(this);
         deviceID=getIntent().getStringExtra("deviceID");
+        sn=getIntent().getStringExtra("sn");
         progressDialog = new ProgressDialog(this);
         //progressDialog.setTitle();
         progressDialog.setMessage("配置中,请稍后");
@@ -133,7 +135,7 @@ public class DeployActivity extends BaseActivity implements OnSmartLinkListener 
         //连接成功
         Log.e("----------", "连接成功");
         toastor.showSingletonToast("配网成功");
-        startActivity(new Intent(this, ThreeActivity.class).putExtra("deviceID",deviceID));
+        startActivity(new Intent(this, ThreeActivity.class).putExtra("deviceID",deviceID).putExtra("sn",sn));
     }
 
     @Override

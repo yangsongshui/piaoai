@@ -21,7 +21,7 @@ import butterknife.OnClick;
 public class OneActivity extends BaseActivity {
     String deviceID;
     Toastor toastor;
-
+    String sn;
     @Override
     protected int getContentView() {
         return R.layout.activity_one;
@@ -30,6 +30,7 @@ public class OneActivity extends BaseActivity {
     @Override
     protected void init(Bundle savedInstanceState) {
         deviceID = getIntent().getStringExtra("deviceID");
+        sn = getIntent().getStringExtra("sn");
         toastor = new Toastor(this);
     }
 
@@ -41,7 +42,7 @@ public class OneActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.one_tv:
-                startActivity(new Intent(this, DeployActivity.class).putExtra("deviceID", deviceID));
+                startActivity(new Intent(this, DeployActivity.class).putExtra("deviceID", deviceID).putExtra("sn",sn));
                 break;
         }
     }

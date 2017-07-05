@@ -22,6 +22,8 @@ public class BindingActivity extends BaseActivity {
     private final static int REQUECT_CODE_COARSE = 1;
     @BindView(R.id.binding_et)
     EditText bindingEt;
+    @BindView(R.id.binding_sn_et)
+    EditText bidingSnEt;
     //打开扫描界面请求码
     private int REQUEST_CODE = 0x01;
     //扫描成功返回码
@@ -55,15 +57,16 @@ public class BindingActivity extends BaseActivity {
                 break;
             default:
                 String deviceID = bindingEt.getText().toString();
+                String sn = bidingSnEt.getText().toString();
                 deviceID = deviceID.toLowerCase();
-                if (deviceID.length() == 14){
+                if (deviceID.length() == 14 && sn.length() == 8) {
                     String type = deviceID.substring(0, 2);
                     if (type.equals("f1")) {
                         //WiFi设备
-                        startActivity(new Intent(this, OneActivity.class).putExtra("deviceID", deviceID));
+                        startActivity(new Intent(this, OneActivity.class).putExtra("deviceID", deviceID).putExtra("sn",sn));
                     } else {
                         //无需配置WiFi直接添加设备
-                        startActivity(new Intent(this, ThreeActivity.class).putExtra("deviceID", deviceID));
+                        startActivity(new Intent(this, ThreeActivity.class).putExtra("deviceID", deviceID).putExtra("sn",sn));
                     }
                 } else
                     toastor.showSingletonToast("设备ID不合法,请检查");
@@ -78,19 +81,20 @@ public class BindingActivity extends BaseActivity {
         //扫描结果回调
         if (resultCode == RESULT_OK) { //RESULT_OK = -1
             Bundle bundle = data.getExtras();
-            String scanResult = bundle.getString("qr_scan_result");
+            String scanResult = bundle.getString("qr_scan_result").toLowerCase();
+            String result = scanResult.substring(0, scanResult.indexOf("-"));
+            String sn = scanResult.substring(scanResult.indexOf("-") +1, scanResult.length());
             //将扫描出的信息显示出来
-            bindingEt.setText(scanResult);
-            scanResult = scanResult.toLowerCase();
-            if (scanResult.length() == 14){
+            bindingEt.setText(result);
+            bidingSnEt.setText(sn);
+            if (result.length() == 14&&sn.length() == 8) {
                 String type = scanResult.substring(0, 2);
                 if (type.equals("f1")) {
                     //WiFi设备
-                    startActivity(new Intent(this, OneActivity.class).putExtra("deviceID", scanResult));
+                    startActivity(new Intent(this, OneActivity.class).putExtra("deviceID", result).putExtra("sn",sn));
                 } else {
                     //无需配置WiFi直接添加设备
-
-                    startActivity(new Intent(this, ThreeActivity.class).putExtra("deviceID", scanResult));
+                    startActivity(new Intent(this, ThreeActivity.class).putExtra("deviceID", result).putExtra("sn",sn));
                 }
             } else
                 toastor.showSingletonToast("设备ID不合法,请检查");

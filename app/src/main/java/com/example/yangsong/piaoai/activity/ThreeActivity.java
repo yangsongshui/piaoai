@@ -36,7 +36,7 @@ public class ThreeActivity extends BaseActivity implements MsgView {
     ProgressDialog progressDialog;
     BindingPresenterImp bindingPresenterImp;
     Toastor toastor;
-
+    String sn;
     @Override
     protected int getContentView() {
         return R.layout.activity_three;
@@ -45,6 +45,7 @@ public class ThreeActivity extends BaseActivity implements MsgView {
     @Override
     protected void init(Bundle savedInstanceState) {
         deviceID = getIntent().getStringExtra("deviceID");
+        sn = getIntent().getStringExtra("sn");
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("设备绑定中...");
         bindingPresenterImp = new BindingPresenterImp(this, this);
@@ -70,6 +71,7 @@ public class ThreeActivity extends BaseActivity implements MsgView {
                         map.put("deviceID", deviceID);
                         map.put("deviceName", name);
                         map.put("devicePosition", address);
+                        map.put("sn", sn);
                         bindingPresenterImp.binding(map);
                     } else {
                         toastor.showSingletonToast("设备名字不能为空");

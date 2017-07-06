@@ -112,6 +112,7 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
     PMdataPresenterImp pMdataPresenterImp;
     List<String> mList;
     ProgressDialog progressDialog;
+
     @Override
     protected int getContentView() {
         return R.layout.activity_history;
@@ -123,6 +124,7 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
         String deviceID = getIntent().getStringExtra("deviceID");
         type = getIntent().getStringExtra("type");
         indext = getIntent().getIntExtra("indext", 0);
+
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("正在分享...");
         pMdataPresenterImp = new PMdataPresenterImp(this, this);
@@ -332,7 +334,7 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
         xAxis.setAxisMinimum(-0.5f);
         xAxis.setGranularity(0.3f);
         xAxis.setAxisMaximum(23);
-        xAxis.setLabelCount(7,true);
+        xAxis.setLabelCount(7, true);
         xAxis.setTextColor(Color.rgb(255, 255, 255));
         xAxis.setAxisLineColor(Color.argb(148, 255, 255, 255));
         xAxis.setTextSize(10);
@@ -361,12 +363,12 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
 
         ArrayList<Entry> values1 = new ArrayList<>();
 
-        for (int i = 2, j = 0; i < 26; i++, j++) {
+        for (int i = 0; i < 24; i++) {
             // Log.e(TAG, mList.get(i)+" " + i );
-            if (i >=  mList.size()) {
-                values1.add(new Entry(j, 0));
+            if (i >= (mList.size())) {
+                values1.add(new Entry(i, 0));
             } else
-                values1.add(new Entry(j, Integer.parseInt(mList.get(i))));
+                values1.add(new Entry(i, Integer.parseInt(mList.get(i))));
         }
 
         LineDataSet set1;
@@ -494,8 +496,7 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
     @Override
     public void loadDataSuccess(PMBean tData) {
         if (tData.getResBody().getList().size() > 0) {
-            mList = tData.getResBody().getList().get(0);
-            mList.remove(mList.size() - 1);
+            mList = tData.getResBody().getList();
         }
         CombinedData data = new CombinedData();
         data.setData(getLineData());
@@ -562,7 +563,7 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
         image.compressStyle = UMImage.CompressStyle.QUALITY;
         new ShareAction(HistoryActivity.this).setPlatform(platform)
                 .withText("飘爱检测仪")
-               .withMedia(image)
+                .withMedia(image)
                 .setCallback(umShareListener)
                 .share();
     }

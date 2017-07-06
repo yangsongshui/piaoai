@@ -102,8 +102,8 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
         String time = DateUtil.getCurrDate(LONG_DATE_FORMAT);
         map.put("endDate", time + " 24:00");
         map.put("beginDate", time + " 00:00");
-/*        map.put("beginDate", "2017-06-19 00:00");
-        map.put("endDate", "2017-06-19 24:00");*/
+    /*  map.put("beginDate", "2017-07-02 00:00");
+        map.put("endDate", "2017-07-02 24:00");*/
         if (indext == 0) {
             //查询pm2.5
             DayUnitTv.setText("μg/m³");
@@ -243,12 +243,12 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
     private LineData getdayData() {
 
         ArrayList<Entry> values1 = new ArrayList<>();
-        for (int i = 2, j = 0; i < 26; i++, j++) {
+        for (int i = 0; i < 24; i++) {
             // Log.e(TAG, mList.get(i)+" " + i );
             if (i >= (mList.size())) {
-                values1.add(new Entry(j, 0));
+                values1.add(new Entry(i, 0));
             } else
-                values1.add(new Entry(j, Integer.parseInt(mList.get(i))));
+                values1.add(new Entry(i, Integer.parseInt(mList.get(i))));
         }
 
 
@@ -296,8 +296,8 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
         toastor.showSingletonToast(tData.getResMessage());
         if (tData.getResCode().equals("0")) {
             if (tData.getResBody().getList().size() > 0) {
-                mList = tData.getResBody().getList().get(0);
-                mList.remove(mList.size() - 1);
+                mList = tData.getResBody().getList();
+                //mList.remove(mList.size() - 1);
             }
             CombinedData data = new CombinedData();
             data.setData(getdayData());
@@ -359,13 +359,14 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
                 // 湿度
                 DayUnitTv.setText("%RH");
                 DayUnitTv.setVisibility(View.VISIBLE);
-               break;
+                break;
             default:
                 break;
         }
         initYLabel(position);
     }
-    private void initYLabel(int type){
+
+    private void initYLabel(int type) {
         switch (type) {
             case 0:
                 //PM2.5
@@ -385,7 +386,7 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
                 break;
             case 3:
                 //甲醛
-                mChart.getAxisLeft().setAxisMaximum((float)1.6);
+                mChart.getAxisLeft().setAxisMaximum((float) 1.6);
                 mChart.getAxisLeft().setAxisMinimum(0);
                 break;
             case 4:
@@ -404,7 +405,7 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
             default:
                 break;
         }
-        mChart.getAxisLeft().setLabelCount(6,true);
+        mChart.getAxisLeft().setLabelCount(6, true);
         mChart.notifyDataSetChanged();
         mChart.invalidate();
     }

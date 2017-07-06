@@ -7,11 +7,10 @@ import java.util.List;
  */
 
 public class PMBean {
-
     /**
      * resCode : 0
      * resMessage : 查询成功！
-     * resBody : {"list":[["1","F1:03:00:00:01","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","2017-06-19 10:25:22.0"]]}
+     * resBody : {"list":["0","0","0","0","0","0","0","0","0","0","0","0"]}
      */
 
     private String resCode;
@@ -43,13 +42,13 @@ public class PMBean {
     }
 
     public static class ResBodyBean {
-        private List<List<String>> list;
+        private List<String> list;
 
-        public List<List<String>> getList() {
+        public List<String> getList() {
             return list;
         }
 
-        public void setList(List<List<String>> list) {
+        public void setList(List<String> list) {
             this.list = list;
         }
     }

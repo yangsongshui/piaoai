@@ -125,7 +125,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
                 activityMain.openDrawer(GravityCompat.START);
                 break;
             case R.id.tv_main_right:
-
+                Log.e("init", device.getDeviceid() + " " + type);
                 if (mList.size() > 0)
                     startActivity(new Intent(this, HistoryActivity.class).putExtra("deviceID", device.getDeviceid()).putExtra("type", device.getType()));
                 else
@@ -205,7 +205,10 @@ public class MainActivity extends BaseActivity implements FacilityView {
                 mAdapter.setCount(tData.getResBody().getList());
                 indicator.notifyDataSetChanged();
                 facility = tData;
-                device = mList.get(0);
+                if (!isOne){
+                    isOne = true;
+                    device = mList.get(0);
+                }
                 mainTitleTv.setText(device.getDeviceName());
                 if (device.getType().equals("3") || type.equals("3")) {
                     tvMainRight.setVisibility(View.GONE);

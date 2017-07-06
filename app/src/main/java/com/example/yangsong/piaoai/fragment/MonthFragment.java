@@ -217,13 +217,13 @@ public class MonthFragment extends BaseFragment implements OnChartValueSelectedL
 
 
         ArrayList<Entry> values1 = new ArrayList<>();
-        for (int i = 2, j = 0; i < 33; i++, j++) {
-            if (i >= mList.size() - 1) {
+        for (int i = 0; i < 30; i++) {
+            if (i >= mList.size() ) {
                 Log.e(TAG, i + "");
-                values1.add(new Entry(j, 0));
+                values1.add(new Entry(i, 0));
             } else {
-                // Log.e(TAG,  mList.get(i) );
-                values1.add(new Entry(j, Integer.parseInt(mList.get(i))));
+
+                values1.add(new Entry(i, Integer.parseInt(mList.get(i))));
             }
 
         }
@@ -303,7 +303,7 @@ public class MonthFragment extends BaseFragment implements OnChartValueSelectedL
         toastor.showSingletonToast(tData.getResMessage());
         if (tData.getResCode().equals("0")) {
             if (tData.getResBody().getList().size() > 0) {
-                mList = tData.getResBody().getList().get(0);
+                mList = tData.getResBody().getList();
 
             }
             CombinedData data = new CombinedData();

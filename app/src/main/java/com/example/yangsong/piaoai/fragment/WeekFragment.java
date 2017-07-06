@@ -225,12 +225,12 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
 
     private LineData getLineData() {
         ArrayList<Entry> values1 = new ArrayList<>();
-        for (int i = 2, j = 0; i < 9; i++, j++) {
+        for (int i = 0; i < 7; i++) {
            // Log.e(TAG, mList.get(i) + " " + i);
             if (i >= (mList.size())) {
-                values1.add(new Entry(j, 0));
+                values1.add(new Entry(i, 0));
             } else
-                values1.add(new Entry(j, Integer.parseInt(mList.get(i))));
+                values1.add(new Entry(i, Integer.parseInt(mList.get(i))));
         }
         LineDataSet set1;
         if (mChart.getData() != null &&
@@ -306,8 +306,8 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
         toastor.showSingletonToast(tData.getResMessage());
         if (tData.getResCode().equals("0")) {
             if (tData.getResBody().getList().size() > 0) {
-                mList = tData.getResBody().getList().get(0);
-                mList.remove(mList.size() - 1);
+                mList = tData.getResBody().getList();
+
             }
             CombinedData data = new CombinedData();
             data.setData(getLineData());

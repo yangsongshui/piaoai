@@ -183,9 +183,9 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);//设置X轴在底部
         //不画网格
         xAxis.setDrawGridLines(false);
-        xAxis.setAxisMaximum(12);
+        xAxis.setAxisMaximum(11);
         xAxis.setValueFormatter(new IAxisValueFormatter() {
-            String[] tiem = new String[]{"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60"};
+            String[] tiem = new String[]{ "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60"};
 
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
@@ -204,12 +204,11 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
 
     private LineData gettimeData() {
         ArrayList<Entry> values1 = new ArrayList<>();
-        for (int i = 2, j = 0; i < 15; i++, j++) {
-            Log.e(TAG, mList.size() + " " + i);
+        for (int i = 0; i < 12; i++) {
             if (i >= (mList.size())) {
-                values1.add(new Entry(j, 0));
+                values1.add(new Entry(i, 0));
             } else
-                values1.add(new Entry(j, Integer.parseInt(mList.get(i))));
+                values1.add(new Entry(i, Integer.parseInt(mList.get(i))));
         }
 
         LineDataSet set1;
@@ -289,8 +288,8 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
         toastor.showSingletonToast(tData.getResMessage());
         if (tData.getResCode().equals("0")) {
             if (tData.getResBody().getList().size() > 0) {
-                mList = tData.getResBody().getList().get(0);
-                mList.remove(mList.size() - 1);
+                mList = tData.getResBody().getList();
+
             }
             CombinedData data = new CombinedData();
             data.setData(gettimeData());

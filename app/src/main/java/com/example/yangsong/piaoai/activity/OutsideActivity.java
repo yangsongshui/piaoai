@@ -126,12 +126,13 @@ public class OutsideActivity extends BaseActivity {
                     Log.e("定位数据", aMapLocation.getCity());
                     locationTv.setText(aMapLocation.getCity());
                     ServiceApi service = retrofit.create(ServiceApi.class);
-                    Call<Weather> call = service.getWeather(aMapLocation.getCity(),"1");
+                    Call<Weather> call = service.getWeather(aMapLocation.getCity(), "1");
                     call.enqueue(new Callback<Weather>() {
                         @Override
                         public void onResponse(Call<Weather> call, Response<Weather> response) {
                             //请求成功操作
                             Weather weather = response.body();
+                            Log.e("weather", weather.toString());
                             if (weather.getShowapi_res_code() == 0) {
                                 initWeather(weather);
                             } else {
@@ -165,13 +166,13 @@ public class OutsideActivity extends BaseActivity {
         MyApplication.newInstance().getGlide().load(weather.getShowapi_res_body().getF2().getDay_weather_pic()).into(tomorrowIv);
         MyApplication.newInstance().getGlide().load(weather.getShowapi_res_body().getF3().getDay_weather_pic()).into(tomorrow2Iv);
         MyApplication.newInstance().getGlide().load(weather.getShowapi_res_body().getF4().getDay_weather_pic()).into(tomorrow3Iv);
-        tomorrow2Tv.setText(dayNames[weather.getShowapi_res_body().getF3().getWeekday()]);
-        tomorrow3Tv.setText(dayNames[weather.getShowapi_res_body().getF4().getWeekday()]);
+        tomorrow2Tv.setText(dayNames[weather.getShowapi_res_body().getF3().getWeekday() - 1]);
+        tomorrow3Tv.setText(dayNames[weather.getShowapi_res_body().getF4().getWeekday() -1]);
         tomorrowWenduTv.setText(weather.getShowapi_res_body().getF2().getNight_air_temperature() + "/" + weather.getShowapi_res_body().getF2().getDay_air_temperature() + "℃");
         tomorrow2WenduTv.setText(weather.getShowapi_res_body().getF3().getNight_air_temperature() + "/" + weather.getShowapi_res_body().getF3().getDay_air_temperature() + "℃");
         tomorrow3WenduTv.setText(weather.getShowapi_res_body().getF4().getNight_air_temperature() + "/" + weather.getShowapi_res_body().getF4().getDay_air_temperature() + "℃");
         historyTianqiTv.setText(weather.getShowapi_res_body().getNow().getWeather());
-        historyWenduTv.setText(weather.getShowapi_res_body().getNow().getTemperature()+"℃");
+        historyWenduTv.setText(weather.getShowapi_res_body().getNow().getTemperature() + "℃");
         outsidePm.setText(weather.getShowapi_res_body().getNow().getAqiDetail().getPm2_5());
         shiduTv.setText(weather.getShowapi_res_body().getNow().getSd());
         ziwaixianTv.setText(weather.getShowapi_res_body().getF1().getZiwaixian());
@@ -199,4 +200,9 @@ public class OutsideActivity extends BaseActivity {
         progressDialog.dismiss();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
 }

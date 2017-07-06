@@ -151,6 +151,8 @@ public class Weather {
             return f4;
         }
 
+
+
         public void setF4(F4Bean f4) {
             this.f4 = f4;
         }

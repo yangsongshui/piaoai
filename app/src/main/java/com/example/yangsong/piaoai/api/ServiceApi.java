@@ -5,6 +5,7 @@ import com.example.yangsong.piaoai.bean.Facility;
 import com.example.yangsong.piaoai.bean.Identify;
 import com.example.yangsong.piaoai.bean.Msg;
 import com.example.yangsong.piaoai.bean.PMBean;
+import com.example.yangsong.piaoai.bean.TVOC;
 import com.example.yangsong.piaoai.bean.User;
 import com.example.yangsong.piaoai.bean.Weather;
 
@@ -86,15 +87,15 @@ public interface ServiceApi {
 
     //查询CO2历史数据
     @POST("getHistoryDataByCO2?")
-    Observable<PMBean> getHistoryDataByCO2(@QueryMap Map<String, String> map);
+    Observable<TVOC> getHistoryDataByCO2(@QueryMap Map<String, String> map);
 
     //查询TVOC历史数据
     @POST("getHistoryDataByTVOC?")
-    Observable<PMBean> getHistoryDataByTVOC(@QueryMap Map<String, String> map);
+    Observable<TVOC> getHistoryDataByTVOC(@QueryMap Map<String, String> map);
 
     //查询甲醛历史数据
     @POST("getHistoryDataByJIAQUAN?")
-    Observable<PMBean> getHistoryDataByJIAQUAN(@QueryMap Map<String, String> map);
+    Observable<TVOC> getHistoryDataByJIAQUAN(@QueryMap Map<String, String> map);
 
     //天气查询接口
     @POST("9-2?showapi_appid=40725&showapi_sign=af0b4f5fee3e41169842eb6093b693f4")
@@ -106,15 +107,15 @@ public interface ServiceApi {
 
     //查询CO2时历史数据
     @POST("getHourDataByCO2?")
-    Observable<PMBean> getHourDataByCO2(@QueryMap Map<String, String> map);
+    Observable<TVOC> getHourDataByCO2(@QueryMap Map<String, String> map);
 
     //查询TVOC时历史数据
     @POST("getHourDataByTVOC?")
-    Observable<PMBean> getHourDataByTVOC(@QueryMap Map<String, String> map);
+    Observable<TVOC> getHourDataByTVOC(@QueryMap Map<String, String> map);
 
     //查询甲醛时历史数据
     @POST("getHourDataByJIAQUAN?")
-    Observable<PMBean> getHourDataByJIAQUAN(@QueryMap Map<String, String> map);
+    Observable<TVOC> getHourDataByJIAQUAN(@QueryMap Map<String, String> map);
 
     //开启除霾设备
     @POST("openFlzCM?")

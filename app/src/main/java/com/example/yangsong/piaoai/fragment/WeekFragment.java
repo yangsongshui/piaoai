@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.yangsong.piaoai.R;
 import com.example.yangsong.piaoai.base.BaseFragment;
 import com.example.yangsong.piaoai.bean.PMBean;
+import com.example.yangsong.piaoai.bean.TVOC;
 import com.example.yangsong.piaoai.inter.FragmentEvent;
 import com.example.yangsong.piaoai.presenter.CodataPresenterImp;
 import com.example.yangsong.piaoai.presenter.MethanalPresenterImp;
@@ -24,6 +25,7 @@ import com.example.yangsong.piaoai.util.AppUtil;
 import com.example.yangsong.piaoai.util.DateUtil;
 import com.example.yangsong.piaoai.util.Toastor;
 import com.example.yangsong.piaoai.view.PMView;
+import com.example.yangsong.piaoai.view.TVOCView;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -56,7 +58,7 @@ import static com.example.yangsong.piaoai.util.DateUtil.LONG_DATE_FORMAT;
  * A simple {@link Fragment} subclass.
  */
 @SuppressLint("ValidFragment")
-public class WeekFragment extends BaseFragment implements OnChartValueSelectedListener, PMView {
+public class WeekFragment extends BaseFragment implements OnChartValueSelectedListener, TVOCView {
     private final static String TAG = WeekFragment.class.getSimpleName();
     @BindView(R.id.week_chart)
     CombinedChart mChart;
@@ -97,7 +99,42 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
         codataPresenterImp = new CodataPresenterImp(this, getActivity());
         methanalPresenterImp = new MethanalPresenterImp(this, getActivity());
         tvoCdataPresenterImp = new TVOCdataPresenterImp(this, getActivity());
-        pMdataPresenterImp = new PMdataPresenterImp(this, getActivity());
+        pMdataPresenterImp = new PMdataPresenterImp(new PMView() {
+            @Override
+            public void showProgress() {
+                if (progressDialog != null && !progressDialog.isShowing()) {
+                    progressDialog.show();
+                }
+            }
+
+            @Override
+            public void disimissProgress() {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void loadDataSuccess(PMBean tData) {
+                toastor.showSingletonToast(tData.getResMessage());
+                if (tData.getResCode().equals("0")) {
+                    if (tData.getResBody().getList().size() > 0) {
+                        mList = tData.getResBody().getList();
+
+                    }
+                    CombinedData data = new CombinedData();
+                    data.setData(getLineData());
+                    mChart.setData(data);
+                    mChart.invalidate();
+                }
+            }
+
+            @Override
+            public void loadDataError(Throwable throwable) {
+                Log.e(TAG, throwable.getLocalizedMessage());
+                toastor.showSingletonToast("服务器连接异常");
+            }
+        }, getActivity());
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("数据查询中...");
         Calendar cal = Calendar.getInstance();//使用默认时区和语言环境获得一个日历。
@@ -128,16 +165,16 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
             DayUnitTv.setText("mg/m³");
             DayUnitTv.setVisibility(View.VISIBLE);
             methanalPresenterImp.binding(map);
-        }else if (indext == 4){
+        } else if (indext == 4) {
             //温度
             DayUnitTv.setVisibility(View.VISIBLE);
             DayUnitTv.setText("℃");
-        }else if (indext == 5){
+        } else if (indext == 5) {
             // 湿度
             DayUnitTv.setVisibility(View.VISIBLE);
             DayUnitTv.setText("%RH");
         }
-        initYLabel(indext);
+
     }
 
     @Override
@@ -161,8 +198,7 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
         mChart.setDrawOrder(new CombinedChart.DrawOrder[]{
                 CombinedChart.DrawOrder.BAR, CombinedChart.DrawOrder.LINE,
         });
-        //设置透明度
-        // mChart.setAlpha(0.8f);
+
         //设置是否可以触摸，如为false，则不能拖动，缩放等
         mChart.setTouchEnabled(true);
         //设置是否可以拖拽
@@ -173,14 +209,13 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
         //设置是否能扩大扩小
         mChart.setPinchZoom(false);
         //设置四个边的间距
-        // mChart.setViewPortOffsets(10, 0, 0, 10);
+
         //隐藏Y轴
         mChart.getAxisRight().setEnabled(false);
         mChart.setDoubleTapToZoomEnabled(false);
         //不画网格
         mChart.getAxisLeft().setDrawGridLines(false);
-        mChart.getAxisLeft().setAxisMaximum(1000);
-        mChart.getAxisLeft().setAxisMinimum(0);
+
         mChart.getAxisLeft().setTextColor(R.color.silver_sand);
 
         XAxis xAxis = mChart.getXAxis();
@@ -206,7 +241,7 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
 
 
         });
-        //data.setValueTypeface(mTfLight);
+
         mChart.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -215,18 +250,13 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
             }
         });
         mChart.setOnChartValueSelectedListener(this);
-       /* CombinedData data = new CombinedData();
 
-        data.setData(getLineData());
-        mChart.setData(data);
-        mChart.setVisibleXRangeMaximum(7);
-        mChart.invalidate();*/
     }
 
     private LineData getLineData() {
         ArrayList<Entry> values1 = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
-           // Log.e(TAG, mList.get(i) + " " + i);
+
             if (i >= (mList.size())) {
                 values1.add(new Entry(i, 0));
             } else
@@ -262,22 +292,22 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
         dyaMsg.setX((h.getXPx() - dyaMsg.getWidth() / 2));
         if (indext == 0) {
             //查询pm2.5
-            AppUtil.PM2_5(getActivity(),dayMsgTv,(int) e.getY());
+            AppUtil.PM2_5(getActivity(), dayMsgTv, (int) e.getY());
         } else if (indext == 1) {
             //查询co2
-            AppUtil.CO2(getActivity(),dayMsgTv,(int) e.getY());
+            AppUtil.CO2(getActivity(), dayMsgTv, (int) e.getY());
         } else if (indext == 2) {
             //TVOC
-            AppUtil.TVOC(getActivity(),dayMsgTv,(int) e.getY());
+            AppUtil.TVOC(getActivity(), dayMsgTv, (int) e.getY());
         } else if (indext == 3) {
             //甲醛
-            AppUtil.jiaquan(getActivity(),dayMsgTv,(int) e.getY());
-        }else if (indext == 4){
+            AppUtil.jiaquan(getActivity(), dayMsgTv, (int) e.getY());
+        } else if (indext == 4) {
             //温度
-            AppUtil.wendu(getActivity(),dayMsgTv,(int) e.getY());
-        }else if (indext == 5){
+            AppUtil.wendu(getActivity(), dayMsgTv, (int) e.getY());
+        } else if (indext == 5) {
             // 湿度
-            AppUtil.shidu(getActivity(),dayMsgTv,(int) e.getY());
+            AppUtil.shidu(getActivity(), dayMsgTv, (int) e.getY());
         }
     }
 
@@ -302,11 +332,14 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
     }
 
     @Override
-    public void loadDataSuccess(PMBean tData) {
+    public void loadDataSuccess(TVOC tData) {
         toastor.showSingletonToast(tData.getResMessage());
         if (tData.getResCode().equals("0")) {
             if (tData.getResBody().getList().size() > 0) {
-                mList = tData.getResBody().getList();
+                mList = tData.getResBody().getList().get(0);
+                mList.remove(1);
+                mList.remove(0);
+                mList.remove(mList.size() - 1);
 
             }
             CombinedData data = new CombinedData();
@@ -383,49 +416,7 @@ public class WeekFragment extends BaseFragment implements OnChartValueSelectedLi
             default:
                 break;
         }
-        initYLabel(position);
+        // initYLabel(position);
     }
-    private void initYLabel(int type){
-        switch (type) {
-            case 0:
-                //PM2.5
-                mChart.getAxisLeft().setAxisMaximum(1000);
-                mChart.getAxisLeft().setAxisMinimum(0);
-                break;
-            case 1:
-                //CO2
-                mChart.getAxisLeft().setAxisMaximum(1500);
-                mChart.getAxisLeft().setAxisMinimum(0);
-                break;
-            case 2:
-                //tvoc
-                mChart.getAxisLeft().setAxisMaximum(1000);
-                mChart.getAxisLeft().setAxisMinimum(0);
 
-                break;
-            case 3:
-                //甲醛
-                mChart.getAxisLeft().setAxisMaximum((float)1.6);
-                mChart.getAxisLeft().setAxisMinimum(0);
-                break;
-            case 4:
-                //温度
-                mChart.getAxisLeft().setAxisMaximum(40);
-                mChart.getAxisLeft().setAxisMinimum(-20);
-
-                break;
-            case 5:
-                // 湿度
-
-                mChart.getAxisLeft().setAxisMaximum(100);
-                mChart.getAxisLeft().setAxisMinimum(0);
-
-                break;
-            default:
-                break;
-        }
-        mChart.getAxisLeft().setLabelCount(6,true);
-        mChart.notifyDataSetChanged();
-        mChart.invalidate();
-    }
 }

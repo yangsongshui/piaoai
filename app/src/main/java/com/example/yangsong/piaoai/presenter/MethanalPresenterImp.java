@@ -3,10 +3,10 @@ package com.example.yangsong.piaoai.presenter;
 import android.content.Context;
 
 import com.example.yangsong.piaoai.base.BasePresenterImp;
-import com.example.yangsong.piaoai.bean.PMBean;
+import com.example.yangsong.piaoai.bean.TVOC;
 import com.example.yangsong.piaoai.model.MethanalHourModelImp;
 import com.example.yangsong.piaoai.model.MethanalModelImp;
-import com.example.yangsong.piaoai.view.PMView;
+import com.example.yangsong.piaoai.view.TVOCView;
 
 import java.util.Map;
 
@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * 描述：MVP中的P实现类
  */
-public class MethanalPresenterImp extends BasePresenterImp<PMView,PMBean> implements BindingPresenter {
+public class MethanalPresenterImp extends BasePresenterImp<TVOCView,TVOC> implements BindingPresenter {
     private Context context = null;
     private MethanalModelImp methanalModelImp = null;
     private MethanalHourModelImp methanalHourModelImp = null;
@@ -24,7 +24,7 @@ public class MethanalPresenterImp extends BasePresenterImp<PMView,PMBean> implem
      * @author dc
      * @date 2017/6/13 15:12
      */
-    public MethanalPresenterImp(PMView view, Context context) {
+    public MethanalPresenterImp(TVOCView view, Context context) {
         super(view);
         this.context = context;
         this.methanalModelImp = new MethanalModelImp(context);

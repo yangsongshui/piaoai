@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.yangsong.piaoai.R;
 import com.example.yangsong.piaoai.base.BaseFragment;
 import com.example.yangsong.piaoai.bean.PMBean;
+import com.example.yangsong.piaoai.bean.TVOC;
 import com.example.yangsong.piaoai.inter.FragmentEvent;
 import com.example.yangsong.piaoai.presenter.CodataPresenterImp;
 import com.example.yangsong.piaoai.presenter.MethanalPresenterImp;
@@ -21,6 +22,7 @@ import com.example.yangsong.piaoai.util.AppUtil;
 import com.example.yangsong.piaoai.util.DateUtil;
 import com.example.yangsong.piaoai.util.Toastor;
 import com.example.yangsong.piaoai.view.PMView;
+import com.example.yangsong.piaoai.view.TVOCView;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -51,7 +53,7 @@ import static com.example.yangsong.piaoai.util.DateUtil.LONG_DATE_FORMAT;
  * Created by Administrator on 2016/5/28.
  */
 @SuppressLint("ValidFragment")
-public class DayFragment extends BaseFragment implements OnChartValueSelectedListener, PMView {
+public class DayFragment extends BaseFragment implements OnChartValueSelectedListener, TVOCView {
     private final static String TAG = DayFragment.class.getSimpleName();
     @BindView(R.id.day_chart)
     CombinedChart mChart;
@@ -89,7 +91,42 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
         mList = new ArrayList<>();
         toastor = new Toastor(getActivity());
         initChart();
-        pMdataPresenterImp = new PMdataPresenterImp(this, getActivity());
+        pMdataPresenterImp = new PMdataPresenterImp(new PMView() {
+            @Override
+            public void showProgress() {
+                if (progressDialog != null && !progressDialog.isShowing()) {
+                    progressDialog.show();
+                }
+            }
+
+            @Override
+            public void disimissProgress() {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void loadDataSuccess(PMBean tData) {
+                toastor.showSingletonToast(tData.getResMessage());
+                if (tData.getResCode().equals("0")) {
+                    if (tData.getResBody().getList().size() > 0) {
+                        mList = tData.getResBody().getList();
+
+                    }
+                    CombinedData data = new CombinedData();
+                    data.setData(getdayData());
+                    mChart.setData(data);
+                    mChart.invalidate();
+                }
+            }
+
+            @Override
+            public void loadDataError(Throwable throwable) {
+                Log.e(TAG, throwable.getLocalizedMessage());
+                toastor.showSingletonToast("服务器连接异常");
+            }
+        }, getActivity());
         codataPresenterImp = new CodataPresenterImp(this, getActivity());
         methanalPresenterImp = new MethanalPresenterImp(this, getActivity());
         tvoCdataPresenterImp = new TVOCdataPresenterImp(this, getActivity());
@@ -131,7 +168,7 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
             DayUnitTv.setText("%RH");
             DayUnitTv.setVisibility(View.VISIBLE);
         }
-        initYLabel(indext);
+      //  initYLabel(indext);
     }
 
     @Override
@@ -292,12 +329,15 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
 
 
     @Override
-    public void loadDataSuccess(PMBean tData) {
+    public void loadDataSuccess(TVOC tData) {
         toastor.showSingletonToast(tData.getResMessage());
         if (tData.getResCode().equals("0")) {
             if (tData.getResBody().getList().size() > 0) {
-                mList = tData.getResBody().getList();
-                //mList.remove(mList.size() - 1);
+                mList = tData.getResBody().getList().get(0);
+                mList.remove(1);
+                mList.remove(0);
+                mList.remove(mList.size() - 1);
+
             }
             CombinedData data = new CombinedData();
             data.setData(getdayData());
@@ -337,9 +377,6 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
                 DayUnitTv.setText("PPM");
                 codataPresenterImp.binding(map);
                 DayUnitTv.setVisibility(View.VISIBLE);
-                mChart.getAxisLeft().setAxisMaximum(1500);
-                mChart.getAxisLeft().setAxisMinimum(0);
-
                 break;
             case 2:
                 DayUnitTv.setVisibility(View.INVISIBLE);
@@ -363,10 +400,10 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
             default:
                 break;
         }
-        initYLabel(position);
+      //  initYLabel(position);
     }
 
-    private void initYLabel(int type) {
+   /* private void initYLabel(int type) {
         switch (type) {
             case 0:
                 //PM2.5
@@ -408,5 +445,5 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
         mChart.getAxisLeft().setLabelCount(6, true);
         mChart.notifyDataSetChanged();
         mChart.invalidate();
-    }
+    }*/
 }

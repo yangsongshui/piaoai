@@ -31,6 +31,8 @@ public class DateUtil {
 
     // 格式：小时：分钟：秒
     public static final String LONG_TIME_FORMAT = "HH:mm:ss";
+    // 格式：小时：分钟
+    public static final String LONG_TIME = "HH:mm";
 
     //格式：年-月
     public static final String MONTG_DATE_FORMAT = "yyyy-MM";
@@ -81,7 +83,20 @@ public class DateUtil {
         }
         return d;
     }
-
+    public static String stringtoString(String dateStr, String format){
+        Date d = null;
+        String date="";
+        SimpleDateFormat formater = new SimpleDateFormat(format);
+        try {
+            formater.setLenient(false);
+            d = formater.parse(dateStr);
+        } catch (Exception e) {
+            // log.error(e);
+            d = null;
+        }
+        date= dateToString(d,LONG_TIME);
+        return date;
+    }
     /**
      * 把符合日期格式的字符串转换为日期类型
      */

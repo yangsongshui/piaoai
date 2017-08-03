@@ -24,7 +24,7 @@ import com.example.yangsong.piaoai.api.ServiceApi;
 import com.example.yangsong.piaoai.app.MyApplication;
 import com.example.yangsong.piaoai.base.BaseActivity;
 import com.example.yangsong.piaoai.base.BaseFragment;
-import com.example.yangsong.piaoai.bean.PMBean;
+import com.example.yangsong.piaoai.bean.CityData;
 import com.example.yangsong.piaoai.bean.Weather;
 import com.example.yangsong.piaoai.fragment.DayFragment;
 import com.example.yangsong.piaoai.fragment.MonthFragment;
@@ -33,11 +33,11 @@ import com.example.yangsong.piaoai.fragment.WeekFragment;
 import com.example.yangsong.piaoai.inter.FragmentEvent;
 import com.example.yangsong.piaoai.myview.MyMarkerView;
 import com.example.yangsong.piaoai.myview.SharePopuoWindow;
-import com.example.yangsong.piaoai.presenter.PMdataPresenterImp;
+import com.example.yangsong.piaoai.presenter.CityDataPresenterImp;
 import com.example.yangsong.piaoai.util.DateUtil;
 import com.example.yangsong.piaoai.util.Log;
 import com.example.yangsong.piaoai.util.Toastor;
-import com.example.yangsong.piaoai.view.PMView;
+import com.example.yangsong.piaoai.view.CityDataView;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -71,10 +71,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.yangsong.piaoai.util.Constan.WEATHER_URL;
-import static com.example.yangsong.piaoai.util.DateUtil.LONG_DATE_FORMAT;
+import static com.example.yangsong.piaoai.util.DateUtil.FORMAT_ONE;
 
 
-public class HistoryActivity extends BaseActivity implements OnChartValueSelectedListener, RadioGroup.OnCheckedChangeListener, PMView {
+public class HistoryActivity extends BaseActivity implements OnChartValueSelectedListener, RadioGroup.OnCheckedChangeListener, CityDataView {
     private final static String TAG = HistoryActivity.class.getSimpleName();
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
@@ -109,8 +109,9 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
     Toastor toastor;
     Retrofit retrofit;
     private Map<String, String> map;
-    PMdataPresenterImp pMdataPresenterImp;
+    CityDataPresenterImp cityDataPresenterImp;
     List<String> mList;
+    List<String> time;
     ProgressDialog progressDialog;
 
     @Override
@@ -121,28 +122,22 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
     @Override
     protected void init(Bundle savedInstanceState) {
         mList = new ArrayList<>();
+        time = new ArrayList<>();
         String deviceID = getIntent().getStringExtra("deviceID");
         type = getIntent().getStringExtra("type");
         indext = getIntent().getIntExtra("indext", 0);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("正在分享...");
-        pMdataPresenterImp = new PMdataPresenterImp(this, this);
+        cityDataPresenterImp = new CityDataPresenterImp(this, this);
         Log.e(TAG, deviceID);
         initData();
         initChart();
         initView();
         initWerthc();
         map = new HashMap<>();
-        map.put("imei", deviceID);
-        map.put("type", "1");
-        //通过格式化输出日期
-        String time = DateUtil.getCurrDate(LONG_DATE_FORMAT);
-        map.put("endDate", time + " 24:00");
-        map.put("beginDate", time + " 00:00");
-       /*  map.put("beginDate", "2017-06-19 00:00");
-        map.put("endDate", "2017-06-19 24:00");*/
-        pMdataPresenterImp.binding(map);
+
+
     }
 
 
@@ -331,28 +326,16 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
         mChart.setMarker(mv); // Set the marker to the chart
 
         XAxis xAxis = mChart.getXAxis();
-        xAxis.setAxisMinimum(-0.5f);
+        xAxis.setAxisMinimum(-0.1f);
         xAxis.setGranularity(0.3f);
-        xAxis.setAxisMaximum(23);
-        xAxis.setLabelCount(7, true);
+        xAxis.setAxisMaximum(6);
         xAxis.setTextColor(Color.rgb(255, 255, 255));
         xAxis.setAxisLineColor(Color.argb(148, 255, 255, 255));
         xAxis.setTextSize(10);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);//设置X轴在底部
         //不画网格
         xAxis.setDrawGridLines(false);
-        IAxisValueFormatter formatter = new IAxisValueFormatter() {
-            String[] day = new String[]{"01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00"
-                    , "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "24:00"};
 
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                return day[(int) value % day.length];
-            }
-
-
-        };
-        xAxis.setValueFormatter(formatter);
         mChart.getLegend().setEnabled(false);
 
         mChart.setOnChartValueSelectedListener(this);
@@ -363,14 +346,24 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
 
         ArrayList<Entry> values1 = new ArrayList<>();
 
-        for (int i = 0; i < 24; i++) {
+        for (int i = 0; i < 7; i++) {
             // Log.e(TAG, mList.get(i)+" " + i );
             if (i >= (mList.size())) {
                 values1.add(new Entry(i, 0));
             } else
                 values1.add(new Entry(i, Integer.parseInt(mList.get(i))));
         }
+        IAxisValueFormatter formatter = new IAxisValueFormatter() {
 
+
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return time.get((int) value % time.size());
+            }
+
+
+        };
+        mChart.getXAxis().setValueFormatter(formatter);
         LineDataSet set1;
         if (mChart.getData() != null &&
                 mChart.getData().getDataSetCount() > 0) {
@@ -439,6 +432,8 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
                     //可在其中解析amapLocation获取相应内容。
                     Log.e("定位数据", aMapLocation.getCity());
                     addressW.setText(aMapLocation.getCity());
+                    String city = aMapLocation.getCity().substring(0, aMapLocation.getCity().length() - 1);
+                    cityDataPresenterImp.binding(city);
                     ServiceApi service = retrofit.create(ServiceApi.class);
                     Call<Weather> call = service.getWeather(aMapLocation.getCity(), "1");
                     call.enqueue(new Callback<Weather>() {
@@ -462,6 +457,7 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
                             toastor.showSingletonToast("天气查询失败");
                         }
                     });
+
                 } else {
                     //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
                     Log.e("AmapError", "location Error, ErrCode:"
@@ -494,15 +490,30 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
     }
 
     @Override
-    public void loadDataSuccess(PMBean tData) {
+    public void loadDataSuccess(CityData tData) {
         if (tData.getResBody().getList().size() > 0) {
-            mList = tData.getResBody().getList();
+            getData(tData.getResBody().getList());
+        } else {
+            CombinedData data = new CombinedData();
+            data.setData(getLineData());
+            mChart.setData(data);
+            mChart.invalidate();
+        }
+
+    }
+
+    private void getData(List<CityData.ResBodyBean.ListBean> listBean) {
+        mList.clear();
+        time.clear();
+        for (int i = 0; i < listBean.size(); i++) {
+            String date = DateUtil.stringtoString(listBean.get(i).getCt(),FORMAT_ONE);
+            time.add(date);
+            mList.add(listBean.get(i).getPm2_5());
         }
         CombinedData data = new CombinedData();
         data.setData(getLineData());
         mChart.setData(data);
         mChart.invalidate();
-
     }
 
     @Override

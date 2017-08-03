@@ -1,5 +1,6 @@
 package com.example.yangsong.piaoai.api;
 
+import com.example.yangsong.piaoai.bean.CityData;
 import com.example.yangsong.piaoai.bean.FLZDevice;
 import com.example.yangsong.piaoai.bean.Facility;
 import com.example.yangsong.piaoai.bean.Identify;
@@ -12,6 +13,8 @@ import com.example.yangsong.piaoai.bean.Weather;
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
@@ -135,5 +138,8 @@ public interface ServiceApi {
     //最小组数控制除霾设备
     @POST("minFlzCMNum?")
     Observable<FLZDevice> minFlzCMNum(@QueryMap Map<String, String> map);
-
+    //最小组数控制除霾设备
+    @FormUrlEncoded
+    @POST("findCityData?")
+    Observable<CityData> findCityData(@Field("cityName") String city);
 }

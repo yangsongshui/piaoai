@@ -330,7 +330,7 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
 
     @Override
     public void loadDataSuccess(TVOC tData) {
-        toastor.showSingletonToast(tData.getResMessage());
+      //  toastor.showSingletonToast(tData.getResMessage());
         if (tData.getResCode().equals("0")) {
             if (tData.getResBody().getList().size() > 0) {
                 mList = tData.getResBody().getList().get(0);

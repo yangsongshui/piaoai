@@ -221,6 +221,7 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
         //不画网格
         xAxis.setDrawGridLines(false);
         xAxis.setAxisMaximum(11);
+        xAxis.setLabelCount(8, true);
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             String[] tiem = new String[]{ "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60"};
 

@@ -113,7 +113,7 @@ public class MonthFragment extends BaseFragment implements OnChartValueSelectedL
 
             @Override
             public void loadDataSuccess(PMBean tData) {
-                toastor.showSingletonToast(tData.getResMessage());
+              //  toastor.showSingletonToast(tData.getResMessage());
                 if (tData.getResCode().equals("0")) {
                     if (tData.getResBody().getList().size() > 0) {
                         mList = tData.getResBody().getList();

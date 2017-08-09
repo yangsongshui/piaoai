@@ -88,7 +88,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
                 mainTitleTv.setText(device.getDeviceName());
                 Log.e(TAG, device.getDeviceid());
                 type = device.getType();
-                if (type.equals("3")) {
+                if (type.equals("3")||type.equals("2")) {
 
                     tvMainRight.setVisibility(View.GONE);
                 } else {
@@ -198,7 +198,6 @@ public class MainActivity extends BaseActivity implements FacilityView {
     @Override
     public void loadDataSuccess(Facility tData) {
         Log.e(TAG, tData.toString());
-
         if (tData.getResCode().equals("0")) {
             mList = tData.getResBody().getList();
             if (mList.size() > 0) {
@@ -210,7 +209,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
                     device = mList.get(0);
                 }
                 mainTitleTv.setText(device.getDeviceName());
-                if (device.getType().equals("3") || type.equals("3")) {
+                if (device.getType().equals("3") || type.equals("3")||device.getType().equals("2") || type.equals("2")) {
                     tvMainRight.setVisibility(View.GONE);
                 } else {
                     tvMainRight.setVisibility(View.VISIBLE);

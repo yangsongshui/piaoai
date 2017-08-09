@@ -9,6 +9,7 @@ import android.util.Log;
 import com.example.yangsong.piaoai.bean.Facility;
 import com.example.yangsong.piaoai.fragment.IonicFragment;
 import com.example.yangsong.piaoai.fragment.MainFragment;
+import com.example.yangsong.piaoai.fragment.PMFragment;
 import com.viewpagerindicator.IconPagerAdapter;
 
 import java.util.List;
@@ -31,6 +32,8 @@ public class TestFragmentAdapter extends FragmentStatePagerAdapter implements Ic
         } else if (mList.get(position).getType().equals("1")) {
             return new MainFragment(mList.get(position));
         } else if (mList.get(position).getType().equals("2")) {
+            return new PMFragment(mList.get(position));
+        }else if (mList.get(position).getType().equals("4")) {
             return new MainFragment(mList.get(position));
         }
 

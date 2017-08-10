@@ -150,7 +150,6 @@ public class MainActivity extends BaseActivity implements FacilityView {
                 break;
             case R.id.main_about_tv:
                 startActivity(new Intent(this, AboutActivity.class));
-
                 break;
             case R.id.main_out_tv:
                 MyApplication.newInstance().outLogin();
@@ -263,6 +262,4 @@ public class MainActivity extends BaseActivity implements FacilityView {
             pager.setCurrentItem(position);
         }
     }
-
-
 }

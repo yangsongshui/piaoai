@@ -41,6 +41,8 @@ public class EquipmentAdapter extends MyBaseAdapter<Facility.ResBodyBean.ListBea
             holder.device_name.setText("PM2.5检测仪");
         }else if (mList.get(position).getType().equals("3")){
             holder.device_name.setText("负离子除霾设备");
+        }else if (mList.get(position).getType().equals("4")){
+            holder.device_name.setText("PM10检测仪");
         }
          holder.device_nickName.setText(mList.get(position).getDeviceName());
 

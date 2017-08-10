@@ -63,7 +63,7 @@ public class DeployActivity extends BaseActivity implements OnSmartLinkListener 
                 finish();
                 break;
             case R.id.binding_tv:
-
+             //   startActivity(new Intent(this, ThreeActivity.class).putExtra("deviceID",deviceID).putExtra("sn",sn));
                 //配置WIFI
                 start();
                 break;

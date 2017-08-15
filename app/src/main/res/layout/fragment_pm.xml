@@ -1,6 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:android_custom="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -28,7 +26,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/pm25"
+                android:id="@+id/pm_pm25"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginBottom="10dp"
@@ -44,7 +42,7 @@
                 android:background="@color/white" />
 
             <TextView
-                android:id="@+id/pm_tv"
+                android:id="@+id/pm_pm_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginTop="15dp"
@@ -69,20 +67,20 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/shujv_ll"
+        android:id="@+id/pm_shujv_ll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
         <FrameLayout
-            android:id="@+id/chart_fl"
+            android:id="@+id/pm_chart_fl"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
 
         <RadioGroup
-            android:id="@+id/cardiac_rgrpNavigation"
+            android:id="@+id/pm_cardiac_rgrpNavigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -91,7 +89,7 @@
             android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/chart_tiem_rb"
+                android:id="@+id/pm_chart_tiem_rb"
                 style="@style/line_rb2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -100,7 +98,7 @@
 
 
             <RadioButton
-                android:id="@+id/chart_day_rb"
+                android:id="@+id/pm_chart_day_rb"
                 style="@style/line_rb2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -108,7 +106,7 @@
                 android:text="天" />
 
             <RadioButton
-                android:id="@+id/chart_week_rb"
+                android:id="@+id/pm_chart_week_rb"
                 style="@style/line_rb2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -116,7 +114,7 @@
                 android:text="周" />
 
             <RadioButton
-                android:id="@+id/chart_month_rb"
+                android:id="@+id/pm_chart_month_rb"
                 style="@style/line_rb2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

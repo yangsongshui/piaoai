@@ -53,8 +53,8 @@ public class MainActivity extends BaseActivity implements FacilityView {
     ImageView tvMainRight;
     TestFragmentAdapter mAdapter;
     List<Facility.ResBodyBean.ListBean> mList;
-    @BindView(R.id.main_fragment)
-    LinearLayout mainFragment;
+/*    @BindView(R.id.main_fragment)
+    LinearLayout mainFragment;*/
     private ProgressDialog progressDialog = null;
     private FacilityPresenerImp facilityPresenerImp = null;
     private Toastor toastor;
@@ -88,8 +88,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
                 mainTitleTv.setText(device.getDeviceName());
                 Log.e(TAG, device.getDeviceid());
                 type = device.getType();
-                if (type.equals("3")||type.equals("2")) {
-
+                if (type.equals("3") || type.equals("2")) {
                     tvMainRight.setVisibility(View.GONE);
                 } else {
                     tvMainRight.setVisibility(View.VISIBLE);
@@ -203,27 +202,27 @@ public class MainActivity extends BaseActivity implements FacilityView {
                 mAdapter.setCount(tData.getResBody().getList());
                 indicator.notifyDataSetChanged();
                 facility = tData;
-                if (!isOne){
+                if (!isOne) {
                     isOne = true;
                     device = mList.get(0);
                 }
                 mainTitleTv.setText(device.getDeviceName());
-                if (device.getType().equals("3") || type.equals("3")||device.getType().equals("2") || type.equals("2")) {
+                if (device.getType().equals("3") || type.equals("3") || device.getType().equals("2") || type.equals("2")) {
                     tvMainRight.setVisibility(View.GONE);
                 } else {
                     tvMainRight.setVisibility(View.VISIBLE);
                 }
-                mainFragment.setVisibility(View.GONE);
+                //mainFragment.setVisibility(View.GONE);
             } else if (!isOne) {
                 isOne = true;
-                mainFragment.setVisibility(View.VISIBLE);
+                //mainFragment.setVisibility(View.VISIBLE);
                 toastor.showSingletonToast("无绑定设备");
                 startActivity(new Intent(this, BindingActivity.class));
             } else {
-                // toastor.showSingletonToast("无绑定设备");
+                toastor.showSingletonToast("无绑定设备");
                 mAdapter.setCount(tData.getResBody().getList());
                 indicator.notifyDataSetChanged();
-                mainFragment.setVisibility(View.VISIBLE);
+               // mainFragment.setVisibility(View.VISIBLE);
             }
 
         } else {

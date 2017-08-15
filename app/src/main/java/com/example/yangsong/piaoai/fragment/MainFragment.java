@@ -64,79 +64,80 @@ public class MainFragment extends BaseFragment {
 
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
-        pm25.setText(facility.get_$Pm25267());
+        roundProgressBarTVOC.setMax(10);
+        roundProgressBarHumidity.setMax(100);
+        roundProgressBarMethanal.setMax(4);
 
-        if (facility.getType().equals("2")) {
-            shujv_ll.setVisibility(View.INVISIBLE);
-        } else {
-            //TVOC
-            if (TextUtils.isEmpty(facility.getTvoc()))
-                roundProgressBarTVOC.setProgress(0);
-            else {
-                roundProgressBarTVOC.setProgress(Integer.parseInt(facility.getTvoc()));
-                homeTVOCTv.setText(facility.getTvoc());
-            }
-
-            //CO2
-            if (TextUtils.isEmpty(facility.getCo2()))
-                roundProgressBarCO2.setProgress(0);
-            else {
-                roundProgressBarCO2.setProgress(Integer.parseInt(facility.getCo2()));
-                homeCO2Tv.setText(facility.getCo2());
-            }
-
-            //PM10
-            if (TextUtils.isEmpty(facility.getPm10()))
-                roundProgressBarPM10.setProgress(0);
-            else {
-                roundProgressBarPM10.setProgress(Integer.parseInt(facility.getPm10()));
-                homePM10Tv.setText(facility.getPm10());
-            }
-
-            //电量
-            if (TextUtils.isEmpty(facility.getDianliang()))
-                roundProgressBarElectric.setProgress(0);
-            else {
-                roundProgressBarElectric.setProgress(Integer.parseInt(facility.getDianliang()));
-                homeElectricTv.setText(facility.getDianliang());
-            }
-
-            //湿度
-            if (TextUtils.isEmpty(facility.getShidu()))
-                roundProgressBarHumidity.setProgress(0);
-            else {
-                roundProgressBarHumidity.setProgress(Integer.parseInt(facility.getShidu()));
-                homeHumidityTv.setText(facility.getShidu());
-            }
-
-            //甲醛
-            if (TextUtils.isEmpty(facility.getJiaquan()))
-                roundProgressBarMethanal.setProgress(0);
-            else {
-                roundProgressBarMethanal.setProgress(Integer.parseInt(facility.getJiaquan()));
-                homeMethanalTv.setText(facility.getJiaquan());
-            }
-
-
+        roundProgressBarCO2.setMax(1500);
+        roundProgressBarPM10.setMax(200);
+        //TVOC
+        if (TextUtils.isEmpty(facility.getTvoc()))
+            roundProgressBarTVOC.setProgress(0);
+        else {
+            roundProgressBarTVOC.setProgress(Integer.parseInt(facility.getTvoc()));
+            homeTVOCTv.setText(facility.getTvoc());
         }
-        int pm = Integer.parseInt(facility.get_$Pm25267());
-        if (pm >= 0 || pm <= 35) {
-            pm_tv.setText("优");
-        } else if (pm > 35 || pm <= 75) {
-            pm_tv.setText("良");
-            pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_liang));
-        } else if (pm > 75 || pm <= 115) {
-            pm_tv.setText("轻度污染");
-            pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_qingdu));
-        } else if (pm > 116 || pm <= 150) {
-            pm_tv.setText("中度污染");
-            pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_zhongdu));
-        } else if (pm > 151 || pm <= 250) {
-            pm_tv.setText("重度污染");
-            pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_zhong));
-        } else if (pm > 251 || pm <= 500) {
-            pm_tv.setText("严重污染");
-            pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_yanzhong));
+
+        //CO2
+        if (TextUtils.isEmpty(facility.getCo2()))
+            roundProgressBarCO2.setProgress(0);
+        else {
+            roundProgressBarCO2.setProgress(Integer.parseInt(facility.getCo2()));
+            homeCO2Tv.setText(facility.getCo2());
+        }
+
+        //PM10
+        if (TextUtils.isEmpty(facility.getPm10()))
+            roundProgressBarPM10.setProgress(0);
+        else {
+            roundProgressBarPM10.setProgress(Integer.parseInt(facility.getPm10()));
+            homePM10Tv.setText(facility.getPm10());
+        }
+
+        //电量
+        if (TextUtils.isEmpty(facility.getDianliang()))
+            roundProgressBarElectric.setProgress(0);
+        else {
+            roundProgressBarElectric.setProgress(Integer.parseInt(facility.getDianliang()));
+            homeElectricTv.setText(facility.getDianliang());
+        }
+
+        //湿度
+        if (TextUtils.isEmpty(facility.getShidu()))
+            roundProgressBarHumidity.setProgress(0);
+        else {
+            roundProgressBarHumidity.setProgress(Integer.parseInt(facility.getShidu()));
+            homeHumidityTv.setText(facility.getShidu());
+        }
+
+        //甲醛
+        if (TextUtils.isEmpty(facility.getJiaquan()))
+            roundProgressBarMethanal.setProgress(0);
+        else {
+            roundProgressBarMethanal.setProgress(Integer.parseInt(facility.getJiaquan()));
+            homeMethanalTv.setText(facility.getJiaquan());
+        }
+        if (!facility.get_$Pm25224().equals("")) {
+            pm25.setText(facility.get_$Pm25224());
+            int pm = Integer.parseInt(facility.get_$Pm25224());
+            if (pm >= 0 || pm <= 35) {
+                pm_tv.setText("优");
+            } else if (pm > 35 || pm <= 75) {
+                pm_tv.setText("良");
+                pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_liang));
+            } else if (pm > 75 || pm <= 115) {
+                pm_tv.setText("轻度污染");
+                pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_qingdu));
+            } else if (pm > 116 || pm <= 150) {
+                pm_tv.setText("中度污染");
+                pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_zhongdu));
+            } else if (pm > 151 || pm <= 250) {
+                pm_tv.setText("重度污染");
+                pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_zhong));
+            } else if (pm > 251 || pm <= 500) {
+                pm_tv.setText("严重污染");
+                pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_yanzhong));
+            }
         }
     }
 

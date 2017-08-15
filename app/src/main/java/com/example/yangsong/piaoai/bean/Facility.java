@@ -14,14 +14,12 @@ public class Facility implements Serializable{
     /**
      * resCode : 0
      * resMessage : 查询成功！
-     * resBody : {"list":[{"deviceid":"F1:03:00:00:01","deviceName":"桑泰","type":"1","devicePosition":"广东省深圳市梅林路69号天虹商场3F层","pm2.5":"0","tvoc":"2","co2":"2","pm10":"2","dianliang":"2","shidu":"2","jiaquan":"2","switch":"0","num":0},{"deviceid":"F0:01:00:00:01","deviceName":"测试的","type":"2","devicePosition":"广东省汕尾市附城镇城南居委头社三组42号源昇鞋厂","pm2.5":"7","tvoc":"","co2":"","pm10":"","dianliang":"","shidu":"","jiaquan":"","switch":"0","num":0},{"deviceid":"F0:02:00:00:01","deviceName":"1231","type":"3","devicePosition":"广东省汕尾市海丰县附城镇欣乐幼儿园93号","pm2.5":"0","tvoc":"","co2":"","pm10":"","dianliang":"","shidu":"","jiaquan":"","switch":"0","num":0}]}
+     * resBody : {"list":[{"deviceid":"F1:03:00:00:01","deviceName":"2222","type":"1","devicePosition":"广东省深圳市宝安区西乡街道铁岗东路4号铁岗大厦4号","tvoc":"22","co2":"854","pm10":"3","dianliang":"100","shidu":"35","jiaquan":"888","pm2.5":"3","switch":"0","num":0},{"deviceid":"f0:01:00:00:01","deviceName":"哈哈哈","type":"2","devicePosition":"广东省深圳市龙岗区南湾街道布澜路佳兆业科技广场18号","tvoc":"","co2":"","pm10":"","dianliang":"","shidu":"","jiaquan":"","pm2.5":"","switch":"0","num":0},{"deviceid":"f1:04:00:00:01","deviceName":"pm10设备","type":"4","devicePosition":"广东省深圳市龙岗区南湾街道深圳市学之友科技有限公司21号","tvoc":"","co2":"","pm10":"","dianliang":"","shidu":"","jiaquan":"","pm2.5":"","switch":"0","num":0}]}
      */
 
     private String resCode;
     private String resMessage;
     private ResBodyBean resBody;
-
-
 
     public String getResCode() {
         return resCode;
@@ -47,7 +45,7 @@ public class Facility implements Serializable{
         this.resBody = resBody;
     }
 
-    public static class ResBodyBean implements Serializable{
+    public static class ResBodyBean {
         private List<ListBean> list;
 
         public List<ListBean> getList() {
@@ -58,19 +56,19 @@ public class Facility implements Serializable{
             this.list = list;
         }
 
-        public static class ListBean implements Serializable{
+        public static class ListBean {
             /**
              * deviceid : F1:03:00:00:01
-             * deviceName : 桑泰
+             * deviceName : 2222
              * type : 1
-             * devicePosition : 广东省深圳市梅林路69号天虹商场3F层
-             * pm2.5 : 0
-             * tvoc : 2
-             * co2 : 2
-             * pm10 : 2
-             * dianliang : 2
-             * shidu : 2
-             * jiaquan : 2
+             * devicePosition : 广东省深圳市宝安区西乡街道铁岗东路4号铁岗大厦4号
+             * tvoc : 22
+             * co2 : 854
+             * pm10 : 3
+             * dianliang : 100
+             * shidu : 35
+             * jiaquan : 888
+             * pm2.5 : 3
              * switch : 0
              * num : 0
              */
@@ -79,25 +77,24 @@ public class Facility implements Serializable{
             private String deviceName;
             private String type;
             private String devicePosition;
-            @SerializedName("pm2.5")
-            private String _$Pm25267; // FIXME check this code
             private String tvoc;
             private String co2;
             private String pm10;
             private String dianliang;
             private String shidu;
             private String jiaquan;
+            @SerializedName("pm2.5")
+            private String _$Pm25224; // FIXME check this code
             @SerializedName("switch")
             private String switchX;
             private int num;
 
             public String getDeviceid() {
-
-                return  deviceid.toLowerCase();
+                return deviceid;
             }
 
             public void setDeviceid(String deviceid) {
-                this.deviceid = deviceid.toLowerCase();
+                this.deviceid = deviceid;
             }
 
             public String getDeviceName() {
@@ -122,14 +119,6 @@ public class Facility implements Serializable{
 
             public void setDevicePosition(String devicePosition) {
                 this.devicePosition = devicePosition;
-            }
-
-            public String get_$Pm25267() {
-                return _$Pm25267;
-            }
-
-            public void set_$Pm25267(String _$Pm25267) {
-                this._$Pm25267 = _$Pm25267;
             }
 
             public String getTvoc() {
@@ -178,6 +167,14 @@ public class Facility implements Serializable{
 
             public void setJiaquan(String jiaquan) {
                 this.jiaquan = jiaquan;
+            }
+
+            public String get_$Pm25224() {
+                return _$Pm25224;
+            }
+
+            public void set_$Pm25224(String _$Pm25224) {
+                this._$Pm25224 = _$Pm25224;
             }
 
             public String getSwitchX() {

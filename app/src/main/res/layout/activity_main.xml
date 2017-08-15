@@ -49,9 +49,9 @@
                 android:padding="15dp"
                 android:src="@drawable/home_btn_time" />
         </RelativeLayout>
-        <include
+   <!--     <include
             android:visibility="gone"
-            layout="@layout/main_fragment" />
+            layout="@layout/main_fragment" />-->
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
             android:layout_width="fill_parent"

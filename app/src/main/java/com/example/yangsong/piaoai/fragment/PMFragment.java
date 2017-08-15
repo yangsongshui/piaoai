@@ -18,12 +18,12 @@ import butterknife.BindView;
 
 public class PMFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener {
 
-    @BindView(R.id.pm25)
+    @BindView(R.id.pm_pm25)
     TextView pm25;
-    @BindView(R.id.pm_tv)
+    @BindView(R.id.pm_pm_tv)
     TextView pm_tv;
     Facility.ResBodyBean.ListBean facility;
-    @BindView(R.id.cardiac_rgrpNavigation)
+    @BindView(R.id.pm_cardiac_rgrpNavigation)
     RadioGroup cardiacRgrpNavigation;
     private Fragment[] frags = new Fragment[4];
     protected BaseFragment baseFragment;
@@ -39,28 +39,30 @@ public class PMFragment extends BaseFragment implements RadioGroup.OnCheckedChan
 
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
-        pm25.setText(facility.get_$Pm25267());
-        int pm = Integer.parseInt(facility.get_$Pm25267());
-        if (pm >= 0 || pm <= 35) {
-            pm_tv.setText("优");
-        } else if (pm > 35 || pm <= 75) {
-            pm_tv.setText("良");
-            pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_liang));
-        } else if (pm > 75 || pm <= 115) {
-            pm_tv.setText("轻度污染");
-            pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_qingdu));
-        } else if (pm > 116 || pm <= 150) {
-            pm_tv.setText("中度污染");
-            pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_zhongdu));
-        } else if (pm > 151 || pm <= 250) {
-            pm_tv.setText("重度污染");
-            pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_zhong));
-        } else if (pm > 251 || pm <= 500) {
-            pm_tv.setText("严重污染");
-            pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_yanzhong));
+        if (!facility.get_$Pm25224().equals("")) {
+            pm25.setText(facility.get_$Pm25224());
+            int pm = Integer.parseInt(facility.get_$Pm25224());
+            if (pm >= 0 || pm <= 35) {
+                pm_tv.setText("优");
+            } else if (pm > 35 || pm <= 75) {
+                pm_tv.setText("良");
+                pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_liang));
+            } else if (pm > 75 || pm <= 115) {
+                pm_tv.setText("轻度污染");
+                pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_qingdu));
+            } else if (pm > 116 || pm <= 150) {
+                pm_tv.setText("中度污染");
+                pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_zhongdu));
+            } else if (pm > 151 || pm <= 250) {
+                pm_tv.setText("重度污染");
+                pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_zhong));
+            } else if (pm > 251 || pm <= 500) {
+                pm_tv.setText("严重污染");
+                pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_yanzhong));
+            }
         }
         initData();
-        cardiacRgrpNavigation.check(R.id.chart_tiem_rb);
+        cardiacRgrpNavigation.check(R.id.pm_chart_tiem_rb);
         cardiacRgrpNavigation.setOnCheckedChangeListener(this);
     }
 
@@ -68,7 +70,6 @@ public class PMFragment extends BaseFragment implements RadioGroup.OnCheckedChan
     protected int getContentView() {
         return R.layout.fragment_pm;
     }
-
 
 
     @Override
@@ -83,7 +84,7 @@ public class PMFragment extends BaseFragment implements RadioGroup.OnCheckedChan
         }
 
         if (!dataFragment.isAdded()) {
-            getActivity().getSupportFragmentManager().beginTransaction().add(R.id.chart_fl, dataFragment).commit();
+            getActivity().getSupportFragmentManager().beginTransaction().add(R.id.pm_chart_fl, dataFragment).commit();
             baseFragment = dataFragment;
         }
     }
@@ -91,20 +92,21 @@ public class PMFragment extends BaseFragment implements RadioGroup.OnCheckedChan
     @Override
     public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
         switch (group.getCheckedRadioButtonId()) {
-            case R.id.chart_tiem_rb:
+            case R.id.pm_chart_tiem_rb:
                 showFragment(0);
                 break;
-            case R.id.chart_day_rb:
+            case R.id.pm_chart_day_rb:
                 showFragment(1);
                 break;
-            case R.id.chart_week_rb:
+            case R.id.pm_chart_week_rb:
                 showFragment(2);
                 break;
-            case R.id.chart_month_rb:
+            case R.id.pm_chart_month_rb:
                 showFragment(3);
                 break;
         }
     }
+
     private void showFragment(int position) {
         if (frags[position] == null) {
             frags[position] = getFrag(position);
@@ -142,7 +144,7 @@ public class PMFragment extends BaseFragment implements RadioGroup.OnCheckedChan
             return;
 
         if (!fragment.isAdded()) { // 如果当前fragment未被添加，则添加到Fragment管理器中
-            transaction.hide(baseFragment).add(R.id.chart_fl, fragment).commit();
+            transaction.hide(baseFragment).add(R.id.pm_chart_fl, fragment).commit();
         } else {
             transaction.hide(baseFragment).show(fragment).commit();
         }

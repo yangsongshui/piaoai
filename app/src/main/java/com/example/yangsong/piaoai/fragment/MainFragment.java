@@ -64,9 +64,9 @@ public class MainFragment extends BaseFragment {
 
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
-        roundProgressBarTVOC.setMax(10);
+        roundProgressBarTVOC.setMax(1000);
         roundProgressBarHumidity.setMax(100);
-        roundProgressBarMethanal.setMax(4);
+        roundProgressBarMethanal.setMax(400);
 
         roundProgressBarCO2.setMax(1500);
         roundProgressBarPM10.setMax(200);
@@ -74,7 +74,7 @@ public class MainFragment extends BaseFragment {
         if (TextUtils.isEmpty(facility.getTvoc()))
             roundProgressBarTVOC.setProgress(0);
         else {
-            roundProgressBarTVOC.setProgress(Integer.parseInt(facility.getTvoc()));
+            roundProgressBarTVOC.setProgress((int) (Double.parseDouble(facility.getTvoc())*100));
             homeTVOCTv.setText(facility.getTvoc());
         }
 
@@ -114,7 +114,8 @@ public class MainFragment extends BaseFragment {
         if (TextUtils.isEmpty(facility.getJiaquan()))
             roundProgressBarMethanal.setProgress(0);
         else {
-            roundProgressBarMethanal.setProgress(Integer.parseInt(facility.getJiaquan()));
+            roundProgressBarMethanal.setProgress((int) (Double.parseDouble(facility.getJiaquan())*100));
+            //roundProgressBarMethanal.setProgress(Integer.parseInt(facility.getJiaquan()));
             homeMethanalTv.setText(facility.getJiaquan());
         }
         if (!facility.get_$Pm25224().equals("")) {

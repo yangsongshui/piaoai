@@ -31,6 +31,7 @@
     <uses-permission android:name="android.permission.VIBRATE" /> <!-- 震动权限 -->
     <uses-feature android:name="android.hardware.camera" /> <!-- 使用照相机权限 -->
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <!-- 自动聚焦权限 -->
     <application
         android:name=".app.MyApplication"
@@ -83,25 +84,27 @@
         <activity
             android:name="com.umeng.qq.tencent.AuthActivity"
             android:launchMode="singleTask"
-            android:noHistory="true" >
-
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="tencent1106247638" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.umeng.qq.tencent.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="594b8a6575ca3518ad000834" >
-        </meta-data>
+            android:value="594b8a6575ca3518ad000834"></meta-data>
+
+        <activity android:name=".activity.MaintainActivity"></activity>
     </application>
 
 </manifest>

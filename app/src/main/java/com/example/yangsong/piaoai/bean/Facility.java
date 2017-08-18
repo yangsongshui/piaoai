@@ -45,7 +45,7 @@ public class Facility implements Serializable{
         this.resBody = resBody;
     }
 
-    public static class ResBodyBean {
+    public static class ResBodyBean  implements Serializable{
         private List<ListBean> list;
 
         public List<ListBean> getList() {
@@ -56,7 +56,7 @@ public class Facility implements Serializable{
             this.list = list;
         }
 
-        public static class ListBean {
+        public static class ListBean  implements Serializable{
             /**
              * deviceid : F1:03:00:00:01
              * deviceName : 2222

@@ -117,14 +117,14 @@ public class MainActivity extends BaseActivity implements FacilityView {
 
 
     @OnClick({R.id.main_left_iv, R.id.tv_main_right, R.id.main_equipment_tv, R.id.main_user_tv, R.id.main_outside_tv, R.id.main_police_tv,
-            R.id.main_feedback_tv, R.id.main_shop_tv, R.id.main_about_tv, R.id.main_out_tv, R.id.me_pic_iv})
+            R.id.main_feedback_tv, R.id.main_shop_tv, R.id.main_about_tv, R.id.main_out_tv, R.id.me_pic_iv,R.id.main_maintain_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.main_left_iv:
                 activityMain.openDrawer(GravityCompat.START);
                 break;
             case R.id.tv_main_right:
-                Log.e("init", device.getDeviceid() + " " + type);
+              //  Log.e("init", device.getDeviceid() + " " + type);
                 if (mList.size() > 0)
                     startActivity(new Intent(this, HistoryActivity.class).putExtra("deviceID", device.getDeviceid()).putExtra("type", device.getType()));
                 else
@@ -157,7 +157,9 @@ public class MainActivity extends BaseActivity implements FacilityView {
                 break;
             case R.id.me_pic_iv:
                 startActivity(new Intent(this, MyInfoActivity.class));
-
+                break;
+            case R.id.main_maintain_tv:
+                startActivity(new Intent(this, MaintainActivity.class));
                 break;
         }
     }
@@ -233,6 +235,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
 
     @Override
     public void loadDataError(Throwable throwable) {
+        Log.e(TAG, throwable.toString());
         toastor.showSingletonToast("服务器连接异常");
     }
 

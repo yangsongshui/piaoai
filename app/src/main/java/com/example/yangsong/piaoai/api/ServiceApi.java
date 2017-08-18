@@ -138,6 +138,9 @@ public interface ServiceApi {
     //最小组数控制除霾设备
     @POST("minFlzCMNum?")
     Observable<FLZDevice> minFlzCMNum(@QueryMap Map<String, String> map);
+    //新增维修单
+    @POST("addDeviceServiceInfo?")
+    Observable<Msg> addDeviceServiceInfo(@QueryMap Map<String, String> map);
     //最小组数控制除霾设备
     @FormUrlEncoded
     @POST("findCityData?")

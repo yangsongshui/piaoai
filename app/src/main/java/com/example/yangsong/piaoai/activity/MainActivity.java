@@ -53,8 +53,10 @@ public class MainActivity extends BaseActivity implements FacilityView {
     ImageView tvMainRight;
     TestFragmentAdapter mAdapter;
     List<Facility.ResBodyBean.ListBean> mList;
-/*    @BindView(R.id.main_fragment)
-    LinearLayout mainFragment;*/
+    @BindView(R.id.main_fragment)
+    LinearLayout mainFragment;
+    @BindView(R.id.main_maintain_tv)
+    TextView main_maintain_tv;
     private ProgressDialog progressDialog = null;
     private FacilityPresenerImp facilityPresenerImp = null;
     private Toastor toastor;
@@ -80,6 +82,9 @@ public class MainActivity extends BaseActivity implements FacilityView {
         mAdapter = new TestFragmentAdapter(getSupportFragmentManager(), mList);
         pager.setAdapter(mAdapter);
         indicator.setViewPager(pager);
+        if (!MyApplication.newInstance().getUser().getResBody().getRole().equals("0")) {
+            main_maintain_tv.setVisibility(View.VISIBLE);
+        }
 
         indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -117,14 +122,14 @@ public class MainActivity extends BaseActivity implements FacilityView {
 
 
     @OnClick({R.id.main_left_iv, R.id.tv_main_right, R.id.main_equipment_tv, R.id.main_user_tv, R.id.main_outside_tv, R.id.main_police_tv,
-            R.id.main_feedback_tv, R.id.main_shop_tv, R.id.main_about_tv, R.id.main_out_tv, R.id.me_pic_iv,R.id.main_maintain_tv})
+            R.id.main_feedback_tv, R.id.main_shop_tv, R.id.main_about_tv, R.id.main_out_tv, R.id.me_pic_iv, R.id.main_maintain_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.main_left_iv:
                 activityMain.openDrawer(GravityCompat.START);
                 break;
             case R.id.tv_main_right:
-              //  Log.e("init", device.getDeviceid() + " " + type);
+                //  Log.e("init", device.getDeviceid() + " " + type);
                 if (mList.size() > 0)
                     startActivity(new Intent(this, HistoryActivity.class).putExtra("deviceID", device.getDeviceid()).putExtra("type", device.getType()));
                 else
@@ -214,17 +219,17 @@ public class MainActivity extends BaseActivity implements FacilityView {
                 } else {
                     tvMainRight.setVisibility(View.VISIBLE);
                 }
-                //mainFragment.setVisibility(View.GONE);
+                mainFragment.setVisibility(View.GONE);
             } else if (!isOne) {
                 isOne = true;
-                //mainFragment.setVisibility(View.VISIBLE);
+                mainFragment.setVisibility(View.VISIBLE);
                 toastor.showSingletonToast("无绑定设备");
                 startActivity(new Intent(this, BindingActivity.class));
             } else {
                 toastor.showSingletonToast("无绑定设备");
                 mAdapter.setCount(tData.getResBody().getList());
                 indicator.notifyDataSetChanged();
-               // mainFragment.setVisibility(View.VISIBLE);
+                mainFragment.setVisibility(View.VISIBLE);
             }
 
         } else {

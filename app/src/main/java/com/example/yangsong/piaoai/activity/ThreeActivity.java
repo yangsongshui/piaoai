@@ -37,6 +37,7 @@ public class ThreeActivity extends BaseActivity implements MsgView {
     BindingPresenterImp bindingPresenterImp;
     Toastor toastor;
     String sn;
+
     @Override
     protected int getContentView() {
         return R.layout.activity_three;
@@ -63,7 +64,7 @@ public class ThreeActivity extends BaseActivity implements MsgView {
             case R.id.three_tv:
                 String name = threeNameEt.getText().toString().trim();
                 String address = threeAddressEt.getText().toString().trim();
-                if (!address.equals("请选择设备所在地址")&&!address.equals("")) {
+                if (!address.equals("请选择设备所在地址") && !address.equals("")) {
                     if (name.length() > 0) {
                         String phoneNumber = MyApplication.newInstance().getUser().getResBody().getPhoneNumber();
                         Map<String, String> map = new HashMap<>();
@@ -116,9 +117,7 @@ public class ThreeActivity extends BaseActivity implements MsgView {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         super.onActivityResult(requestCode, resultCode, data);
-
         if (resultCode == RESULT_OK) {
             Bundle bundle = data.getExtras();
             String scanResult = bundle.getString("address");

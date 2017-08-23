@@ -87,8 +87,8 @@ public class PMMonthFragment extends BaseFragment implements OnChartValueSelecte
         map.put("imei", indext);
 
         map.put("type", "3");
-        map.put("endDate", time + " 24:00");
-        map.put("beginDate", time2 + " 00:00");
+        map.put("endDate", time );
+        map.put("beginDate", time2 );
         pMdataPresenterImp.binding(map);
     }
 

@@ -85,8 +85,8 @@ public class PMWeekFragment extends BaseFragment implements OnChartValueSelected
         //通过格式化输出日期
         String time = DateUtil.getCurrDate(LONG_DATE_FORMAT);
         String time2 = DateUtil.dateToString(DateUtil.nextDay(cal.getTime(), -6), LONG_DATE_FORMAT);
-        map.put("endDate", time + " 24:00");
-        map.put("beginDate", time2 + " 00:00");
+        map.put("endDate", time );
+        map.put("beginDate", time2 );
         pMdataPresenterImp.binding(map);
     }
 

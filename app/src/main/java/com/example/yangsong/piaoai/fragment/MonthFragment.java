@@ -143,8 +143,8 @@ public class MonthFragment extends BaseFragment implements OnChartValueSelectedL
         map = new HashMap<>();
         map.put("imei", deviceID);
         map.put("type", "3");
-        map.put("endDate", time + " 24:00");
-        map.put("beginDate", time2 + " 00:00");
+        map.put("endDate", time );
+        map.put("beginDate", time2);
         if (indext == 0) {
             //查询pm2.5
             DayUnitTv.setText("μg/m³");

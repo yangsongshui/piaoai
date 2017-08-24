@@ -200,7 +200,7 @@ public class PMMonthFragment extends BaseFragment implements OnChartValueSelecte
             if (i >= (mList.size())) {
                 values1.add(new Entry(i, 0));
             } else
-                values1.add(new Entry(i, Integer.parseInt(mList.get(i))));
+                values1.add(new Entry(i, Float.parseFloat(mList.get(i))));
         }
 
         LineDataSet set1;

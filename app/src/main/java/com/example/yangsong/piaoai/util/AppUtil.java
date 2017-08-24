@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  * Created by ys on 2017/3/11.
  */
 
-public class    AppUtil {
+public class AppUtil {
 
     /**
      * 检查设备是否存在SDCard的工具方法
@@ -48,13 +48,13 @@ public class    AppUtil {
     }
 
     //计算图片的缩放值
-    public static int calculateInSampleSize(BitmapFactory.Options options,int reqWidth, int reqHeight) {
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         final int height = options.outHeight;
         final int width = options.outWidth;
         int inSampleSize = 1;
 
         if (height > reqHeight || width > reqWidth) {
-            final int heightRatio = Math.round((float) height/ (float) reqHeight);
+            final int heightRatio = Math.round((float) height / (float) reqHeight);
             final int widthRatio = Math.round((float) width / (float) reqWidth);
             inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
         }
@@ -108,16 +108,16 @@ public class    AppUtil {
     }
 
     public static void TVOC(Context context, TextView textView, double tvoc) {
-        if (tvoc >= 0.0 && tvoc <= 0.6) {
+        if (tvoc >= 0 && tvoc <= 0.6) {
             textView.setText("良好");
             textView.setBackground(context.getResources().getDrawable(R.drawable.point_selected));
         } else if (tvoc > 0.6 && tvoc <= 1.0) {
             textView.setText("轻度污染");
             textView.setBackground(context.getResources().getDrawable(R.drawable.pm_liang));
-        } else if (tvoc > 1.1 && tvoc <= 1.6) {
+        } else if (tvoc > 1.0 && tvoc <= 1.6) {
             textView.setText("中度污染");
             textView.setBackground(context.getResources().getDrawable(R.drawable.pm_qingdu));
-        } else if (tvoc > 1.6 && tvoc <= 150) {
+        } else if (tvoc > 1.6) {
             textView.setText("重度污染");
             textView.setBackground(context.getResources().getDrawable(R.drawable.pm_zhongdu));
         }
@@ -134,66 +134,51 @@ public class    AppUtil {
         } else if (pm > 75 && pm <= 115) {
             textView.setText("轻度污染");
             textView.setBackground(context.getResources().getDrawable(R.drawable.pm_qingdu));
-        } else if (pm > 116 && pm <= 150) {
+        } else if (pm > 115 && pm <= 150) {
             textView.setText("中度污染");
             textView.setBackground(context.getResources().getDrawable(R.drawable.pm_zhongdu));
-        } else if (pm > 151 && pm <= 250) {
+        } else if (pm > 150 && pm <= 250) {
             textView.setText("重度污染");
             textView.setBackground(context.getResources().getDrawable(R.drawable.pm_zhong));
-        } else if (pm > 251 && pm <= 500) {
-            textView.setText("严重污染");
-            textView.setBackground(context.getResources().getDrawable(R.drawable.pm_yanzhong));
-        } else {
+        } else if (pm > 250) {
             textView.setText("严重污染");
             textView.setBackground(context.getResources().getDrawable(R.drawable.pm_yanzhong));
         }
     }
 
     public static void CO2(Context context, TextView textView, int co2) {
-        if (co2 >= 0 && co2 <= 485) {
-            textView.setText("极优");
-            textView.setBackground(context.getResources().getDrawable(R.drawable.pm_ji));
-        } else if (co2 >= 486 && co2 <= 600) {
-            textView.setText("优");
-            textView.setBackground(context.getResources().getDrawable(R.drawable.point_selected));
-        } else if (co2 > 600 && co2 <= 800) {
-            textView.setText("良");
-            textView.setBackground(context.getResources().getDrawable(R.drawable.pm_liang));
-        } else if (co2 > 800 && co2 <= 1000) {
-            textView.setText("轻度污染");
+        if (co2 >= 0 && co2 <= 700) {
+            textView.setText("清新");
             textView.setBackground(context.getResources().getDrawable(R.drawable.pm_qingdu));
-        } else if (co2 > 1000 && co2 <= 1200) {
-            textView.setText("中度污染");
+        } else if (co2 > 700 && co2 <= 1000) {
+            textView.setText("较好");
             textView.setBackground(context.getResources().getDrawable(R.drawable.pm_zhongdu));
-        } else if (co2 > 1200 && co2 <= 1500) {
-            textView.setText("重度污染");
+        } else if (co2 > 1000 && co2 <= 1500) {
+            textView.setText("较浊");
             textView.setBackground(context.getResources().getDrawable(R.drawable.pm_zhong));
         } else if (co2 > 1500) {
-            textView.setText("严重污染");
+            textView.setText("浑浊");
             textView.setBackground(context.getResources().getDrawable(R.drawable.pm_yanzhong));
         }
     }
 
-    public static void jiaquan(Context context, TextView textView, int jiaquan) {
-        if (jiaquan >= 0 && jiaquan <= 35) {
+    public static void jiaquan(Context context, TextView textView, double jiaquan) {
+        if (jiaquan >= 0 && jiaquan <= 0.03) {
             textView.setText("优");
             textView.setBackground(context.getResources().getDrawable(R.drawable.point_selected));
-        } else if (jiaquan > 35 && jiaquan <= 75) {
+        } else if (jiaquan > 0.03 && jiaquan <= 0.1) {
             textView.setText("良");
             textView.setBackground(context.getResources().getDrawable(R.drawable.pm_liang));
-        } else if (jiaquan > 75 && jiaquan <= 115) {
+        } else if (jiaquan > 0.1 && jiaquan <= 0.2) {
             textView.setText("轻度污染");
             textView.setBackground(context.getResources().getDrawable(R.drawable.pm_qingdu));
-        } else if (jiaquan > 116 && jiaquan <= 150) {
+        } else if (jiaquan > 0.1 && jiaquan <= 0.2) {
             textView.setText("中度污染");
             textView.setBackground(context.getResources().getDrawable(R.drawable.pm_zhongdu));
-        } else if (jiaquan > 151 && jiaquan <= 250) {
+        } else if (jiaquan > 0.1 && jiaquan <= 0.2) {
             textView.setText("重度污染");
             textView.setBackground(context.getResources().getDrawable(R.drawable.pm_zhong));
-        } else if (jiaquan > 251 && jiaquan <= 500) {
-            textView.setText("严重污染");
-            textView.setBackground(context.getResources().getDrawable(R.drawable.pm_yanzhong));
-        } else {
+        } else if (jiaquan > 0.8) {
             textView.setText("严重污染");
             textView.setBackground(context.getResources().getDrawable(R.drawable.pm_yanzhong));
         }

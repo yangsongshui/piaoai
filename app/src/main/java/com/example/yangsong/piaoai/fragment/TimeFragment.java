@@ -243,7 +243,7 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
             if (i >= (mList.size())) {
                 values1.add(new Entry(i, 0));
             } else
-                values1.add(new Entry(i, Integer.parseInt(mList.get(i))));
+                values1.add(new Entry(i, Float.parseFloat(mList.get(i))));
         }
 
         LineDataSet set1;
@@ -287,7 +287,7 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
             AppUtil.TVOC(getActivity(), dayMsgTv, (int) e.getY());
         } else if (indext == 3) {
             //甲醛
-            AppUtil.jiaquan(getActivity(), dayMsgTv, (int) e.getY());
+            AppUtil.jiaquan(getActivity(), dayMsgTv, e.getY());
         } else if (indext == 4) {
             //温度
             AppUtil.wendu(getActivity(), dayMsgTv, (int) e.getY());

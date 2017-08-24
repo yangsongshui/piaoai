@@ -42,21 +42,21 @@ public class PMFragment extends BaseFragment implements RadioGroup.OnCheckedChan
         if (!facility.get_$Pm25224().equals("")) {
             pm25.setText(facility.get_$Pm25224());
             int pm = Integer.parseInt(facility.get_$Pm25224());
-            if (pm >= 0 || pm <= 35) {
+            if (pm >= 0 && pm <= 35) {
                 pm_tv.setText("优");
-            } else if (pm > 35 || pm <= 75) {
+            } else if (pm > 35 && pm <= 75) {
                 pm_tv.setText("良");
                 pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_liang));
-            } else if (pm > 75 || pm <= 115) {
+            } else if (pm > 75 && pm <= 115) {
                 pm_tv.setText("轻度污染");
                 pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_qingdu));
-            } else if (pm > 116 || pm <= 150) {
+            } else if (pm > 116 && pm <= 150) {
                 pm_tv.setText("中度污染");
                 pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_zhongdu));
-            } else if (pm > 151 || pm <= 250) {
+            } else if (pm > 151 && pm <= 250) {
                 pm_tv.setText("重度污染");
                 pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_zhong));
-            } else if (pm > 251 || pm <= 500) {
+            } else if (pm > 251 ) {
                 pm_tv.setText("严重污染");
                 pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_yanzhong));
             }

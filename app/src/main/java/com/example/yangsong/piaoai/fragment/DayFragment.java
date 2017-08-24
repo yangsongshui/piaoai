@@ -137,10 +137,10 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
         map.put("type", "1");
         //通过格式化输出日期
         String time = DateUtil.getCurrDate(LONG_DATE_FORMAT);
-        map.put("endDate", time + " 24:00");
-        map.put("beginDate", time + " 00:00");
-    /*  map.put("beginDate", "2017-07-02 00:00");
-        map.put("endDate", "2017-07-02 24:00");*/
+        map.put("endDate", time);
+        map.put("beginDate", time);
+   /* map.put("beginDate", "2017-08-23");
+        map.put("endDate", "2017-08-23");*/
         if (indext == 0) {
             //查询pm2.5
             DayUnitTv.setText("μg/m³");
@@ -333,10 +333,7 @@ public class DayFragment extends BaseFragment implements OnChartValueSelectedLis
       //  toastor.showSingletonToast(tData.getResMessage());
         if (tData.getResCode().equals("0")) {
             if (tData.getResBody().getList().size() > 0) {
-                mList = tData.getResBody().getList().get(0);
-                mList.remove(1);
-                mList.remove(0);
-                mList.remove(mList.size() - 1);
+                mList = tData.getResBody().getList();
 
             }
             CombinedData data = new CombinedData();

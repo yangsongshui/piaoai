@@ -79,8 +79,10 @@ public class PMDayFragment extends BaseFragment implements OnChartValueSelectedL
         map = new HashMap<>();
         map.put("imei", indext);
         map.put("type", "1");
-        map.put("endDate", time + " 24:00");
-        map.put("beginDate", time + " 00:00");
+         map.put("endDate", time);
+        map.put("beginDate", time);
+      /*  map.put("beginDate", "2017-08-23");
+        map.put("endDate", "2017-08-23");*/
         pMdataPresenterImp.binding(map);
     }
 

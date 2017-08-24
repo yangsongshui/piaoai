@@ -338,10 +338,7 @@ public class MonthFragment extends BaseFragment implements OnChartValueSelectedL
         toastor.showSingletonToast(tData.getResMessage());
         if (tData.getResCode().equals("0")) {
             if (tData.getResBody().getList().size() > 0) {
-                mList = tData.getResBody().getList().get(0);
-                mList.remove(1);
-                mList.remove(0);
-                mList.remove(mList.size() - 1);
+                mList = tData.getResBody().getList();
 
             }
             CombinedData data = new CombinedData();
@@ -418,47 +415,5 @@ public class MonthFragment extends BaseFragment implements OnChartValueSelectedL
 
 
     }
- /*   private void initYLabel(int type){
-        switch (type) {
-            case 0:
-                //PM2.5
-                mChart.getAxisLeft().setAxisMaximum(1000);
-                mChart.getAxisLeft().setAxisMinimum(0);
-                break;
-            case 1:
-                //CO2
-                mChart.getAxisLeft().setAxisMaximum(1500);
-                mChart.getAxisLeft().setAxisMinimum(0);
-                break;
-            case 2:
-                //tvoc
-                mChart.getAxisLeft().setAxisMaximum(1000);
-                mChart.getAxisLeft().setAxisMinimum(0);
 
-                break;
-            case 3:
-                //甲醛
-                mChart.getAxisLeft().setAxisMaximum((float)1.6);
-                mChart.getAxisLeft().setAxisMinimum(0);
-                break;
-            case 4:
-                //温度
-                mChart.getAxisLeft().setAxisMaximum(40);
-                mChart.getAxisLeft().setAxisMinimum(-20);
-
-                break;
-            case 5:
-                // 湿度
-
-                mChart.getAxisLeft().setAxisMaximum(100);
-                mChart.getAxisLeft().setAxisMinimum(0);
-
-                break;
-            default:
-                break;
-        }
-        mChart.getAxisLeft().setLabelCount(6,true);
-        mChart.notifyDataSetChanged();
-        mChart.invalidate();
-    }*/
 }

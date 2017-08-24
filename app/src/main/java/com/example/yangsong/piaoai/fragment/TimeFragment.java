@@ -323,10 +323,7 @@ public class TimeFragment extends BaseFragment implements OnChartValueSelectedLi
         toastor.showSingletonToast(tData.getResMessage());
         if (tData.getResCode().equals("0")) {
             if (tData.getResBody().getList().size() > 0) {
-                mList = tData.getResBody().getList().get(0);
-                mList.remove(1);
-                mList.remove(0);
-                mList.remove(mList.size()-1);
+                mList = tData.getResBody().getList();
 
             }
             CombinedData data = new CombinedData();

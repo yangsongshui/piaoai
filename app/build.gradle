@@ -12,6 +12,20 @@ android {
         versionName "2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        config {
+            keyAlias 'yangsong'
+            keyPassword 'qq362927657'
+            storeFile file('yangsong.jks')
+            storePassword 'qq362927657'
+        }
+        robert{
+            storePassword 'qq362927657'
+            storeFile file('yangsong.jks')
+            keyPassword 'qq362927657'
+            keyAlias 'yangsong'
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false

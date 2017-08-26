@@ -81,6 +81,7 @@ public class Facility implements Serializable{
             private String co2;
             private String pm10;
             private String dianliang;
+            private String wendu;
             private String shidu;
             private String jiaquan;
             @SerializedName("pm2.5")
@@ -159,6 +160,15 @@ public class Facility implements Serializable{
 
             public void setShidu(String shidu) {
                 this.shidu = shidu;
+            }
+
+
+            public String getWendu() {
+                return wendu;
+            }
+
+            public void setWendu(String wendu) {
+                this.wendu = shidu;
             }
 
             public String getJiaquan() {

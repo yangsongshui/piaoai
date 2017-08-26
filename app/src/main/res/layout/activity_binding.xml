@@ -84,7 +84,7 @@
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:background="@drawable/binding_rim"
-            android:hint="请输入设备号"
+            android:hint="请输入SN号"
             android:padding="10dp"
             android:textColorHint="@color/silver_sand"
             android:textSize="14sp" />
@@ -96,7 +96,7 @@
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:background="@drawable/binding_rim"
-            android:hint="请输入SN号"
+            android:hint="请输入Key"
             android:layout_marginTop="10dp"
             android:padding="10dp"
             android:textColorHint="@color/silver_sand"

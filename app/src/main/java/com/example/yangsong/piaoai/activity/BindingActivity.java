@@ -81,8 +81,8 @@ public class BindingActivity extends BaseActivity {
         //扫描结果回调
         if (resultCode == RESULT_OK) { //RESULT_OK = -1
             Bundle bundle = data.getExtras();
-            String scanResult = bundle.getString("qr_scan_result").toLowerCase();
-            String result = scanResult.substring(0, scanResult.indexOf("-"));
+            String scanResult = bundle.getString("qr_scan_result");
+            String result = scanResult.substring(0, scanResult.indexOf("-")).toLowerCase();
             String sn = scanResult.substring(scanResult.indexOf("-") +1, scanResult.length());
             //将扫描出的信息显示出来
             bindingEt.setText(result);

@@ -67,6 +67,7 @@ public class MainFragment extends BaseFragment {
         roundProgressBarTVOC.setMax(1000);
         roundProgressBarHumidity.setMax(100);
         roundProgressBarMethanal.setMax(400);
+        roundProgressBarElectric.setMax(50);
 
         roundProgressBarCO2.setMax(1500);
         roundProgressBarPM10.setMax(200);
@@ -98,8 +99,8 @@ public class MainFragment extends BaseFragment {
         if (TextUtils.isEmpty(facility.getDianliang()))
             roundProgressBarElectric.setProgress(0);
         else {
-            roundProgressBarElectric.setProgress(Integer.parseInt(facility.getDianliang()));
-            homeElectricTv.setText(facility.getDianliang());
+            roundProgressBarElectric.setProgress(Integer.parseInt(facility.getWendu()));
+            homeElectricTv.setText(facility.getWendu());
         }
 
         //湿度

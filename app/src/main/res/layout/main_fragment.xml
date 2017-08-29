@@ -220,6 +220,7 @@
                 android:id="@+id/home_electric_rl"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+
                 android:layout_weight="1">
 
                 <TextView
@@ -249,7 +250,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/home_electric_tv"
                     android:layout_centerHorizontal="true"
-                    android:text="%"
+                    android:text="℃"
                     android:textColor="@color/baby_blue_eyes"
                     android:textSize="10sp" />
 
@@ -260,7 +261,7 @@
                     android:layout_below="@+id/roundProgressBar_electric"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="6dp"
-                    android:text="电量"
+                    android:text="温度"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
             </RelativeLayout>

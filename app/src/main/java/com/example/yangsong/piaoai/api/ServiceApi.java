@@ -105,19 +105,19 @@ public interface ServiceApi {
     Call<Weather> getWeather(@Query("area") String address, @Query("needMoreDay") String needMoreDay);
 
     //查询PM2.5时历史数据
-    @POST("getHourDataByPM2_5?")
+    @POST("getHistoryDataByPM2_5?")
     Observable<PMBean> getHourDataByPM2_5(@QueryMap Map<String, String> map);
 
     //查询CO2时历史数据
-    @POST("getHourDataByCO2?")
+    @POST("getHistoryDataByCO2?")
     Observable<TVOC> getHourDataByCO2(@QueryMap Map<String, String> map);
 
     //查询TVOC时历史数据
-    @POST("getHourDataByTVOC?")
+    @POST("getHistoryDataByTVOC?")
     Observable<TVOC> getHourDataByTVOC(@QueryMap Map<String, String> map);
 
     //查询甲醛时历史数据
-    @POST("getHourDataByJIAQUAN?")
+    @POST("getHistoryDataByJIAQUAN?")
     Observable<TVOC> getHourDataByJIAQUAN(@QueryMap Map<String, String> map);
 
     //开启除霾设备

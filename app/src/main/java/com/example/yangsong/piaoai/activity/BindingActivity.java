@@ -56,12 +56,11 @@ public class BindingActivity extends BaseActivity {
                 }
                 break;
             default:
-                String deviceID = bindingEt.getText().toString();
+                String deviceID = bindingEt.getText().toString().toLowerCase();
                 String sn = bidingSnEt.getText().toString();
-                deviceID = deviceID.toLowerCase();
                 if (deviceID.length() == 14 && sn.length() == 8) {
                     String type = deviceID.substring(0, 2);
-                    if (type.equals("f1")) {
+                    if (type.equals("f1")||type.equals("F1")) {
                         //WiFi设备
                         startActivity(new Intent(this, OneActivity.class).putExtra("deviceID", deviceID).putExtra("sn",sn));
                     } else {
@@ -79,7 +78,7 @@ public class BindingActivity extends BaseActivity {
 
         super.onActivityResult(requestCode, resultCode, data);
         //扫描结果回调
-        if (resultCode == RESULT_OK) { //RESULT_OK = -1
+        if (resultCode == RESULT_OK) {
             Bundle bundle = data.getExtras();
             String scanResult = bundle.getString("qr_scan_result");
             String result = scanResult.substring(0, scanResult.indexOf("-")).toLowerCase();
@@ -88,8 +87,9 @@ public class BindingActivity extends BaseActivity {
             bindingEt.setText(result);
             bidingSnEt.setText(sn);
             if (result.length() == 14&&sn.length() == 8) {
-                String type = scanResult.substring(0, 2);
-                if (type.equals("f1")) {
+                String type = result.substring(0, 2);
+              //  Log.e("SN",type);
+                if (type.equals("f1")||type.equals("F1")) {
                     //WiFi设备
                     startActivity(new Intent(this, OneActivity.class).putExtra("deviceID", result).putExtra("sn",sn));
                 } else {

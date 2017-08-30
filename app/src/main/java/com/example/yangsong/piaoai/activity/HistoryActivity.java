@@ -507,8 +507,8 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
         time.clear();
         for (int i = 0; i < listBean.size(); i++) {
             String date = DateUtil.stringtoString(listBean.get(i).getCt(),FORMAT_ONE);
-            time.add(date);
-            mList.add(listBean.get(i).getPm2_5());
+            time.add(0,date);
+            mList.add(0,listBean.get(i).getPm2_5());
         }
         CombinedData data = new CombinedData();
         data.setData(getLineData());

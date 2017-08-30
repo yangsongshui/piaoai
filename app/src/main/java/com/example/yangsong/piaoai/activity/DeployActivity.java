@@ -76,6 +76,7 @@ public class DeployActivity extends BaseActivity implements OnSmartLinkListener 
             return;
         } else {
             try {
+                progressDialog.show();
                 mSnifferSmartLinker.start(this, Wifipwd.trim(),
                         Wifiname.trim());
             } catch (Exception e) {
@@ -136,12 +137,14 @@ public class DeployActivity extends BaseActivity implements OnSmartLinkListener 
         Log.e("----------", "连接成功");
         toastor.showSingletonToast("配网成功");
         startActivity(new Intent(this, ThreeActivity.class).putExtra("deviceID",deviceID).putExtra("sn",sn));
+        progressDialog.dismiss();
     }
 
     @Override
     public void onTimeOut() {
         //连接超时
         toastor.showSingletonToast("设备配置超时，请检查设备或WIFI状态");
+        progressDialog.dismiss();
     }
 
     @Override

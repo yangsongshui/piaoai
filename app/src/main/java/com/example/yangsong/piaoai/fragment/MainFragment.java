@@ -96,7 +96,7 @@ public class MainFragment extends BaseFragment {
         }
 
         //电量
-        if (TextUtils.isEmpty(facility.getDianliang()))
+        if (TextUtils.isEmpty(facility.getWendu()))
             roundProgressBarElectric.setProgress(0);
         else {
             roundProgressBarElectric.setProgress(Integer.parseInt(facility.getWendu()));

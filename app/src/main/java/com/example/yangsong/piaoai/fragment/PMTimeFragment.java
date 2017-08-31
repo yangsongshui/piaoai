@@ -81,8 +81,8 @@ public class PMTimeFragment extends BaseFragment implements OnChartValueSelected
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         map.put("endDate", format.format(cal.getTime()));
         cal.add(Calendar.HOUR, -1);
-        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        map.put("beginDate", format2.format(cal.getTime()));
+
+        map.put("beginDate", format.format(cal.getTime()));
         pMdataPresenterImp.binding(map);
     }
 

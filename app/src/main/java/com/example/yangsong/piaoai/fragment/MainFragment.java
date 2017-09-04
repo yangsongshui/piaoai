@@ -149,7 +149,7 @@ public class MainFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.home_TVOC_rl, R.id.home_CO2_rl, R.id.home_humidity_rl, R.id.home_methanal_rl,R.id.main_iv})
+    @OnClick({R.id.home_TVOC_rl, R.id.home_CO2_rl, R.id.home_PM10_rl, R.id.home_methanal_rl,R.id.main_iv})
     public void onViewClicked(View view) {
         Intent intent = new Intent(getActivity(), HistoryActivity.class).putExtra("deviceID", facility.getDeviceid()).putExtra("type", facility.getType());
         switch (view.getId()) {
@@ -159,8 +159,8 @@ public class MainFragment extends BaseFragment {
             case R.id.home_CO2_rl:
                 intent.putExtra("indext", 1);
                 break;
-            case R.id.home_humidity_rl:
-                //intent.putExtra("indext", 5);
+            case R.id.home_PM10_rl:
+                intent.putExtra("indext", 0);
                 break;
             case R.id.home_methanal_rl:
                 intent.putExtra("indext", 3);

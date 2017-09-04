@@ -5,12 +5,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -31,7 +29,6 @@ import com.example.yangsong.piaoai.fragment.MonthFragment;
 import com.example.yangsong.piaoai.fragment.TimeFragment;
 import com.example.yangsong.piaoai.fragment.WeekFragment;
 import com.example.yangsong.piaoai.inter.FragmentEvent;
-import com.example.yangsong.piaoai.myview.MyMarkerView;
 import com.example.yangsong.piaoai.myview.SharePopuoWindow;
 import com.example.yangsong.piaoai.presenter.CityDataPresenterImp;
 import com.example.yangsong.piaoai.util.DateUtil;
@@ -47,8 +44,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
@@ -57,6 +52,7 @@ import com.umeng.socialize.media.UMImage;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -74,30 +70,42 @@ import static com.example.yangsong.piaoai.util.Constan.WEATHER_URL;
 import static com.example.yangsong.piaoai.util.DateUtil.FORMAT_ONE;
 
 
-public class HistoryActivity extends BaseActivity implements OnChartValueSelectedListener, RadioGroup.OnCheckedChangeListener, CityDataView {
+public class HistoryActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, CityDataView {
     private final static String TAG = HistoryActivity.class.getSimpleName();
-    @BindView(R.id.tab_layout)
-    TabLayout tabLayout;
-    @BindView(R.id.cardiac_fl)
-    FrameLayout frameLayout;
+    @BindView(R.id.history_rg)
+    RadioGroup historyRg;
+
     @BindView(R.id.line_chart)
     CombinedChart mChart;
     @BindView(R.id.cardiac_rgrpNavigation)
     RadioGroup cardiacRgrpNavigation;
     String type;
     int indext = 0;
-    @BindView(R.id.address_w)
-    TextView addressW;
-    @BindView(R.id.history_wendu_tv)
-    TextView historyWenduTv;
-    @BindView(R.id.history_tianqi_tv)
-    TextView historyTianqiTv;
-    @BindView(R.id.history_tianqi_iv)
-    ImageView historyTianqiIv;
-    @BindView(R.id.ziwaixian_w)
-    TextView ziwaixianW;
-    @BindView(R.id.history_shidu_tv)
-    TextView historyShiduTv;
+
+
+    @BindView(R.id.weather_iv)
+    ImageView weatherIv;
+    @BindView(R.id.weatherTv)
+    TextView weatherTv;
+    @BindView(R.id.temperature_tv)
+    TextView temperatureTv;
+    @BindView(R.id.city_tv)
+    TextView cityTv;
+    @BindView(R.id.weather_pm2_tv)
+    TextView weatherPm2Tv;
+    @BindView(R.id.weather_pm10_tv)
+    TextView weatherPm10Tv;
+    @BindView(R.id.no2)
+    TextView no2;
+    @BindView(R.id.weather_no2_tv)
+    TextView weatherNo2Tv;
+    @BindView(R.id.weather_so2_tv)
+    TextView weatherSo2Tv;
+    @BindView(R.id.weather_o3_tv)
+    TextView weatherO3Tv;
+    @BindView(R.id.weather_co_tv)
+    TextView weatherCoTv;
+
     private Fragment[] frags = new Fragment[6];
     protected BaseFragment baseFragment;
     private TimeFragment dataFragment;
@@ -113,6 +121,7 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
     List<String> mList;
     List<String> time;
     ProgressDialog progressDialog;
+    int[] id = {R.id.history_pm25, R.id.history_co2, R.id.history_tvoc, R.id.history_jiaquan, R.id.history_pm10};
 
     @Override
     protected int getContentView() {
@@ -126,7 +135,6 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
         String deviceID = getIntent().getStringExtra("deviceID");
         type = getIntent().getStringExtra("type");
         indext = getIntent().getIntExtra("indext", 0);
-
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("正在分享...");
         cityDataPresenterImp = new CityDataPresenterImp(this, this);
@@ -166,40 +174,38 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
     }
 
     private void initView() {
-        tabLayout.addTab(tabLayout.newTab().setText("PM2.5"));
-        if (type.equals("1")||type.equals("4")) {
-            tabLayout.addTab(tabLayout.newTab().setText("CO2"));
-            tabLayout.addTab(tabLayout.newTab().setText("TVOC"));
-            tabLayout.addTab(tabLayout.newTab().setText("甲醛"));
-            //tabLayout.addTab(tabLayout.newTab().setText("温度"));
-            //tabLayout.addTab(tabLayout.newTab().setText("湿度"));
-        }
+        historyRg.check(id[indext]);
         cardiacRgrpNavigation.check(R.id.cardiac_tiem_rb);
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-
-        tabLayout.getTabAt(indext).select();
         cardiacRgrpNavigation.setOnCheckedChangeListener(this);
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        historyRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                //选中了tab的逻辑
-                Log.i("选中了", tab.getPosition() + "");
-                indext = tab.getPosition();
-                EventBus.getDefault().post(new FragmentEvent(tab.getPosition()));
-            }
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (radioGroup.getCheckedRadioButtonId()) {
+                    case R.id.history_pm25:
+                        indext = 0;
+                        EventBus.getDefault().post(new FragmentEvent(0));
+                        break;
+                    case R.id.history_pm10:
+                        indext = 4;
+                        EventBus.getDefault().post(new FragmentEvent(4));
+                        break;
+                    case R.id.history_jiaquan:
+                        indext = 3;
+                        EventBus.getDefault().post(new FragmentEvent(3));
+                        break;
+                    case R.id.history_tvoc:
+                        indext = 2;
+                        EventBus.getDefault().post(new FragmentEvent(2));
+                        break;
+                    case R.id.history_co2:
+                        indext = 1;
+                        EventBus.getDefault().post(new FragmentEvent(1));
+                        break;
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                //上一次tab的逻辑
-                Log.i("上一次选中", tab.getPosition() + "");
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                //上一次tab的逻辑
-                Log.i("上一次选中", tab.getPosition() + "");
+                }
             }
         });
+
         sharePopuoWindow = new SharePopuoWindow(this, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -241,6 +247,32 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
                 .baseUrl(WEATHER_URL)
                 .build();
         toastor = new Toastor(this);
+/*
+        cityDataPresenterImp.binding("深圳");
+        ServiceApi service = retrofit.create(ServiceApi.class);
+        Call<Weather> call = service.getWeather("深圳", "1");
+        call.enqueue(new Callback<Weather>() {
+            @Override
+            public void onResponse(Call<Weather> call, Response<Weather> response) {
+                //请求成功操作
+                Weather weather = response.body();
+                android.util.Log.e("weather", weather.toString());
+                if (weather.getShowapi_res_code() == 0) {
+                    initWeather(weather);
+                } else {
+                    toastor.showSingletonToast("天气查询失败");
+                    progressDialog.dismiss();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Weather> call, Throwable t) {
+                //请求失败操作
+                progressDialog.dismiss();
+                toastor.showSingletonToast("天气查询失败");
+            }
+        });*/
     }
 
     private void showFragment(int position) {
@@ -302,13 +334,12 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
         Description description = new Description();
         description.setText("");
         mChart.setDescription(description);
-        mChart.setDrawOrder(new CombinedChart.DrawOrder[]{
-                CombinedChart.DrawOrder.BAR, CombinedChart.DrawOrder.LINE,
+        mChart.setDrawOrder(new CombinedChart.DrawOrder[]{CombinedChart.DrawOrder.LINE,
         });
         //设置透明度
         // mChart.setAlpha(0.8f);
         //设置是否可以触摸，如为false，则不能拖动，缩放等
-        mChart.setTouchEnabled(true);
+        mChart.setTouchEnabled(false);
         //设置是否可以拖拽
         mChart.setDragEnabled(false);
         //设置是否可以缩放
@@ -316,29 +347,25 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
         mChart.setDoubleTapToZoomEnabled(false);
         //设置是否能扩大扩小
         mChart.setPinchZoom(false);
-        //设置四个边的间距
-        // mChart.setViewPortOffsets(10, 0, 0, 10);
         //隐藏Y轴
         mChart.getAxisRight().setEnabled(false);
-        mChart.getAxisLeft().setEnabled(false);
-        MyMarkerView mv = new MyMarkerView(this, R.layout.custom_marker_view);
-        mv.setChartView(mChart); // For bounds control
-        mChart.setMarker(mv); // Set the marker to the chart
-
-        XAxis xAxis = mChart.getXAxis();
-        xAxis.setAxisMinimum(-0.1f);
-        xAxis.setGranularity(0.3f);
-        xAxis.setAxisMaximum(6);
-        xAxis.setTextColor(Color.rgb(255, 255, 255));
-        xAxis.setAxisLineColor(Color.argb(148, 255, 255, 255));
-        xAxis.setTextSize(10);
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);//设置X轴在底部
         //不画网格
-        xAxis.setDrawGridLines(false);
-
+        mChart.getAxisLeft().setAxisMaximum(500);
+        mChart.getAxisLeft().setAxisMinimum(0);
+        mChart.getAxisLeft().setTextColor(Color.WHITE);
+        mChart.getAxisLeft().setAxisLineColor(Color.WHITE);
+        mChart.getAxisLeft().setGridColor(Color.WHITE);
+        mChart.getAxisLeft().enableGridDashedLine(5f, 3f, 0);
+        mChart.getAxisLeft().setAxisLineWidth(1);
+        XAxis xAxis = mChart.getXAxis();
+        xAxis.setTextColor(Color.WHITE);
+        xAxis.setGridColor(Color.WHITE);
+        xAxis.setAxisLineColor(Color.WHITE);
+        xAxis.enableGridDashedLine(5f, 3f, 0);
+        xAxis.setAxisLineWidth(1);
+        xAxis.setAxisMaximum(6);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);//设置X轴在底部
         mChart.getLegend().setEnabled(false);
-
-        mChart.setOnChartValueSelectedListener(this);
 
     }
 
@@ -347,14 +374,12 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
         ArrayList<Entry> values1 = new ArrayList<>();
 
         for (int i = 0; i < 7; i++) {
-            // Log.e(TAG, mList.get(i)+" " + i );
             if (i >= (mList.size())) {
                 values1.add(new Entry(i, 0));
             } else
                 values1.add(new Entry(i, Integer.parseInt(mList.get(i))));
         }
         IAxisValueFormatter formatter = new IAxisValueFormatter() {
-
 
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
@@ -369,35 +394,21 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
                 mChart.getData().getDataSetCount() > 0) {
             set1 = (LineDataSet) mChart.getData().getDataSetByIndex(0);
             set1.setValues(values1);
+
         } else {
             set1 = new LineDataSet(values1, "");
+            set1.setLineWidth(2f);//设置线宽
+            set1.setCircleRadius(3f);//设置焦点圆心的大小
+            set1.setDrawCircles(false);  //设置有圆点
+            set1.setDrawValues(false);  //不显示数据
+            set1.setDrawFilled(true);  //设置包括的范围区域填充颜色
+            set1.setFillColor(Color.argb(96, 57, 144, 233));
+            set1.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER); //设置为曲线
+            set1.setColor(Color.rgb(255, 255, 255));    //设置曲线的颜色
         }
-        set1.setLineWidth(1f);//设置线宽
-        set1.setCircleRadius(3f);//设置焦点圆心的大小
-        set1.enableDashedHighlightLine(5f, 2f, 1f);//点击后的高亮线的显示样式
-        set1.setHighlightLineWidth(0.5f);//设置点击交点后显示高亮线宽
-        set1.setHighlightEnabled(true);//是否禁用点击高亮线
-
-        set1.setDrawHighlightIndicators(false);//设置不显示水平高亮线
-        set1.setDrawCircles(false);  //设置有圆点
-        set1.setDrawValues(false);  //不显示数据
-        set1.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER); //设置为曲线
-
-        set1.setColor(Color.rgb(255, 255, 255));    //设置曲线的颜色
-
         return new LineData(set1);
     }
 
-
-    @Override
-    public void onValueSelected(Entry e, Highlight h) {
-
-    }
-
-    @Override
-    public void onNothingSelected() {
-
-    }
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -431,7 +442,7 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
                 if (aMapLocation.getErrorCode() == 0) {
                     //可在其中解析amapLocation获取相应内容。
                     Log.e("定位数据", aMapLocation.getCity());
-                    addressW.setText(aMapLocation.getCity());
+                    cityTv.setText(aMapLocation.getCity());
                     String city = aMapLocation.getCity().substring(0, aMapLocation.getCity().length() - 1);
                     cityDataPresenterImp.binding(city);
                     ServiceApi service = retrofit.create(ServiceApi.class);
@@ -471,11 +482,20 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
     };
 
     private void initWeather(Weather weather) {
-        MyApplication.newInstance().getGlide().load(weather.getShowapi_res_body().getNow().getWeather_pic()).into(historyTianqiIv);
-        historyTianqiTv.setText(weather.getShowapi_res_body().getNow().getWeather());
-        historyWenduTv.setText(weather.getShowapi_res_body().getNow().getTemperature() + "℃");
-        historyShiduTv.setText(weather.getShowapi_res_body().getNow().getSd());
-        ziwaixianW.setText(weather.getShowapi_res_body().getF1().getZiwaixian());
+        if (weather.getShowapi_res_body().getNow() != null) {
+            MyApplication.newInstance().getGlide().load(weather.getShowapi_res_body().getNow().getWeather_pic()).into(weatherIv);
+            weatherPm2Tv.setText(weather.getShowapi_res_body().getNow().getSd());
+
+            BigDecimal b = new BigDecimal(weather.getShowapi_res_body().getNow().getAqiDetail().getCo());
+            double f1 = b.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+            weatherCoTv.setText(f1 + "");
+            weatherNo2Tv.setText(weather.getShowapi_res_body().getNow().getAqiDetail().getNo2());
+            weatherPm10Tv.setText(weather.getShowapi_res_body().getNow().getAqiDetail().getPm10());
+            weatherSo2Tv.setText(weather.getShowapi_res_body().getNow().getAqiDetail().getSo2());
+            weatherO3Tv.setText(weather.getShowapi_res_body().getNow().getAqiDetail().getO3());
+            temperatureTv.setText(weather.getShowapi_res_body().getNow().getTemperature() + "℃");
+            weatherTv.setText(weather.getShowapi_res_body().getNow().getWeather());
+        }
 
     }
 
@@ -506,9 +526,9 @@ public class HistoryActivity extends BaseActivity implements OnChartValueSelecte
         mList.clear();
         time.clear();
         for (int i = 0; i < listBean.size(); i++) {
-            String date = DateUtil.stringtoString(listBean.get(i).getCt(),FORMAT_ONE);
-            time.add(0,date);
-            mList.add(0,listBean.get(i).getPm2_5());
+            String date = DateUtil.stringtoString(listBean.get(i).getCt(), FORMAT_ONE);
+            time.add(0, date);
+            mList.add(0, listBean.get(i).getPm2_5());
         }
         CombinedData data = new CombinedData();
         data.setData(getLineData());

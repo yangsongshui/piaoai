@@ -1,10 +1,13 @@
 package com.example.yangsong.piaoai.fragment;
 
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,7 +18,6 @@ import com.amap.api.location.AMapLocationListener;
 import com.example.yangsong.piaoai.R;
 import com.example.yangsong.piaoai.api.ServiceApi;
 import com.example.yangsong.piaoai.app.MyApplication;
-import com.example.yangsong.piaoai.base.BaseFragment;
 import com.example.yangsong.piaoai.bean.Weather;
 import com.example.yangsong.piaoai.util.Toastor;
 import com.github.mikephil.charting.charts.CombinedChart;
@@ -32,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,7 +45,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.example.yangsong.piaoai.util.Constan.WEATHER_URL;
 
 
-public class WeatherFragment extends BaseFragment {
+public class WeatherFragment extends Fragment {
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
     //声明AMapLocationClientOption对象
@@ -77,66 +80,7 @@ public class WeatherFragment extends BaseFragment {
     Unbinder unbinder;
     List<String> mList;
     List<String> time;
-    @Override
-    protected void initData(View layout, Bundle savedInstanceState) {
-        mList = new ArrayList<>();
-        time = new ArrayList<>();
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("数据查询中...");
-        //初始化定位
-        mLocationClient = new AMapLocationClient(getActivity().getApplicationContext());
-        //设置定位回调监听
-        mLocationClient.setLocationListener(mLocationListener);
 
-        //初始化AMapLocationClientOption对象
-        mLocationOption = new AMapLocationClientOption();
-        //获取一次定位结果
-        mLocationOption.setOnceLocation(true);
-        mLocationOption.setOnceLocationLatest(true);
-        mLocationOption.setNeedAddress(true);
-        mLocationOption.setInterval(600000);
-        //给定位客户端对象设置定位参数
-        mLocationClient.setLocationOption(mLocationOption);
-        //启动定位
-        mLocationClient.startLocation();
-        retrofit = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(WEATHER_URL)
-                .build();
-        toastor = new Toastor(getActivity());
-        progressDialog.show();
-        initChart();
-        ServiceApi service = retrofit.create(ServiceApi.class);
-        Call<Weather> call = service.getWeather("深圳", "1");
-        call.enqueue(new Callback<Weather>() {
-            @Override
-            public void onResponse(Call<Weather> call, Response<Weather> response) {
-                //请求成功操作
-                Weather weather = response.body();
-                Log.e("weather", weather.toString());
-                if (weather.getShowapi_res_code() == 0) {
-                    initWeather(weather);
-                } else {
-                    toastor.showSingletonToast("天气查询失败");
-                    progressDialog.dismiss();
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<Weather> call, Throwable t) {
-                //请求失败操作
-                progressDialog.dismiss();
-                toastor.showSingletonToast("天气查询失败");
-            }
-        });
-
-    }
-
-    @Override
-    protected int getContentView() {
-        return R.layout.fragment_weather;
-    }
 
     //声明定位回调监听器
     public AMapLocationListener mLocationListener = new AMapLocationListener() {
@@ -199,6 +143,7 @@ public class WeatherFragment extends BaseFragment {
         }
         progressDialog.dismiss();
     }
+
     private void initChart() {
 
         /**
@@ -289,4 +234,77 @@ public class WeatherFragment extends BaseFragment {
 
         return new LineData(set1);
     }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View layout = inflater.inflate(getContentView(), null);
+        unbinder = ButterKnife.bind(this, layout);
+        init();
+        return layout;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    protected int getContentView() {
+        return R.layout.fragment_weather;
+    }
+
+    private void init() {
+        mList = new ArrayList<>();
+        time = new ArrayList<>();
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("数据查询中...");
+        //初始化定位
+        mLocationClient = new AMapLocationClient(getActivity().getApplicationContext());
+        //设置定位回调监听
+        mLocationClient.setLocationListener(mLocationListener);
+
+        //初始化AMapLocationClientOption对象
+        mLocationOption = new AMapLocationClientOption();
+        //获取一次定位结果
+        mLocationOption.setOnceLocation(true);
+        mLocationOption.setOnceLocationLatest(true);
+        mLocationOption.setNeedAddress(true);
+        mLocationOption.setInterval(600000);
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+        //启动定位
+        mLocationClient.startLocation();
+        retrofit = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(WEATHER_URL)
+                .build();
+        toastor = new Toastor(getActivity());
+        progressDialog.show();
+        initChart();
+        ServiceApi service = retrofit.create(ServiceApi.class);
+        Call<Weather> call = service.getWeather("深圳", "1");
+        call.enqueue(new Callback<Weather>() {
+            @Override
+            public void onResponse(Call<Weather> call, Response<Weather> response) {
+                //请求成功操作
+                Weather weather = response.body();
+                Log.e("weather", weather.toString());
+                if (weather.getShowapi_res_code() == 0) {
+                    initWeather(weather);
+                } else {
+                    toastor.showSingletonToast("天气查询失败");
+                    progressDialog.dismiss();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Weather> call, Throwable t) {
+                //请求失败操作
+                progressDialog.dismiss();
+                toastor.showSingletonToast("天气查询失败");
+            }
+        });
+    }
+
 }

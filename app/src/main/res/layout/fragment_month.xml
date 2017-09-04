@@ -2,25 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/curious_blue"
+    android:paddingBottom="10dp"
     android:orientation="vertical"
     tools:context="com.example.yangsong.piaoai.fragment.MonthFragment">
 
-    <TextView
-        android:id="@+id/day_msg_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:visibility="invisible"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/pm_ji"
-        android:paddingBottom="3dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:paddingTop="3dp"
-        android:text="极优"
-        android:textColor="@color/white"
-        android:textSize="14sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,23 +19,15 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="μg/m³"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="10dp" />
 
-        <TextView
-            android:id="@+id/month_msg"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/accent_bottom_navigation"
-            android:textSize="14sp" />
+
     </LinearLayout>
 
     <com.github.mikephil.charting.charts.CombinedChart
         android:id="@+id/month_chart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:paddingRight="10dp" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

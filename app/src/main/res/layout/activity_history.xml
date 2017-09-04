@@ -68,9 +68,6 @@
                 android:background="@color/white"
                 android:orientation="vertical">
 
-
-
-
                 <FrameLayout
                     android:id="@+id/cardiac_fl"
                     android:layout_width="match_parent"

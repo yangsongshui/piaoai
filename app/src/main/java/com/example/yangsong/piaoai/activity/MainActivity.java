@@ -65,6 +65,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
     private Handler handler;
     private Runnable myRunnable;
     private String type = "0";
+    private int position = 0;
 
     @Override
     protected int getContentView() {
@@ -91,7 +92,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
             public void onPageSelected(int position) {
                 device = mList.get(position);
                 mainTitleTv.setText(device.getDeviceName());
-               // Log.e(TAG, device.getDeviceid());
+                // Log.e(TAG, device.getDeviceid());
                 type = device.getType();
                 if (type.equals("3") || type.equals("2")) {
                     tvMainRight.setVisibility(View.GONE);
@@ -202,16 +203,20 @@ public class MainActivity extends BaseActivity implements FacilityView {
 
     @Override
     public void loadDataSuccess(Facility tData) {
-       // Log.e(TAG, tData.toString());
+        // Log.e(TAG, tData.toString());
         if (tData.getResCode().equals("0")) {
             mList = tData.getResBody().getList();
             if (mList.size() > 0) {
                 mAdapter.setCount(tData.getResBody().getList());
                 indicator.notifyDataSetChanged();
                 facility = tData;
-                if (!isOne) {
+                if (device == null) {
                     isOne = true;
                     device = mList.get(0);
+                } else {
+                    if (mList.size() < position)
+                        position = mList.size();
+                    device = mList.get(position);
                 }
                 mainTitleTv.setText(device.getDeviceName());
                 if (device.getType().equals("3") || type.equals("3") || device.getType().equals("2") || type.equals("2")) {

@@ -194,8 +194,12 @@ public class PMTimeFragment extends BaseFragment implements OnChartValueSelected
         for (int i = 0; i < 12; i++) {
             if (i >= (mList.size())) {
                 values1.add(new Entry(i, 0));
-            } else
-                values1.add(new Entry(i, Float.parseFloat(mList.get(i))));
+            } else{
+                if (Double.parseDouble(mList.get(i)) <= 500)
+                    values1.add(new Entry(i, Float.parseFloat(mList.get(i))));
+                else
+                    values1.add(new Entry(i, 500));
+            }
         }
 
         LineDataSet set1;

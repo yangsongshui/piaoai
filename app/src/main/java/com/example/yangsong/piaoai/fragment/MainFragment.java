@@ -160,7 +160,7 @@ public class MainFragment extends BaseFragment {
                 intent.putExtra("indext", 1);
                 break;
             case R.id.home_PM10_rl:
-                intent.putExtra("indext", 0);
+                intent.putExtra("indext", 4);
                 break;
             case R.id.home_methanal_rl:
                 intent.putExtra("indext", 3);

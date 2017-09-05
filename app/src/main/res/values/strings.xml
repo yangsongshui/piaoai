@@ -16,4 +16,90 @@
     <string name="compile_camera">相机</string>
     <string name="compile_cancel">取消</string>
     <string name="compile_cancel2">搜索</string>
+    <!--天气-->
+    <string-array name="weather">
+        <item name="weather_00">晴</item>
+        <item name="weather_01">多云</item>
+        <item name="weather_02">阴</item>
+        <item name="weather_03">阵雨</item>
+        <item name="weather_04">雷阵雨</item>
+        <item name="weather_05">雷阵雨伴有冰雹</item>
+        <item name="weather_06">雨夹雪</item>
+        <item name="weather_07">小雨</item>
+        <item name="weather_08">中雨</item>
+        <item name="weather_09">大雨</item>
+        <item name="weather_10">暴雨</item>
+        <item name="weather_11">大暴雨</item>
+        <item name="weather_12">特大暴雨</item>
+        <item name="weather_13">阵雪</item>
+        <item name="weather_14">小雪</item>
+        <item name="weather_15">中雪</item>
+        <item name="weather_16">大雪</item>
+        <item name="weather_17">暴雪</item>
+        <item name="weather_18">雾</item>
+        <item name="weather_19">冻雨</item>
+        <item name="weather_20">沙尘暴</item>
+        <item name="weather_21">小到中雨</item>
+        <item name="weather_22">中到大雨</item>
+        <item name="weather_23">大到暴雨</item>
+        <item name="weather_24">暴雨到大暴雨</item>
+        <item name="weather_25">大暴雨到特大暴雨</item>
+        <item name="weather_26">小到中雪</item>
+        <item name="weather_27">中到大雪</item>
+        <item name="weather_28">大到暴雪</item>
+        <item name="weather_29">浮尘</item>
+        <item name="weather_30">扬沙</item>
+        <item name="weather_31">强沙尘暴</item>
+        <item name="weather_32">飑</item>
+        <item name="weather_33">龙卷风</item>
+        <item name="weather_34">弱高吹雪</item>
+        <item name="weather_35">轻霾</item>
+        <item name="weather_53">霾</item>
+        <item name="weather_99">无</item>
+        <item name="weather_301">雨</item>
+        <item name="weather_302">雪</item>
+    </string-array>
+
+    <string-array name="actions_images">
+        <item>@drawable/weather_00</item>
+        <item>@drawable/weather_01</item>
+        <item>@drawable/weather_02</item>
+        <item>@drawable/weather_03</item>
+        <item>@drawable/weather_04</item>
+        <item>@drawable/weather_05</item>
+        <item>@drawable/weather_06</item>
+        <item>@drawable/weather_07</item>
+        <item>@drawable/weather_08</item>
+        <item>@drawable/weather_09</item>
+        <item>@drawable/weather_10</item>
+        <item>@drawable/weather_11</item>
+        <item>@drawable/weather_12</item>
+        <item>@drawable/weather_13</item>
+        <item>@drawable/weather_14</item>
+        <item>@drawable/weather_15</item>
+        <item>@drawable/weather_16</item>
+        <item>@drawable/weather_17</item>
+        <item>@drawable/weather_18</item>
+        <item>@drawable/weather_19</item>
+        <item>@drawable/weather_20</item>
+        <item>@drawable/weather_21</item>
+        <item>@drawable/weather_22</item>
+        <item>@drawable/weather_23</item>
+        <item>@drawable/weather_24</item>
+        <item>@drawable/weather_25</item>
+        <item>@drawable/weather_26</item>
+        <item>@drawable/weather_27</item>
+        <item>@drawable/weather_28</item>
+        <item>@drawable/weather_29</item>
+        <item>@drawable/weather_30</item>
+        <item>@drawable/weather_31</item>
+        <item>@drawable/weather_31</item>
+        <item>@drawable/weather_31</item>
+        <item>@drawable/weather_27</item>
+        <item>@drawable/weather_53</item>
+        <item>@drawable/weather_53</item>
+        <item>@drawable/weather</item>
+        <item>@drawable/weather_08</item>
+        <item>@drawable/weather_15</item>
+    </string-array>
 </resources>

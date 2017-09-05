@@ -87,8 +87,6 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
     ImageView weatherIv;
     @BindView(R.id.weatherTv)
     TextView weatherTv;
-    @BindView(R.id.temperature_tv)
-    TextView temperatureTv;
     @BindView(R.id.city_tv)
     TextView cityTv;
     @BindView(R.id.weather_pm2_tv)
@@ -105,7 +103,14 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
     TextView weatherO3Tv;
     @BindView(R.id.weather_co_tv)
     TextView weatherCoTv;
-
+    @BindView(R.id.history_title)
+    TextView historyTitle;
+    @BindView(R.id.temperature_tv)
+    TextView temperatureTv;
+    @BindView(R.id.shidu_tv)
+    TextView shiduTv;
+    @BindView(R.id.history_time)
+    TextView historyTime;
     private Fragment[] frags = new Fragment[6];
     protected BaseFragment baseFragment;
     private TimeFragment dataFragment;
@@ -122,6 +127,8 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
     List<String> time;
     ProgressDialog progressDialog;
     int[] id = {R.id.history_pm25, R.id.history_co2, R.id.history_tvoc, R.id.history_jiaquan, R.id.history_pm10};
+    String day = "时";
+    String type2 = "PM2.5";
 
     @Override
     protected int getContentView() {
@@ -183,22 +190,32 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
                 switch (radioGroup.getCheckedRadioButtonId()) {
                     case R.id.history_pm25:
                         indext = 0;
+                        type2="PM2.5";
+                        historyTitle.setText(type2+day+"曲线图");
                         EventBus.getDefault().post(new FragmentEvent(0));
                         break;
                     case R.id.history_pm10:
                         indext = 4;
+                        type2="PM10";
+                        historyTitle.setText(type2+day+"曲线图");
                         EventBus.getDefault().post(new FragmentEvent(4));
                         break;
                     case R.id.history_jiaquan:
                         indext = 3;
+                        type2="甲醛";
+                        historyTitle.setText(type2+day+"曲线图");
                         EventBus.getDefault().post(new FragmentEvent(3));
                         break;
                     case R.id.history_tvoc:
                         indext = 2;
+                        type2="TVOC";
+                        historyTitle.setText(type2+day+"曲线图");
                         EventBus.getDefault().post(new FragmentEvent(2));
                         break;
                     case R.id.history_co2:
                         indext = 1;
+                        type2="CO₂";
+                        historyTitle.setText(type2+day+"曲线图");
                         EventBus.getDefault().post(new FragmentEvent(1));
                         break;
 
@@ -247,32 +264,6 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
                 .baseUrl(WEATHER_URL)
                 .build();
         toastor = new Toastor(this);
-/*
-        cityDataPresenterImp.binding("深圳");
-        ServiceApi service = retrofit.create(ServiceApi.class);
-        Call<Weather> call = service.getWeather("深圳", "1");
-        call.enqueue(new Callback<Weather>() {
-            @Override
-            public void onResponse(Call<Weather> call, Response<Weather> response) {
-                //请求成功操作
-                Weather weather = response.body();
-                android.util.Log.e("weather", weather.toString());
-                if (weather.getShowapi_res_code() == 0) {
-                    initWeather(weather);
-                } else {
-                    toastor.showSingletonToast("天气查询失败");
-                    progressDialog.dismiss();
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<Weather> call, Throwable t) {
-                //请求失败操作
-                progressDialog.dismiss();
-                toastor.showSingletonToast("天气查询失败");
-            }
-        });*/
     }
 
     private void showFragment(int position) {
@@ -415,15 +406,27 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
         switch (radioGroup.getCheckedRadioButtonId()) {
             case R.id.cardiac_tiem_rb:
                 showFragment(0);
+                day="时";
+                historyTitle.setText(type2+day+"曲线图");
+                historyTime.setText("(min)");
                 break;
             case R.id.cardiac_day_rb:
                 showFragment(1);
+                day="天";
+                historyTitle.setText(type2+day+"曲线图");
+                historyTime.setText("(hour)");
                 break;
             case R.id.cardiac_week_rb:
                 showFragment(2);
+                day="周";
+                historyTitle.setText(type2+day+"曲线图");
+                historyTime.setText("(week)");
                 break;
             case R.id.cardiac_month_rb:
                 showFragment(3);
+                day="月";
+                historyTitle.setText(type2+day+"曲线图");
+                historyTime.setText("(month)");
                 break;
         }
     }
@@ -483,8 +486,8 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
 
     private void initWeather(Weather weather) {
         if (weather.getShowapi_res_body().getNow() != null) {
-            MyApplication.newInstance().getGlide().load(weather.getShowapi_res_body().getNow().getWeather_pic()).into(weatherIv);
-            weatherPm2Tv.setText(weather.getShowapi_res_body().getNow().getSd());
+            weatherIv.setImageResource(MyApplication.newInstance().getWeather(weather.getShowapi_res_body().getNow().getWeather()));
+            weatherPm2Tv.setText(weather.getShowapi_res_body().getNow().getAqiDetail().getPm2_5());
 
             BigDecimal b = new BigDecimal(weather.getShowapi_res_body().getNow().getAqiDetail().getCo());
             double f1 = b.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
@@ -493,7 +496,8 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
             weatherPm10Tv.setText(weather.getShowapi_res_body().getNow().getAqiDetail().getPm10());
             weatherSo2Tv.setText(weather.getShowapi_res_body().getNow().getAqiDetail().getSo2());
             weatherO3Tv.setText(weather.getShowapi_res_body().getNow().getAqiDetail().getO3());
-            temperatureTv.setText(weather.getShowapi_res_body().getNow().getTemperature() + "℃");
+            temperatureTv.setText("温度: "+weather.getShowapi_res_body().getNow().getTemperature() + "℃");
+            shiduTv.setText("湿度: "+weather.getShowapi_res_body().getNow().getSd());
             weatherTv.setText(weather.getShowapi_res_body().getNow().getWeather());
         }
 

@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingBottom="10dp"
-    android:background="@color/curious_blue"
     tools:context="com.example.yangsong.piaoai.fragment.WeekFragment">
 
     <LinearLayout

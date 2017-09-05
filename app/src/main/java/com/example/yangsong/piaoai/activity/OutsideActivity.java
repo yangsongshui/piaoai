@@ -162,10 +162,10 @@ public class OutsideActivity extends BaseActivity {
     };
 
     private void initWeather(Weather weather) {
-        MyApplication.newInstance().getGlide().load(weather.getShowapi_res_body().getNow().getWeather_pic()).into(historyTianqiIv);
-        MyApplication.newInstance().getGlide().load(weather.getShowapi_res_body().getF2().getDay_weather_pic()).into(tomorrowIv);
-        MyApplication.newInstance().getGlide().load(weather.getShowapi_res_body().getF3().getDay_weather_pic()).into(tomorrow2Iv);
-        MyApplication.newInstance().getGlide().load(weather.getShowapi_res_body().getF4().getDay_weather_pic()).into(tomorrow3Iv);
+        historyTianqiIv.setImageResource(MyApplication.newInstance().getWeather(weather.getShowapi_res_body().getNow().getWeather()));
+        tomorrowIv.setImageResource(MyApplication.newInstance().getWeather(weather.getShowapi_res_body().getF2().getDay_weather()));
+        tomorrow2Iv.setImageResource(MyApplication.newInstance().getWeather(weather.getShowapi_res_body().getF3().getDay_weather()));
+        tomorrow3Iv.setImageResource(MyApplication.newInstance().getWeather(weather.getShowapi_res_body().getF4().getDay_weather()));
         tomorrow2Tv.setText(dayNames[weather.getShowapi_res_body().getF3().getWeekday() - 1]);
         tomorrow3Tv.setText(dayNames[weather.getShowapi_res_body().getF4().getWeekday() -1]);
         tomorrowWenduTv.setText(weather.getShowapi_res_body().getF2().getNight_air_temperature() + "/" + weather.getShowapi_res_body().getF2().getDay_air_temperature() + "℃");

@@ -92,6 +92,9 @@ public interface ServiceApi {
     @POST("getHistoryDataByCO2?")
     Observable<TVOC> getHistoryDataByCO2(@QueryMap Map<String, String> map);
 
+    //查询PM10历史数据
+    @POST("getHistoryDataByPM10?")
+    Observable<TVOC> getHistoryDataByPM10(@QueryMap Map<String, String> map);
     //查询TVOC历史数据
     @POST("getHistoryDataByTVOC?")
     Observable<TVOC> getHistoryDataByTVOC(@QueryMap Map<String, String> map);

@@ -18,6 +18,7 @@ import com.example.yangsong.piaoai.bean.TVOC;
 import com.example.yangsong.piaoai.inter.FragmentEvent;
 import com.example.yangsong.piaoai.presenter.CodataPresenterImp;
 import com.example.yangsong.piaoai.presenter.MethanalPresenterImp;
+import com.example.yangsong.piaoai.presenter.PMPresenterImp;
 import com.example.yangsong.piaoai.presenter.PMdataPresenterImp;
 import com.example.yangsong.piaoai.presenter.TVOCdataPresenterImp;
 import com.example.yangsong.piaoai.util.DateUtil;
@@ -54,7 +55,7 @@ import static com.example.yangsong.piaoai.util.DateUtil.LONG_DATE_FORMAT;
  * A simple {@link Fragment} subclass.
  */
 @SuppressLint("ValidFragment")
-public class MonthFragment extends BaseFragment implements  TVOCView {
+public class MonthFragment extends BaseFragment implements TVOCView {
     private final static String TAG = MonthFragment.class.getSimpleName();
     @BindView(R.id.month_chart)
     CombinedChart mChart;
@@ -67,12 +68,14 @@ public class MonthFragment extends BaseFragment implements  TVOCView {
     CodataPresenterImp codataPresenterImp;
     MethanalPresenterImp methanalPresenterImp;
     TVOCdataPresenterImp tvoCdataPresenterImp;
+    PMPresenterImp pmPresenterImp;
     ProgressDialog progressDialog;
     List<String> mList;
     private Map<String, String> map;
     List<String> month;
     private int indext = 0;
-    double max=0;
+    double max = 0;
+
     public MonthFragment(Activity activity, int indext) {
         this.activity = activity;
         this.indext = indext;
@@ -100,12 +103,13 @@ public class MonthFragment extends BaseFragment implements  TVOCView {
             public void disimissProgress() {
                 if (progressDialog != null && progressDialog.isShowing()) {
                     progressDialog.dismiss();
-                } max=1.6;
+                }
+                max = 1.6;
             }
 
             @Override
             public void loadDataSuccess(PMBean tData) {
-              //  toastor.showSingletonToast(tData.getResMessage());
+                //  toastor.showSingletonToast(tData.getResMessage());
                 if (tData.getResCode().equals("0")) {
                     if (tData.getResBody().getList().size() > 0) {
                         mList = tData.getResBody().getList();
@@ -127,6 +131,7 @@ public class MonthFragment extends BaseFragment implements  TVOCView {
         codataPresenterImp = new CodataPresenterImp(this, getActivity());
         methanalPresenterImp = new MethanalPresenterImp(this, getActivity());
         tvoCdataPresenterImp = new TVOCdataPresenterImp(this, getActivity());
+        pmPresenterImp = new PMPresenterImp(this, getActivity());
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("数据查询中...");
         Calendar cal = Calendar.getInstance();//使用默认时区和语言环境获得一个日历。
@@ -135,41 +140,36 @@ public class MonthFragment extends BaseFragment implements  TVOCView {
         map = new HashMap<>();
         map.put("imei", deviceID);
         map.put("type", "3");
-        map.put("endDate", time );
+        map.put("endDate", time);
         map.put("beginDate", time2);
         if (indext == 0) {
             //查询pm2.5
-            max=500;
+            max = 500;
             DayUnitTv.setText("PM2.5(μg/m³)");
             pMdataPresenterImp.binding(map);
             DayUnitTv.setVisibility(View.VISIBLE);
 
         } else if (indext == 1) {
             //查询co2
-            max=1500;
-            DayUnitTv.setText("CO2(mg/m³)");
+            max = 1500;
+            DayUnitTv.setText("CO2(μg/m³)");
             codataPresenterImp.binding(map);
-            DayUnitTv.setVisibility(View.VISIBLE);
-
         } else if (indext == 2) {
             //查询TVOC
-            max=1.6;
-            DayUnitTv.setVisibility(View.INVISIBLE);
+            max = 1.6;
+            DayUnitTv.setText("TVOC(μg/m³)");
             tvoCdataPresenterImp.binding(map);
-
         } else if (indext == 3) {
             //查询甲醛
-            max=0.8;
+            max = 0.8;
             DayUnitTv.setText("甲醛(μg/m³)");
             methanalPresenterImp.binding(map);
-            DayUnitTv.setVisibility(View.VISIBLE);
 
         } else if (indext == 4) {
             //pm10
-            max=200;
+            max = 200;
             DayUnitTv.setText("PM10(μg/m³)");
-            DayUnitTv.setVisibility(View.VISIBLE);
-
+            pmPresenterImp.binding(map);
         }
     }
 
@@ -191,7 +191,7 @@ public class MonthFragment extends BaseFragment implements  TVOCView {
         Description description = new Description();
         description.setText("");
         mChart.setDescription(description);
-        mChart.setDrawOrder(new CombinedChart.DrawOrder[]{ CombinedChart.DrawOrder.LINE,
+        mChart.setDrawOrder(new CombinedChart.DrawOrder[]{CombinedChart.DrawOrder.LINE,
         });
         //设置透明度
         // mChart.setAlpha(0.8f);
@@ -207,19 +207,18 @@ public class MonthFragment extends BaseFragment implements  TVOCView {
         //隐藏Y轴
         mChart.getAxisRight().setEnabled(false);
         //不画网格
-        mChart.getAxisLeft().setAxisMaximum(500);
-        mChart.getAxisLeft().setAxisMinimum(0);
+        initY();
         mChart.getAxisLeft().setTextColor(Color.WHITE);
         mChart.getAxisLeft().setAxisLineColor(Color.WHITE);
         mChart.getAxisLeft().setGridColor(Color.WHITE);
-        mChart.getAxisLeft().enableGridDashedLine(5f,3f,0);
+        mChart.getAxisLeft().enableGridDashedLine(5f, 3f, 0);
         mChart.getAxisLeft().setAxisLineWidth(1);
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setTextColor(Color.WHITE);
         xAxis.setGridColor(Color.WHITE);
         xAxis.setAxisLineColor(Color.WHITE);
-        xAxis.enableGridDashedLine(5f,3f,0);
+        xAxis.enableGridDashedLine(5f, 3f, 0);
         xAxis.setAxisLineWidth(1);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);//设置X轴在底部
         xAxis.setAxisMaximum(29);
@@ -246,12 +245,12 @@ public class MonthFragment extends BaseFragment implements  TVOCView {
 
         ArrayList<Entry> values1 = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
-            if (i >= mList.size() ) {
+            if (i >= mList.size()) {
                 Log.e(TAG, i + "");
                 values1.add(new Entry(i, 0));
             } else {
                 if (Double.parseDouble(mList.get(i)) <= max)
-                    values1.add(new Entry(i, Integer.parseInt(mList.get(i))));
+                    values1.add(new Entry(i,  Float.parseFloat(mList.get(i))));
                 else
                     values1.add(new Entry(i, (float) max));
             }
@@ -270,7 +269,7 @@ public class MonthFragment extends BaseFragment implements  TVOCView {
             set1.setDrawCircles(false);  //设置有圆点
             set1.setDrawValues(false);  //不显示数据
             set1.setDrawFilled(true);  //设置包括的范围区域填充颜色
-            set1.setFillColor(Color.argb(96,57, 144, 233));
+            set1.setFillColor(Color.argb(96, 57, 144, 233));
             set1.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER); //设置为曲线
             set1.setColor(Color.rgb(255, 255, 255));    //设置曲线的颜色
         }
@@ -290,6 +289,7 @@ public class MonthFragment extends BaseFragment implements  TVOCView {
             progressDialog.dismiss();
         }
     }
+
     @Override
     public void loadDataSuccess(TVOC tData) {
         toastor.showSingletonToast(tData.getResMessage());
@@ -336,58 +336,61 @@ public class MonthFragment extends BaseFragment implements  TVOCView {
         indext = position;
         switch (position) {
             case 0:
-                max=500;
+                max = 500;
                 DayUnitTv.setText("PM2.5(μg/m³)");
                 pMdataPresenterImp.binding(map);
                 DayUnitTv.setVisibility(View.VISIBLE);
-                mChart.getAxisLeft().setAxisMaximum(500);
-                mChart.getAxisLeft().setAxisMinimum(0);
+
 
                 break;
             case 1:
-                max=1500;
-                DayUnitTv.setText("CO2(mg/m³)");
+                max = 2000;
+                DayUnitTv.setText("CO₂(μg/m³)");
                 codataPresenterImp.binding(map);
-                DayUnitTv.setVisibility(View.VISIBLE);
-                mChart.getAxisLeft().setAxisMaximum(1500);
-                mChart.getAxisLeft().setAxisMinimum(0);
-
                 break;
             case 2:
-                max=1.6;
-                DayUnitTv.setVisibility(View.INVISIBLE);
+                max = 1.6;
+                DayUnitTv.setText("TVOC(μg/m³)");
                 tvoCdataPresenterImp.binding(map);
-                mChart.getAxisLeft().setAxisMaximum((float) 1.6);
-                mChart.getAxisLeft().setAxisMinimum(0);
-
                 break;
             case 3:
-                max=0.8;
+                max = 0.8;
                 DayUnitTv.setText("甲醛(μg/m³)");
                 methanalPresenterImp.binding(map);
-                DayUnitTv.setVisibility(View.VISIBLE);
-                mChart.getAxisLeft().setAxisMaximum((float) 0.8);
-                mChart.getAxisLeft().setAxisMinimum(0);
-
                 break;
             case 4:
                 //PM10
-                max=200;
+                max = 200;
                 DayUnitTv.setText("PM10(μg/m³)");
-                DayUnitTv.setVisibility(View.VISIBLE);
-                mChart.getAxisLeft().setAxisMaximum(200);
-                mChart.getAxisLeft().setAxisMinimum(0);
-
+                pmPresenterImp.binding(map);
                 break;
 
             default:
                 break;
         }
+        initY();
+    }
+
+    private void initY() {
+        if (indext == 0) {
+            mChart.getAxisLeft().setAxisMaximum(500);
+            mChart.getAxisLeft().setAxisMinimum(0);
+        } else if (indext == 1) {
+            mChart.getAxisLeft().setAxisMaximum(2000);
+            mChart.getAxisLeft().setAxisMinimum(0);
+
+        } else if (indext == 2) {
+            mChart.getAxisLeft().setAxisMaximum((float) 1.6);
+            mChart.getAxisLeft().setAxisMinimum(0);
+        } else if (indext == 3) {
+            mChart.getAxisLeft().setAxisMaximum((float) 0.8);
+            mChart.getAxisLeft().setAxisMinimum(0);
+        } else if (indext == 4) {
+            mChart.getAxisLeft().setAxisMaximum(200);
+            mChart.getAxisLeft().setAxisMinimum(0);
+        }
         mChart.getAxisLeft().setLabelCount(6, true);
         mChart.notifyDataSetChanged();
         mChart.invalidate();
-
-
     }
-
 }

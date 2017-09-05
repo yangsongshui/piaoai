@@ -1,569 +1,320 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_history"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/alabaster"
-    android:orientation="vertical"
-    tools:context="com.example.yangsong.piaoai.activity.AboutActivity">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/pm25_ll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/history_left_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:padding="15dp"
-            android:src="@drawable/btn_back" />
-
-        <ImageView
-            android:id="@+id/tv_history_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:padding="15dp"
-            android:src="@drawable/btn_share" />
-
-        <TextView
-            android:id="@+id/main_title_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:padding="10dp"
-            android:text="历史记录"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-    </RelativeLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/sunglow"
-            android:orientation="vertical">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/history_bg"
+            android:gravity="center">
 
             <TextView
-                android:layout_width="wrap_content"
+                style="@style/historyTV"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:text="PM2.5时曲线图"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:text="优秀" />
 
-            <RadioGroup
-                android:layout_width="match_parent"
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp"
-                android:background="@drawable/history_bg"
-                android:orientation="horizontal">
+                android:text="良" />
 
-                <RadioButton
-                    style="@style/MainRadioButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="PM2.5" />
-
-                <View
-                    android:layout_width="0.5dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/white" />
-
-                <RadioButton
-                    style="@style/MainRadioButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="PM10" />
-
-                <View
-                    android:layout_width="0.5dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/white" />
-
-                <RadioButton
-                    style="@style/MainRadioButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="甲醛" />
-
-                <View
-                    android:layout_width="0.5dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/white" />
-
-                <RadioButton
-                    style="@style/MainRadioButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="TVOC" />
-
-                <View
-                    android:layout_width="0.5dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/white" />
-
-                <RadioButton
-                    style="@style/MainRadioButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="CO2" />
-            </RadioGroup>
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <View
+                android:layout_width="0.5dp"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:background="@color/white" />
 
-                <FrameLayout
-                    android:id="@+id/cardiac_fl"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp" />
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="轻度污染" />
 
-                <RadioGroup
-                    android:id="@+id/cardiac_rgrpNavigation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/cardiac_tiem_rb"
-                        style="@style/line_rb"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:checked="true"
-                        android:text="时" />
-
-                    <RadioButton
-                        android:id="@+id/cardiac_day_rb"
-                        style="@style/line_rb"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="天" />
-
-                    <RadioButton
-                        android:id="@+id/cardiac_week_rb"
-                        style="@style/line_rb"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="周" />
-
-                    <RadioButton
-                        android:id="@+id/cardiac_month_rb"
-                        style="@style/line_rb"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="月" />
-                </RadioGroup>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <View
+                android:layout_width="0.5dp"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
+                android:background="@color/white" />
 
-                android:orientation="vertical">
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="中度污染" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
 
-                    <TextView
-                        android:id="@+id/tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="20dp"
-                        android:background="@drawable/pm_ji"
-                        android:paddingBottom="5dp"
-                        android:paddingEnd="20dp"
-                        android:paddingStart="20dp"
-                        android:paddingTop="5dp"
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="重度污染" />
 
-                        android:text="室外天气"
-                        android:textColor="@color/sunglow"
-                        android:textSize="13sp" />
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingTop="10dp">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_marginEnd="8dp"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:id="@+id/weather_iv"
-                                    android:layout_width="50dp"
-                                    android:layout_height="50dp"
-                                    android:layout_marginBottom="10dp"
-
-                                    android:layout_marginTop="10dp"
-                                    android:src="@drawable/wwwwwwww_32" />
-
-                                <TextView
-                                    android:id="@+id/weatherTv"
-                                    style="@style/weatherTv"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="——"
-                                    android:textSize="14sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/temperature_tv"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="50dp"
-                                    android:layout_marginBottom="10dp"
-                                    android:layout_marginTop="10dp"
-                                    android:gravity="center|bottom"
-                                    android:paddingBottom="10dp"
-                                    android:text="——"
-                                    android:textColor="@color/white"
-                                    android:textSize="15sp" />
-
-                                <TextView
-                                    android:id="@+id/city_tv"
-                                    style="@style/weatherTv"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="——"
-                                    android:textSize="14sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:orientation="horizontal">
-
-                        <RelativeLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginStart="20dp"
-                            android:layout_weight="1">
-
-                            <TextView
-
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_centerVertical="true"
-                                android:text="RH"
-                                android:textColor="@color/white"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:text="湿度"
-                                android:textColor="@color/white"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:id="@+id/weather_pm2_tv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentTop="true"
-                                android:text="——"
-                                android:textColor="@color/white"
-                                android:textSize="25sp" />
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:layout_below="@+id/weather_pm2_tv"
-                                android:background="@color/selected_background" />
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="20dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_weight="1">
-
-                            <TextView
-
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:text="PM2.5"
-                                android:textColor="@color/white"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_centerVertical="true"
-                                android:text="μg/m³"
-                                android:textColor="@color/white"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:id="@+id/weather_pm10_tv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentTop="true"
-                                android:text="——"
-                                android:textColor="@color/white"
-                                android:textSize="25sp" />
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:layout_below="@+id/weather_pm10_tv"
-                                android:background="@color/selected_background" />
-                        </RelativeLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:orientation="horizontal">
-
-                        <RelativeLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginStart="20dp"
-                            android:layout_weight="1">
-
-                            <TextView
-                                android:id="@+id/no2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:text="NO₂"
-                                android:textColor="@color/white"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_centerVertical="true"
-                                android:text="mg/m³"
-                                android:textColor="@color/white"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:id="@+id/weather_no2_tv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentTop="true"
-                                android:text="——"
-                                android:textColor="@color/white"
-                                android:textSize="25sp" />
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:layout_below="@+id/weather_no2_tv"
-                                android:background="@color/selected_background" />
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="20dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_weight="1">
-
-                            <TextView
-
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:text="SO₂"
-                                android:textColor="@color/white"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_centerVertical="true"
-                                android:text="μg/m³"
-                                android:textColor="@color/white"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:id="@+id/weather_so2_tv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentTop="true"
-                                android:text="——"
-                                android:textColor="@color/white"
-                                android:textSize="25sp" />
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:layout_below="@+id/weather_so2_tv"
-                                android:background="@color/selected_background" />
-                        </RelativeLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:orientation="horizontal">
-
-                        <RelativeLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginStart="20dp"
-                            android:layout_weight="1">
-
-                            <TextView
-
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:text="O₃"
-                                android:textColor="@color/white"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_centerVertical="true"
-                                android:text="μg/m³"
-                                android:textColor="@color/white"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:id="@+id/weather_o3_tv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentTop="true"
-                                android:text="——"
-                                android:textColor="@color/white"
-                                android:textSize="25sp" />
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:layout_below="@+id/weather_o3_tv"
-                                android:background="@color/selected_background" />
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="20dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_weight="1">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:text="CO₂"
-                                android:textColor="@color/white"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_centerVertical="true"
-                                android:text="mg/m³"
-                                android:textColor="@color/white"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:id="@+id/weather_co_tv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentTop="true"
-                                android:text="——"
-                                android:textColor="@color/white"
-                                android:textSize="25sp" />
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:layout_below="@+id/weather_co_tv"
-                                android:background="@color/selected_background" />
-                        </RelativeLayout>
-                    </LinearLayout>
-
-                </LinearLayout>
-                <com.github.mikephil.charting.charts.CombinedChart
-                    android:id="@+id/line_chart"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:paddingRight="10dp" />
-            </LinearLayout>
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="严重污染" />
         </LinearLayout>
-    </ScrollView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-3dp"
+            android:layout_gravity="center"
+            android:gravity="center">
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="0" />
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="35" />
+
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="75" />
+
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="115" />
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="150" />
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="250" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/pm10_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/history_bg"
+            android:gravity="center">
+
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="优秀" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="良" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="轻度污染" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="中度污染" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="重度污染" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-3dp"
+            android:layout_gravity="center"
+            android:gravity="center">
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="0" />
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="50" />
+
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="100" />
+
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="200" />
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="300" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/co2_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/history_bg"
+            android:gravity="center">
+
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="清新" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="较好" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="较浊" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="浑浊" />
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-3dp"
+            android:layout_gravity="center"
+            android:gravity="center">
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="450" />
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="700" />
+
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="1000" />
+
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="1500" />
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="2000" />
+        </LinearLayout>
+    </LinearLayout>
+
 </LinearLayout>

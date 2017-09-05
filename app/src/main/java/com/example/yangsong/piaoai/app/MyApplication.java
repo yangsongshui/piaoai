@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.pm.PackageManager;
+import android.content.res.TypedArray;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.example.yangsong.piaoai.R;
 import com.example.yangsong.piaoai.bean.User;
 import com.example.yangsong.piaoai.util.AppContextUtil;
 import com.example.yangsong.piaoai.util.Log;
@@ -15,8 +17,10 @@ import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 
 public class MyApplication extends Application {
@@ -25,7 +29,7 @@ public class MyApplication extends Application {
     private static MyApplication instance;
     public static List<Activity> activitiesList = new ArrayList<Activity>(); // 活动管理集合
     public User user;
-
+    public static Map<String, Integer> mMap = new HashMap<>();
     {
 
         PlatformConfig.setWeixin("wxc17969721937b08c", "9ed65111189e5491a09f5d001cc7326d");
@@ -51,6 +55,7 @@ public class MyApplication extends Application {
             user.setResBody(new User.ResBodyBean());
         AppContextUtil.init(this);
         SpUtils.init(this);
+        setWeather();
     }
 
     public RequestManager getGlide() {
@@ -59,7 +64,19 @@ public class MyApplication extends Application {
 
 
     }
+    private void setWeather() {
+        mMap.clear();
+        String[] weather = getResources().getStringArray(R.array.weather);
+        TypedArray ar = getResources().obtainTypedArray(R.array.actions_images);
+        for (int i = 0; i < weather.length; i++) {
+            mMap.put(weather[i], ar.getResourceId(i, 0));
 
+        }
+    }
+
+    public int getWeather(String key) {
+        return mMap.get(key);
+    }
 
     /**
      * 把活动添加到活动管理集合

@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -111,6 +112,16 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
     TextView shiduTv;
     @BindView(R.id.history_time)
     TextView historyTime;
+    @BindView(R.id.pm25_ll)
+    LinearLayout pm25Ll;
+    @BindView(R.id.pm10_ll)
+    LinearLayout pm10Ll;
+    @BindView(R.id.co2_ll)
+    LinearLayout co2Ll;
+    @BindView(R.id.jiaquan_ll)
+    LinearLayout jiaquanLl;
+    @BindView(R.id.tvoc_ll)
+    LinearLayout tvocLl;
     private Fragment[] frags = new Fragment[6];
     protected BaseFragment baseFragment;
     private TimeFragment dataFragment;
@@ -182,6 +193,7 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
 
     private void initView() {
         historyRg.check(id[indext]);
+        setDataLL(indext);
         cardiacRgrpNavigation.check(R.id.cardiac_tiem_rb);
         cardiacRgrpNavigation.setOnCheckedChangeListener(this);
         historyRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -190,33 +202,38 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
                 switch (radioGroup.getCheckedRadioButtonId()) {
                     case R.id.history_pm25:
                         indext = 0;
-                        type2="PM2.5";
-                        historyTitle.setText(type2+day+"曲线图");
+                        type2 = "PM2.5";
+                        historyTitle.setText(type2 + day + "曲线图");
                         EventBus.getDefault().post(new FragmentEvent(0));
+                        setDataLL(indext);
                         break;
                     case R.id.history_pm10:
                         indext = 4;
-                        type2="PM10";
-                        historyTitle.setText(type2+day+"曲线图");
+                        type2 = "PM10";
+                        historyTitle.setText(type2 + day + "曲线图");
                         EventBus.getDefault().post(new FragmentEvent(4));
+                        setDataLL(indext);
                         break;
                     case R.id.history_jiaquan:
                         indext = 3;
-                        type2="甲醛";
-                        historyTitle.setText(type2+day+"曲线图");
+                        type2 = "甲醛";
+                        historyTitle.setText(type2 + day + "曲线图");
                         EventBus.getDefault().post(new FragmentEvent(3));
+                        setDataLL(indext);
                         break;
                     case R.id.history_tvoc:
                         indext = 2;
-                        type2="TVOC";
-                        historyTitle.setText(type2+day+"曲线图");
+                        type2 = "TVOC";
+                        historyTitle.setText(type2 + day + "曲线图");
                         EventBus.getDefault().post(new FragmentEvent(2));
+                        setDataLL(indext);
                         break;
                     case R.id.history_co2:
                         indext = 1;
-                        type2="CO₂";
-                        historyTitle.setText(type2+day+"曲线图");
+                        type2 = "CO₂";
+                        historyTitle.setText(type2 + day + "曲线图");
                         EventBus.getDefault().post(new FragmentEvent(1));
+                        setDataLL(indext);
                         break;
 
                 }
@@ -406,26 +423,26 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
         switch (radioGroup.getCheckedRadioButtonId()) {
             case R.id.cardiac_tiem_rb:
                 showFragment(0);
-                day="时";
-                historyTitle.setText(type2+day+"曲线图");
+                day = "时";
+                historyTitle.setText(type2 + day + "曲线图");
                 historyTime.setText("(min)");
                 break;
             case R.id.cardiac_day_rb:
                 showFragment(1);
-                day="天";
-                historyTitle.setText(type2+day+"曲线图");
+                day = "天";
+                historyTitle.setText(type2 + day + "曲线图");
                 historyTime.setText("(hour)");
                 break;
             case R.id.cardiac_week_rb:
                 showFragment(2);
-                day="周";
-                historyTitle.setText(type2+day+"曲线图");
+                day = "周";
+                historyTitle.setText(type2 + day + "曲线图");
                 historyTime.setText("(week)");
                 break;
             case R.id.cardiac_month_rb:
                 showFragment(3);
-                day="月";
-                historyTitle.setText(type2+day+"曲线图");
+                day = "月";
+                historyTitle.setText(type2 + day + "曲线图");
                 historyTime.setText("(month)");
                 break;
         }
@@ -496,8 +513,8 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
             weatherPm10Tv.setText(weather.getShowapi_res_body().getNow().getAqiDetail().getPm10());
             weatherSo2Tv.setText(weather.getShowapi_res_body().getNow().getAqiDetail().getSo2());
             weatherO3Tv.setText(weather.getShowapi_res_body().getNow().getAqiDetail().getO3());
-            temperatureTv.setText("温度: "+weather.getShowapi_res_body().getNow().getTemperature() + "℃");
-            shiduTv.setText("湿度: "+weather.getShowapi_res_body().getNow().getSd());
+            temperatureTv.setText("温度: " + weather.getShowapi_res_body().getNow().getTemperature() + "℃");
+            shiduTv.setText("湿度: " + weather.getShowapi_res_body().getNow().getSd());
             weatherTv.setText(weather.getShowapi_res_body().getNow().getWeather());
         }
 
@@ -601,5 +618,47 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
                 .withMedia(image)
                 .setCallback(umShareListener)
                 .share();
+    }
+    private void setDataLL(int indext){
+        switch (indext) {
+            case 0:
+                pm25Ll.setVisibility(View.VISIBLE);
+                pm10Ll.setVisibility(View.GONE);
+                co2Ll.setVisibility(View.GONE);
+                jiaquanLl.setVisibility(View.GONE);
+                tvocLl.setVisibility(View.GONE);
+
+                break;
+            case 4:
+                pm25Ll.setVisibility(View.GONE);
+                pm10Ll.setVisibility(View.VISIBLE);
+                co2Ll.setVisibility(View.GONE);
+                jiaquanLl.setVisibility(View.GONE);
+                tvocLl.setVisibility(View.GONE);
+                break;
+            case 3:
+                pm25Ll.setVisibility(View.GONE);
+                pm10Ll.setVisibility(View.GONE);
+                co2Ll.setVisibility(View.GONE);
+                jiaquanLl.setVisibility(View.VISIBLE);
+                tvocLl.setVisibility(View.GONE);
+                break;
+            case 2:
+                pm25Ll.setVisibility(View.GONE);
+                pm10Ll.setVisibility(View.GONE);
+                co2Ll.setVisibility(View.GONE);
+                jiaquanLl.setVisibility(View.GONE);
+                tvocLl.setVisibility(View.VISIBLE);
+                break;
+            case 1:
+
+                pm25Ll.setVisibility(View.GONE);
+                pm10Ll.setVisibility(View.GONE);
+                co2Ll.setVisibility(View.VISIBLE);
+                jiaquanLl.setVisibility(View.GONE);
+                tvocLl.setVisibility(View.GONE);
+                break;
+
+        }
     }
 }

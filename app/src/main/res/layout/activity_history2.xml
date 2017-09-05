@@ -3,6 +3,7 @@
     android:id="@+id/activity_history"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/curious_blue"
     android:orientation="vertical">
 
     <LinearLayout
@@ -23,7 +24,8 @@
                 style="@style/historyTV"
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
-                android:text="优秀" />
+                android:text="优秀"
+                android:id="@+id/textView4" />
 
             <View
                 android:layout_width="0.5dp"
@@ -84,14 +86,17 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="-3dp"
             android:layout_gravity="center"
+
+            android:layout_marginStart="-3dp"
             android:gravity="center">
+
             <TextView
                 style="@style/historyTV2"
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
                 android:text="0" />
+
             <TextView
                 style="@style/historyTV2"
                 android:layout_width="55dp"
@@ -109,23 +114,28 @@
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
                 android:text="115" />
+
             <TextView
                 style="@style/historyTV2"
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
                 android:text="150" />
+
             <TextView
                 style="@style/historyTV2"
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
-                android:text="250" />
+                android:text=">250"
+                android:id="@+id/textView6" />
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/pm10_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:visibility="gone"
         android:orientation="vertical">
 
         <LinearLayout
@@ -191,14 +201,16 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="-3dp"
             android:layout_gravity="center"
+            android:layout_marginStart="-3dp"
             android:gravity="center">
+
             <TextView
                 style="@style/historyTV2"
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
                 android:text="0" />
+
             <TextView
                 style="@style/historyTV2"
                 android:layout_width="55dp"
@@ -216,17 +228,20 @@
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
                 android:text="200" />
+
             <TextView
                 style="@style/historyTV2"
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
-                android:text="300" />
+                android:text=">300" />
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/co2_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_marginTop="5dp"
         android:orientation="vertical">
 
@@ -241,7 +256,8 @@
                 style="@style/historyTV"
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
-                android:text="清新" />
+                android:text="清新"
+                android:id="@+id/textView2" />
 
             <View
                 android:layout_width="0.5dp"
@@ -277,6 +293,116 @@
                 android:text="浑浊" />
 
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center">
+
+                <TextView
+                    style="@style/historyTV2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="450" />
+
+                <TextView
+                    style="@style/historyTV2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="700" />
+
+                <TextView
+                    style="@style/historyTV2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="1000" />
+
+                <TextView
+                    style="@style/historyTV2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="1500" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2000" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tvoc_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/history_bg"
+            android:gravity="center">
+
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="良" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="轻度污染" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="中度污染" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="重度污染" />
 
 
         </LinearLayout>
@@ -284,37 +410,158 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="-3dp"
             android:layout_gravity="center"
+            android:layout_marginStart="-3dp"
             android:gravity="center">
-            <TextView
-                style="@style/historyTV2"
-                android:layout_width="55dp"
-                android:layout_height="wrap_content"
-                android:text="450" />
-            <TextView
-                style="@style/historyTV2"
-                android:layout_width="55dp"
-                android:layout_height="wrap_content"
-                android:text="700" />
 
             <TextView
                 style="@style/historyTV2"
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
-                android:text="1000" />
+                android:text="0.0" />
 
             <TextView
                 style="@style/historyTV2"
-                android:layout_width="44dp"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
-                android:text="1500" />
+                android:text="0.6" />
+
             <TextView
                 style="@style/historyTV2"
-                android:layout_width="44dp"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
-                android:text="2000" />
+                android:text="1.0" />
+
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="54dp"
+                android:layout_height="wrap_content"
+                android:text=">1.6"
+                android:id="@+id/textView3" />
+
         </LinearLayout>
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/jiaquan_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:visibility="gone"
+        android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/history_bg"
+            android:gravity="center">
+
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="优"
+                />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="良" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="轻度污染" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="中度污染" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="重度污染" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="严重污染" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="-3dp"
+            android:gravity="center">
+
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="0.00"
+                android:id="@+id/textView5" />
+
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="0.03" />
+
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="0.1" />
+
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="0.2" />
+
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="0.3" />
+
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text=">0.8" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

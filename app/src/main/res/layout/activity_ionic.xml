@@ -65,37 +65,13 @@
             android:layout_alignParentBottom="true"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/ionic_ll"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/jordy_blue"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/lizi_img_num" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="15dp"
-                    android:text="离子量"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ionic_control_ll"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@color/jordy_blue"
-                android:orientation="horizontal"
-                android:visibility="gone">
+                android:orientation="horizontal">
 
 
                 <TextView
@@ -162,37 +138,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ionic_on_off_ll"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="2dp"
-                android:background="@color/jordy_blue"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/lizi_img_open" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="15dp"
-                    android:text="开关机"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/on_off_control_ll"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="2dp"
-                android:background="@color/jordy_blue"
-                android:visibility="gone">
+                android:background="@color/jordy_blue">
 
                 <TextView
                     android:id="@+id/on_tv"

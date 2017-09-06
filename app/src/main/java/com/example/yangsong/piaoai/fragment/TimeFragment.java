@@ -165,7 +165,7 @@ public class TimeFragment extends BaseFragment implements TVOCView {
 
         } else if (indext == 4) {
             //pm10
-            max = 200;
+            max = 500;
             DayUnitTv.setText("PM10(μg/m³)");
             pmPresenterImp.binding(map);
 
@@ -343,7 +343,7 @@ public class TimeFragment extends BaseFragment implements TVOCView {
                 break;
             case 4:
                 //PM10
-                max=200;
+                max=500;
                 DayUnitTv.setText("PM10(μg/m³)");
                 pmPresenterImp.binding(map);
                 break;
@@ -368,7 +368,7 @@ public class TimeFragment extends BaseFragment implements TVOCView {
             mChart.getAxisLeft().setAxisMaximum((float) 0.8);
             mChart.getAxisLeft().setAxisMinimum(0);
         } else if (indext == 4) {
-            mChart.getAxisLeft().setAxisMaximum(200);
+            mChart.getAxisLeft().setAxisMaximum(500);
             mChart.getAxisLeft().setAxisMinimum(0);
         }
         mChart.getAxisLeft().setLabelCount(6, true);

@@ -50,13 +50,13 @@ public class PMFragment extends BaseFragment implements RadioGroup.OnCheckedChan
             } else if (pm > 75 && pm <= 115) {
                 pm_tv.setText("轻度污染");
                 pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_qingdu));
-            } else if (pm > 116 && pm <= 150) {
+            } else if (pm > 115 && pm <= 150) {
                 pm_tv.setText("中度污染");
                 pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_zhongdu));
-            } else if (pm > 151 && pm <= 250) {
+            } else if (pm > 150 && pm <= 250) {
                 pm_tv.setText("重度污染");
                 pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_zhong));
-            } else if (pm > 251 ) {
+            } else if (pm > 250 ) {
                 pm_tv.setText("严重污染");
                 pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_yanzhong));
             }

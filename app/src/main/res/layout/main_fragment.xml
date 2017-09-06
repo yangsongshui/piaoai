@@ -32,7 +32,7 @@
                 android:id="@+id/pm25"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight="2"
                 android:gravity="center"
                 android:text="0"
@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="μg/m³"
-                android:textColor="@color/baby_blue_eyes"
+                android:textColor="@color/white"
                 android:textSize="12sp" />
             <ImageView
                 android:layout_width="100dp"
@@ -53,7 +53,7 @@
                 android:id="@+id/pm_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/point_selected"
                 android:gravity="center"
@@ -114,12 +114,11 @@
                     android:textSize="21sp" />
 
                 <TextView
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/home_methanal_tv"
                     android:layout_centerHorizontal="true"
-                    android:text="mg/m³"
+                    android:text="μg/m³"
                     android:textColor="@color/baby_blue_eyes"
                     android:textSize="10sp" />
 

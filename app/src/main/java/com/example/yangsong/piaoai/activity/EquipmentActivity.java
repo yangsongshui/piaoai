@@ -189,11 +189,14 @@ public class EquipmentActivity extends BaseActivity implements SwipeMenuListView
 
     @Override
     public void loadDataSuccess(Msg tData) {
-        toastor.showSingletonToast(tData.getResMessage());
+
         if (tData.getResCode().equals("0")) {
+            toastor.showSingletonToast("操作成功");
             mList.remove(position);
             adapter.notifyDataSetChanged();
 
+        }else {
+            toastor.showSingletonToast("操作失败");
         }
     }
 

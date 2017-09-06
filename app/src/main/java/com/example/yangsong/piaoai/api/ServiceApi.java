@@ -72,7 +72,7 @@ public interface ServiceApi {
     @POST("deleteChildAccount?")
     Observable<Msg> deleteChildAccount(@Query("ids") String ids);
 
-    //修改设备信息 unbundling
+    //修改设备信息
     @POST("updateDevice?")
     Observable<Msg> updateDevice(@QueryMap Map<String, String> map);
 

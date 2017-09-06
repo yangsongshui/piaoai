@@ -3,7 +3,6 @@
     android:id="@+id/activity_history"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/curious_blue"
     android:orientation="vertical">
 
     <LinearLayout
@@ -21,11 +20,11 @@
             android:gravity="center">
 
             <TextView
+                android:id="@+id/textView4"
                 style="@style/historyTV"
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
-                android:text="优秀"
-                android:id="@+id/textView4" />
+                android:text="优秀" />
 
             <View
                 android:layout_width="0.5dp"
@@ -125,8 +124,7 @@
                 style="@style/historyTV2"
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
-                android:text=">250"
-                android:id="@+id/textView6" />
+                android:text=">250" />
         </LinearLayout>
     </LinearLayout>
 
@@ -135,8 +133,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -194,8 +192,16 @@
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
                 android:text="重度污染" />
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
 
-
+            <TextView
+                style="@style/historyTV"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text="严重污染" />
         </LinearLayout>
 
         <LinearLayout
@@ -233,7 +239,12 @@
                 style="@style/historyTV2"
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
-                android:text=">300" />
+                android:text="300" />
+            <TextView
+                style="@style/historyTV2"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:text=">500" />
         </LinearLayout>
     </LinearLayout>
 
@@ -241,9 +252,9 @@
         android:id="@+id/co2_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_marginTop="5dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -256,8 +267,7 @@
                 style="@style/historyTV"
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
-                android:text="清新"
-                android:id="@+id/textView2" />
+                android:text="清新" />
 
             <View
                 android:layout_width="0.5dp"
@@ -349,8 +359,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -433,21 +443,22 @@
                 android:text="1.0" />
 
             <TextView
+                android:id="@+id/textView3"
                 style="@style/historyTV2"
                 android:layout_width="54dp"
                 android:layout_height="wrap_content"
-                android:text=">1.6"
-                android:id="@+id/textView3" />
+                android:text=">1.6" />
 
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/jiaquan_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -460,8 +471,7 @@
                 style="@style/historyTV"
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
-                android:text="优"
-                />
+                android:text="优" />
 
             <View
                 android:layout_width="0.5dp"
@@ -527,11 +537,11 @@
             android:gravity="center">
 
             <TextView
+                android:id="@+id/textView5"
                 style="@style/historyTV2"
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
-                android:text="0.00"
-                android:id="@+id/textView5" />
+                android:text="0.00" />
 
             <TextView
                 style="@style/historyTV2"

@@ -87,155 +87,6 @@
             android:layout_weight="1"
             android:orientation="horizontal">
             <RelativeLayout
-                android:id="@+id/home_methanal_rl"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <com.example.yangsong.piaoai.myview.RoundProgressBar
-                    android:id="@+id/roundProgressBar_methanal"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android_custom:roundColor="@color/baby_blue_eyes"
-                    android_custom:roundProgressColor="@color/tacao"
-                    android_custom:roundWidth="3dp"
-                    android_custom:textIsDisplayable="false" />
-
-                <TextView
-                    android:id="@+id/home_methanal_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:text="0"
-                    android:textColor="@color/white"
-                    android:textSize="21sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/home_methanal_tv"
-                    android:layout_centerHorizontal="true"
-                    android:text="μg/m³"
-                    android:textColor="@color/baby_blue_eyes"
-                    android:textSize="10sp" />
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/roundProgressBar_methanal"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="6dp"
-                    android:text="甲醛"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/home_TVOC_rl"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/home_TVOC_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:text="0"
-                    android:textColor="@color/white"
-                    android:textSize="21sp" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/home_TVOC_tv"
-                    android:layout_centerHorizontal="true"
-                    android:text="μg/m³"
-                    android:textColor="@color/baby_blue_eyes"
-                    android:textSize="10sp" />
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/roundProgressBar_TVOC"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="6dp"
-                    android:text="TVOC"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-
-                <com.example.yangsong.piaoai.myview.RoundProgressBar
-                    android:id="@+id/roundProgressBar_TVOC"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android_custom:roundColor="@color/baby_blue_eyes"
-                    android_custom:roundProgressColor="@color/electric_blue"
-                    android_custom:roundWidth="3dp"
-                    android_custom:textIsDisplayable="false"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/home_CO2_rl"
-                android:layout_width="0dp"
-
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <com.example.yangsong.piaoai.myview.RoundProgressBar
-                    android:id="@+id/roundProgressBar_CO2"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android_custom:roundColor="#66ffffff"
-                    android_custom:roundProgressColor="@color/sunglow"
-                    android_custom:roundWidth="3dp"
-                    android_custom:textIsDisplayable="false" />
-
-                <TextView
-                    android:id="@+id/home_CO2_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:text="0"
-                    android:textColor="@color/white"
-                    android:textSize="21sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/home_CO2_tv"
-                    android:layout_centerHorizontal="true"
-                    android:text="μg/m³"
-                    android:textColor="@color/baby_blue_eyes"
-                    android:textSize="10sp" />
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/roundProgressBar_CO2"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="6dp"
-                    android:text="CO₂"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-            </RelativeLayout>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-            <RelativeLayout
                 android:id="@+id/home_PM10_rl"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -277,6 +128,156 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="6dp"
                     android:text="PM10"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/home_methanal_rl"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <com.example.yangsong.piaoai.myview.RoundProgressBar
+                    android:id="@+id/roundProgressBar_methanal"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android_custom:roundColor="@color/baby_blue_eyes"
+                    android_custom:roundProgressColor="@color/tacao"
+                    android_custom:roundWidth="3dp"
+                    android_custom:textIsDisplayable="false" />
+
+                <TextView
+                    android:id="@+id/home_methanal_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="0"
+                    android:textColor="@color/white"
+                    android:textSize="21sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/home_methanal_tv"
+                    android:layout_centerHorizontal="true"
+                    android:text="mg/m³"
+                    android:textColor="@color/baby_blue_eyes"
+                    android:textSize="10sp" />
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/roundProgressBar_methanal"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="6dp"
+                    android:text="甲醛"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/home_TVOC_rl"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/home_TVOC_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="0"
+                    android:textColor="@color/white"
+                    android:textSize="21sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/home_TVOC_tv"
+                    android:layout_centerHorizontal="true"
+                    android:text="mg/m³"
+                    android:textColor="@color/baby_blue_eyes"
+                    android:textSize="10sp" />
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/roundProgressBar_TVOC"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="6dp"
+                    android:text="TVOC"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <com.example.yangsong.piaoai.myview.RoundProgressBar
+                    android:id="@+id/roundProgressBar_TVOC"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android_custom:roundColor="@color/baby_blue_eyes"
+                    android_custom:roundProgressColor="@color/electric_blue"
+                    android_custom:roundWidth="3dp"
+                    android_custom:textIsDisplayable="false"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true" />
+            </RelativeLayout>
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <RelativeLayout
+                android:id="@+id/home_CO2_rl"
+                android:layout_width="0dp"
+
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <com.example.yangsong.piaoai.myview.RoundProgressBar
+                    android:id="@+id/roundProgressBar_CO2"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android_custom:roundColor="#66ffffff"
+                    android_custom:roundProgressColor="@color/sunglow"
+                    android_custom:roundWidth="3dp"
+                    android_custom:textIsDisplayable="false" />
+
+                <TextView
+                    android:id="@+id/home_CO2_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="0"
+                    android:textColor="@color/white"
+                    android:textSize="21sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/home_CO2_tv"
+                    android:layout_centerHorizontal="true"
+                    android:text="PPM"
+                    android:textColor="@color/baby_blue_eyes"
+                    android:textSize="10sp" />
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/roundProgressBar_CO2"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="6dp"
+                    android:text="CO₂"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
             </RelativeLayout>

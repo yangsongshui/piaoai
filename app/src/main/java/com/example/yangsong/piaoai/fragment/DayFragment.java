@@ -148,20 +148,20 @@ public class DayFragment extends BaseFragment implements TVOCView {
         } else if (indext == 1) {
             //查询co2
             max = 1500;
-            DayUnitTv.setText("CO2(μg/m³)");
+            DayUnitTv.setText("CO2(PPM)");
             codataPresenterImp.binding(map);
 
 
         } else if (indext == 2) {
             //查询TVOC
             max = 1.6;
-            DayUnitTv.setText("TVOC(μg/m³)");
+            DayUnitTv.setText("TVOC(mg/m³)");
             tvoCdataPresenterImp.binding(map);
 
         } else if (indext == 3) {
             //查询甲醛
             max = 0.8;
-            DayUnitTv.setText("甲醛(μg/m³)");
+            DayUnitTv.setText("甲醛(mg/m³)");
             methanalPresenterImp.binding(map);
 
 
@@ -340,18 +340,18 @@ public class DayFragment extends BaseFragment implements TVOCView {
                 break;
             case 1:
                 max = 2000;
-                DayUnitTv.setText("CO₂(μg/m³)");
+                DayUnitTv.setText("CO₂(PPM)");
                 codataPresenterImp.binding(map);
 
                 break;
             case 2:
                 max = 1.6;
-                DayUnitTv.setText("TVOC(μg/m³)");
+                DayUnitTv.setText("TVOC(mg/m³)");
                 tvoCdataPresenterImp.binding(map);
                 break;
             case 3:
                 max = 0.8;
-                DayUnitTv.setText("甲醛(μg/m³)");
+                DayUnitTv.setText("甲醛(mg/m³)");
                 methanalPresenterImp.binding(map);
 
 

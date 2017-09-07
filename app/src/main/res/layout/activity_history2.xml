@@ -124,7 +124,7 @@
                 style="@style/historyTV2"
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
-                android:text=">250" />
+                android:text="250" />
         </LinearLayout>
     </LinearLayout>
 
@@ -244,7 +244,7 @@
                 style="@style/historyTV2"
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
-                android:text=">500" />
+                android:text="500" />
         </LinearLayout>
     </LinearLayout>
 
@@ -447,7 +447,7 @@
                 style="@style/historyTV2"
                 android:layout_width="54dp"
                 android:layout_height="wrap_content"
-                android:text=">1.6" />
+                android:text="1.6" />
 
         </LinearLayout>
     </LinearLayout>
@@ -571,7 +571,7 @@
                 style="@style/historyTV2"
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
-                android:text=">0.8" />
+                android:text="0.8" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -37,7 +37,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,8 +70,10 @@ public class DayFragment extends BaseFragment implements TVOCView {
     private Map<String, String> map;
     private Activity activity;
     List<String> mList;
+    List<String> day;
     private int indext = 0;
     double max = 0;
+    int hour = 0;
 
     public DayFragment() {
     }
@@ -85,6 +89,7 @@ public class DayFragment extends BaseFragment implements TVOCView {
         EventBus.getDefault().register(this);
         String deviceID = activity.getIntent().getStringExtra("deviceID");
         mList = new ArrayList<>();
+        day = new ArrayList<>();
         toastor = new Toastor(getActivity());
         initChart();
         pMdataPresenterImp = new PMdataPresenterImp(new PMView() {
@@ -129,6 +134,7 @@ public class DayFragment extends BaseFragment implements TVOCView {
         pmPresenterImp = new PMPresenterImp(this, getActivity());
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("数据查询中...");
+        inithour();
         map = new HashMap<>();
         map.put("imei", deviceID);
         map.put("type", "1");
@@ -247,7 +253,7 @@ public class DayFragment extends BaseFragment implements TVOCView {
         ArrayList<Entry> values1 = new ArrayList<>();
         for (int i = 0; i < 25; i++) {
             // Log.e(TAG, mList.get(i)+" " + i );
-            if (i >= (mList.size())) {
+            if (i >= (mList.size()) || i >= hour) {
                 values1.add(new Entry(i, 0));
             } else {
                 if (Double.parseDouble(mList.get(i)) <= max)
@@ -391,4 +397,11 @@ public class DayFragment extends BaseFragment implements TVOCView {
         mChart.invalidate();
     }
 
+    private void inithour() {
+        Date data = new Date();
+        SimpleDateFormat format2 = new SimpleDateFormat("HH");
+        hour = Integer.parseInt(format2.format(data));
+        Log.e("hour", hour + "");
+
+    }
 }

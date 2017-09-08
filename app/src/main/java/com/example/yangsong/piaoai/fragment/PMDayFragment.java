@@ -32,7 +32,9 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +61,7 @@ public class PMDayFragment extends BaseFragment implements OnChartValueSelectedL
     private Activity activity;
     private String indext;
     List<String> mList;
+    int hour = 0;
 
     public PMDayFragment(Activity activity, String indext) {
         this.activity = activity;
@@ -68,7 +71,7 @@ public class PMDayFragment extends BaseFragment implements OnChartValueSelectedL
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
         mList = new ArrayList<>();
-
+        inithour();
         initChart();
         toastor = new Toastor(getActivity());
         pMdataPresenterImp = new PMdataPresenterImp(this, getActivity());
@@ -79,8 +82,9 @@ public class PMDayFragment extends BaseFragment implements OnChartValueSelectedL
         map = new HashMap<>();
         map.put("imei", indext);
         map.put("type", "1");
-         map.put("endDate", time);
+        map.put("endDate", time);
         map.put("beginDate", time);
+
       /*  map.put("beginDate", "2017-08-23");
         map.put("endDate", "2017-08-23");*/
         pMdataPresenterImp.binding(map);
@@ -167,7 +171,7 @@ public class PMDayFragment extends BaseFragment implements OnChartValueSelectedL
         yLimitLine6.setLineWidth(0.3f);
         yLimitLine6.setLineColor(Color.rgb(134, 22, 0));
         yAxis.addLimitLine(yLimitLine6);
-        LimitLine yLimitLine7= new LimitLine(500);
+        LimitLine yLimitLine7 = new LimitLine(500);
         yLimitLine7.setLineWidth(0.3f);
         yLimitLine7.setLineColor(Color.rgb(134, 22, 0));
         yAxis.addLimitLine(yLimitLine7);
@@ -194,9 +198,9 @@ public class PMDayFragment extends BaseFragment implements OnChartValueSelectedL
     private LineData gettimeData() {
         ArrayList<Entry> values1 = new ArrayList<>();
         for (int i = 0; i < 24; i++) {
-            if (i >= (mList.size())) {
+            if (i >= (mList.size()) || i >= hour) {
                 values1.add(new Entry(i, 0));
-            } else{
+            } else {
                 if (Double.parseDouble(mList.get(i)) <= 500)
                     values1.add(new Entry(i, Float.parseFloat(mList.get(i))));
                 else
@@ -277,5 +281,13 @@ public class PMDayFragment extends BaseFragment implements OnChartValueSelectedL
     public void loadDataError(Throwable throwable) {
         Log.e(TAG, throwable.getLocalizedMessage());
         toastor.showSingletonToast("服务器连接异常");
+    }
+
+    private void inithour() {
+        Date data = new Date();
+        SimpleDateFormat format2 = new SimpleDateFormat("HH");
+        hour = Integer.parseInt(format2.format(data));
+        Log.e("hour", hour + "");
+
     }
 }

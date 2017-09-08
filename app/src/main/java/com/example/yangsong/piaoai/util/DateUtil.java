@@ -457,7 +457,20 @@ public class DateUtil {
         cal.add(Calendar.DAY_OF_YEAR, day);
         return cal.getTime();
     }
-
+    /**
+     * 取得指定日期过 hour 小时后的日期 (当 day 为负数表示指日期之前);
+     *
+     * @param date 日期 为null时表示当天
+     *             相加(相减)的月数
+     */
+    public static Date nextHour(Date date, int hour) {
+        Calendar cal = Calendar.getInstance();
+        if (date != null) {
+            cal.setTime(date);
+        }
+        cal.add(Calendar.HOUR, hour);
+        return cal.getTime();
+    }
     // 获取本周一的日期
     public Date getDateOfMondayInWeek(){
         int day = this.getDaysOfNow2SundayInWeek() + 1; // 加1，即周一离本周日的间隔天数

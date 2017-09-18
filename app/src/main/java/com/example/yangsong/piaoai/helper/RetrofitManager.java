@@ -79,7 +79,9 @@ public class RetrofitManager {
                             .addInterceptor(interceptor)
 //                            .addNetworkInterceptor(new StethoInterceptor())
                             .retryOnConnectionFailure(true)
-                            .connectTimeout(15, TimeUnit.SECONDS)
+                            .connectTimeout(1, TimeUnit.MINUTES)
+                            .readTimeout(1,TimeUnit.MINUTES)//设置读取超时时间
+                            .writeTimeout(1,TimeUnit.MINUTES)//设置写的超时时间
                             .build();
                 }
             }

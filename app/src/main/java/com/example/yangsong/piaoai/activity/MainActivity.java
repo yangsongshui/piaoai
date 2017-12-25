@@ -187,7 +187,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
 
     @Override
     public void showProgress() {
-        if (progressDialog != null && !progressDialog.isShowing()) {
+        if (progressDialog != null && !progressDialog.isShowing()&&!isOne) {
             progressDialog.show();
         }
     }

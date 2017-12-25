@@ -51,6 +51,7 @@ public class DeployActivity extends BaseActivity implements OnSmartLinkListener 
         progressDialog = new ProgressDialog(this);
         //progressDialog.setTitle();
         progressDialog.setMessage("配置中,请稍后");
+        progressDialog.setCanceledOnTouchOutside(false);
         mSnifferSmartLinker = MulticastSmartLinker.getInstance();
         mSnifferSmartLinker.setOnSmartLinkListener(this);
     }
@@ -110,7 +111,8 @@ public class DeployActivity extends BaseActivity implements OnSmartLinkListener 
     @Override
     protected void onResume() {
         super.onResume();
-        @SuppressLint("WifiManagerLeak") WifiManager wifiManager = (WifiManager) this.getSystemService(WIFI_SERVICE);
+        @SuppressLint("WifiManagerLeak")
+        WifiManager wifiManager = (WifiManager) this.getSystemService(WIFI_SERVICE);
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         if (wifiManager.getWifiState() == WifiManager.WIFI_STATE_ENABLED && mWifi.isConnected()) {
@@ -126,7 +128,6 @@ public class DeployActivity extends BaseActivity implements OnSmartLinkListener 
     @Override
     public void onLinked(SmartLinkedModule smartLinkedModule) {
         //配对中的设备MAC
-
         Log.e("----------", smartLinkedModule.getMac() + "");
         toastor.showSingletonToast("正在上传服务器...");
     }

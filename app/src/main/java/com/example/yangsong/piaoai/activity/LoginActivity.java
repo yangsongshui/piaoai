@@ -152,7 +152,7 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
             case R.id.login_tv:
                 String phone = loginPhoneEt.getText().toString().trim();
                 psw = MD5.getMD5(loginPswEt.getText().toString().trim());
-                if (phone.length() == 11 && psw.length() >= 6)
+                if ( psw.length() >= 6)
                     loginPresenterImp.loadLogin(phone, psw);
                 else
                     toastor.showSingletonToast("登陆信息有误");

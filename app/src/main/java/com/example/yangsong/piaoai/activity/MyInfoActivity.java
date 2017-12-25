@@ -166,7 +166,6 @@ public class MyInfoActivity extends BaseActivity implements TakePhoto.TakeResult
             File file = new File(Environment.getExternalStorageDirectory(), "/temp/" + System.currentTimeMillis() + ".jpg");
             if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
             Uri imageUri = Uri.fromFile(file);
-
             switch (v.getId()) {
                 case R.id.compile_photo_tv:
                     //相册

@@ -38,7 +38,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:padding="10dp"
-            android:text="历史记录"
+            android:text="@string/history_msg24"
             android:textColor="@color/black"
             android:textSize="16sp" />
     </RelativeLayout>
@@ -61,7 +61,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
-                android:text="PM2.5时曲线图"
+                android:text="@string/history_msg25"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
@@ -80,7 +80,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="PM2.5" />
+                    android:text="@string/history_msg27" />
                 <View
                     android:layout_width="0.5dp"
                     android:layout_height="match_parent"
@@ -92,7 +92,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="PM10" />
+                    android:text="@string/history_msg27" />
                 <View
                     android:layout_width="0.5dp"
                     android:layout_height="match_parent"
@@ -104,7 +104,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="甲醛" />
+                    android:text="@string/history_msg28" />
 
                 <View
                     android:layout_width="0.5dp"
@@ -117,7 +117,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TVOC" />
+                    android:text="@string/history_msg29" />
 
                 <View
                     android:layout_width="0.5dp"
@@ -130,7 +130,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="CO₂" />
+                    android:text="@string/history_msg30" />
 
 
 
@@ -161,7 +161,7 @@
                         android:layout_height="215dp"
                         android:layout_alignParentEnd="true"
                         android:gravity="bottom"
-                        android:text="(min)"
+                        android:text="@string/history_msg5"
                         android:textColor="@color/white"
                         android:textSize="10sp" />
                 </RelativeLayout>
@@ -183,7 +183,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="时" />
+                        android:text="@string/history_msg14" />
 
 
                     <RadioButton
@@ -192,7 +192,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="天" />
+                        android:text="@string/history_msg15" />
 
                     <RadioButton
                         android:id="@+id/cardiac_week_rb"
@@ -200,7 +200,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="周" />
+                        android:text="@string/history_msg16" />
 
                     <RadioButton
                         android:id="@+id/cardiac_month_rb"
@@ -208,7 +208,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="月" />
+                        android:text="@string/history_msg17" />
                 </RadioGroup>
 
             </LinearLayout>
@@ -241,7 +241,7 @@
                             android:paddingEnd="20dp"
                             android:paddingStart="20dp"
                             android:paddingTop="5dp"
-                            android:text="室外天气"
+                            android:text="@string/history_msg31"
                             android:textColor="@color/sunglow"
                             android:textSize="13sp" />
 
@@ -353,7 +353,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_centerHorizontal="true"
                                     android:layout_centerVertical="true"
-                                    android:text="μg/m³"
+                                    android:text="@string/history_msg32"
                                     android:textColor="@color/white"
                                     android:textSize="12sp" />
 
@@ -361,7 +361,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
-                                    android:text="PM2.5"
+                                    android:text="@string/history_msg26"
                                     android:textColor="@color/white"
                                     android:textSize="14sp" />
 
@@ -394,7 +394,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
-                                    android:text="PM10"
+                                    android:text="@string/history_msg27"
                                     android:textColor="@color/white"
                                     android:textSize="14sp" />
 
@@ -403,7 +403,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_centerHorizontal="true"
                                     android:layout_centerVertical="true"
-                                    android:text="μg/m³"
+                                    android:text="@string/history_msg32"
                                     android:textColor="@color/white"
                                     android:textSize="12sp" />
 
@@ -443,7 +443,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
-                                    android:text="NO₂"
+                                    android:text="@string/history_msg33"
                                     android:textColor="@color/white"
                                     android:textSize="14sp" />
 
@@ -452,7 +452,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_centerHorizontal="true"
                                     android:layout_centerVertical="true"
-                                    android:text="μg/m³"
+                                    android:text="@string/history_msg32"
                                     android:textColor="@color/white"
                                     android:textSize="12sp" />
 
@@ -485,7 +485,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
-                                    android:text="SO₂"
+                                    android:text="@string/history_msg36"
                                     android:textColor="@color/white"
                                     android:textSize="14sp" />
 
@@ -494,7 +494,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_centerHorizontal="true"
                                     android:layout_centerVertical="true"
-                                    android:text="μg/m³"
+                                    android:text="@string/history_msg32"
                                     android:textColor="@color/white"
                                     android:textSize="12sp" />
 
@@ -534,7 +534,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
-                                    android:text="O₃"
+                                    android:text="@string/history_msg35"
                                     android:textColor="@color/white"
                                     android:textSize="14sp" />
 
@@ -543,7 +543,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_centerHorizontal="true"
                                     android:layout_centerVertical="true"
-                                    android:text="μg/m³"
+                                    android:text="@string/history_msg32"
                                     android:textColor="@color/white"
                                     android:textSize="12sp" />
 
@@ -575,7 +575,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
-                                    android:text="CO"
+                                    android:text="@string/history_msg34"
                                     android:textColor="@color/white"
                                     android:textSize="14sp" />
 
@@ -584,7 +584,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_centerHorizontal="true"
                                     android:layout_centerVertical="true"
-                                    android:text="μg/m³"
+                                    android:text="@string/history_msg32"
                                     android:textColor="@color/white"
                                     android:textSize="12sp" />
 
@@ -617,7 +617,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:text="PM2.5(μg/m³)"
+                            android:text="@string/data_msg"
                             android:textColor="@color/white"
                             android:textSize="10dp" />
 

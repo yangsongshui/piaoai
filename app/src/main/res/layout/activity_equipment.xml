@@ -28,7 +28,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:padding="10dp"
-            android:text="设备列表"
+            android:text="@string/equipment_msg4"
             android:textColor="@color/black"
             android:textSize="16sp" />
 

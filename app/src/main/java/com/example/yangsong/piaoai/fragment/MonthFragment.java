@@ -133,7 +133,7 @@ public class MonthFragment extends BaseFragment implements TVOCView {
         tvoCdataPresenterImp = new TVOCdataPresenterImp(this, getActivity());
         pmPresenterImp = new PMPresenterImp(this, getActivity());
         progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("数据查询中...");
+        progressDialog.setMessage(getString(R.string.dialog_msg6));
         Calendar cal = Calendar.getInstance();//使用默认时区和语言环境获得一个日历。
         String time = DateUtil.getCurrDate(LONG_DATE_FORMAT);
         String time2 = DateUtil.dateToString(DateUtil.nextDay(cal.getTime(), -29), LONG_DATE_FORMAT);
@@ -145,30 +145,30 @@ public class MonthFragment extends BaseFragment implements TVOCView {
         if (indext == 0) {
             //查询pm2.5
             max = 500;
-            DayUnitTv.setText("PM2.5(μg/m³)");
+            DayUnitTv.setText(getString(R.string.data_msg));
             pMdataPresenterImp.binding(map);
             DayUnitTv.setVisibility(View.VISIBLE);
 
         } else if (indext == 1) {
             //查询co2
             max = 1500;
-            DayUnitTv.setText("CO2(PPM)");
+            DayUnitTv.setText(getString(R.string.data_msg2));
             codataPresenterImp.binding(map);
         } else if (indext == 2) {
             //查询TVOC
             max = 1.6;
-            DayUnitTv.setText("TVOC(mg/m³)");
+            DayUnitTv.setText(getString(R.string.data_msg3));
             tvoCdataPresenterImp.binding(map);
         } else if (indext == 3) {
             //查询甲醛
             max = 0.8;
-            DayUnitTv.setText("甲醛(mg/m³)");
+            DayUnitTv.setText(getString(R.string.data_msg4));
             methanalPresenterImp.binding(map);
 
         } else if (indext == 4) {
             //pm10
             max = 500;
-            DayUnitTv.setText("PM10(μg/m³)");
+            DayUnitTv.setText(getString(R.string.data_msg5));
             pmPresenterImp.binding(map);
         }
     }
@@ -308,7 +308,7 @@ public class MonthFragment extends BaseFragment implements TVOCView {
     @Override
     public void loadDataError(Throwable throwable) {
         Log.e(TAG, throwable.getLocalizedMessage());
-        toastor.showSingletonToast("服务器连接异常");
+        toastor.showSingletonToast(getString(R.string.dialog_msg5));
     }
 
     private void initMonth() {
@@ -316,7 +316,7 @@ public class MonthFragment extends BaseFragment implements TVOCView {
         Date data = new Date();
         SimpleDateFormat format2 = new SimpleDateFormat("dd");
         for (int i = 0; i < 30; i++) {
-            string = format2.format(DateUtil.nextDay(data, -i)) + "号";
+            string = format2.format(DateUtil.nextDay(data, -i)) + getString(R.string.ionic_msg3);
 
             month.add(0, string);
         }
@@ -337,7 +337,7 @@ public class MonthFragment extends BaseFragment implements TVOCView {
         switch (position) {
             case 0:
                 max = 500;
-                DayUnitTv.setText("PM2.5(μg/m³)");
+                DayUnitTv.setText(getString(R.string.data_msg));
                 pMdataPresenterImp.binding(map);
                 DayUnitTv.setVisibility(View.VISIBLE);
 
@@ -345,23 +345,23 @@ public class MonthFragment extends BaseFragment implements TVOCView {
                 break;
             case 1:
                 max = 2000;
-                DayUnitTv.setText("CO₂(PPM)");
+                DayUnitTv.setText(getString(R.string.data_msg2));
                 codataPresenterImp.binding(map);
                 break;
             case 2:
                 max = 1.6;
-                DayUnitTv.setText("TVOC(mg/m³)");
+                DayUnitTv.setText(getString(R.string.data_msg3));
                 tvoCdataPresenterImp.binding(map);
                 break;
             case 3:
                 max = 0.8;
-                DayUnitTv.setText("甲醛(mg/m³)");
+                DayUnitTv.setText(getString(R.string.data_msg4));
                 methanalPresenterImp.binding(map);
                 break;
             case 4:
                 //PM10
                 max = 500;
-                DayUnitTv.setText("PM10(μg/m³)");
+                DayUnitTv.setText(getString(R.string.data_msg5));
                 pmPresenterImp.binding(map);
                 break;
 

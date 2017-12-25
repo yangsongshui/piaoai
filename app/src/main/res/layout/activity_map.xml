@@ -25,7 +25,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:padding="10dp"
-            android:text="选择地址"
+            android:text="@string/map_msg5"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -36,7 +36,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:padding="10dp"
-            android:text="完成"
+            android:text="@string/map_msg6"
             android:textColor="@color/black"
             android:textSize="13sp" />
     </RelativeLayout>
@@ -56,7 +56,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:completionThreshold="1"
-            android:hint="请输入地址"
+            android:hint="@string/map_msg7"
             android:imeOptions="actionDone"
             android:padding="10dp"
             android:singleLine="true"
@@ -74,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="取消" />
+            android:text="@string/dialog_bt2" />
     </LinearLayout>
 
     <com.amap.api.maps.MapView

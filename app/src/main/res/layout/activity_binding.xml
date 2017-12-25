@@ -28,7 +28,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:padding="10dp"
-            android:text="绑定设备"
+            android:text="@string/binding_msg3"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -60,7 +60,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="21dp"
-            android:text="扫描设备背面的二维码,或者输入设备号,进行APP与设备的绑定"
+            android:text="@string/binding_msg4"
             android:textSize="14sp" />
 
         <ImageView
@@ -84,7 +84,7 @@
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:background="@drawable/binding_rim"
-            android:hint="请输入SN号"
+            android:hint="@string/binding_msg5"
             android:padding="10dp"
             android:textColorHint="@color/silver_sand"
             android:textSize="14sp" />
@@ -96,7 +96,7 @@
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:background="@drawable/binding_rim"
-            android:hint="请输入Key"
+            android:hint="@string/binding_msg6"
             android:layout_marginTop="10dp"
             android:padding="10dp"
             android:textColorHint="@color/silver_sand"
@@ -113,7 +113,7 @@
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="配置"
+            android:text="@string/binding_msg7"
             android:textColor="@color/white"
             android:textSize="16sp" />
 
@@ -128,7 +128,7 @@
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="扫描二维码"
+            android:text="@string/binding_msg8"
             android:textColor="@color/colorPrimary"
             android:textSize="16sp" />
     </LinearLayout>

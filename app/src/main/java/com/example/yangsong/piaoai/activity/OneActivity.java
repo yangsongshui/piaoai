@@ -65,9 +65,9 @@ public class OneActivity extends BaseActivity {
 
     private void showSexDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("无WiFi连接");
-        builder.setMessage("是否跳转到WiFI设置界面连接WiFi");
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        builder.setTitle(getString(R.string.deploy_msg2));
+        builder.setMessage(getString(R.string.deploy_msg3));
+        builder.setPositiveButton(getString(R.string.dialog_bt), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent();
@@ -75,10 +75,10 @@ public class OneActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.dialog_bt2), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                toastor.showSingletonToast("无WiFi连接 无法继续配置该设备");
+                toastor.showSingletonToast(getString(R.string.dialog_msg2));
                 finish();
 
             }

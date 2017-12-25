@@ -123,21 +123,21 @@ public class MainFragment extends BaseFragment {
             pm25.setText(facility.get_$Pm25224());
             int pm = Integer.parseInt(facility.get_$Pm25224());
             if (pm >= 0 && pm <= 35) {
-                pm_tv.setText("优");
+                pm_tv.setText(getString(R.string.out_msg));
             } else if (pm > 35 && pm <= 75) {
-                pm_tv.setText("良");
+                pm_tv.setText(getString(R.string.out_msg2));
                 pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_liang));
             } else if (pm > 75 && pm <= 115) {
-                pm_tv.setText("轻度污染");
+                pm_tv.setText(getString(R.string.out_msg3));
                 pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_qingdu));
             } else if (pm > 115 && pm <= 150) {
-                pm_tv.setText("中度污染");
+                pm_tv.setText(getString(R.string.out_msg4));
                 pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_zhongdu));
             } else if (pm > 150 && pm <= 250) {
-                pm_tv.setText("重度污染");
+                pm_tv.setText(getString(R.string.out_msg5));
                 pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_zhong));
             } else if (pm > 250) {
-                pm_tv.setText("严重污染");
+                pm_tv.setText(getString(R.string.out_msg6));
                 pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_yanzhong));
             }
         }

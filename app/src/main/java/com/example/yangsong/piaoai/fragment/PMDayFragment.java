@@ -76,7 +76,7 @@ public class PMDayFragment extends BaseFragment implements OnChartValueSelectedL
         toastor = new Toastor(getActivity());
         pMdataPresenterImp = new PMdataPresenterImp(this, getActivity());
         progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("数据查询中...");
+        progressDialog.setMessage(getString(R.string.dialog_msg6));
         //通过格式化输出日期
         String time = DateUtil.getCurrDate(LONG_DATE_FORMAT);
         map = new HashMap<>();
@@ -280,7 +280,7 @@ public class PMDayFragment extends BaseFragment implements OnChartValueSelectedL
     @Override
     public void loadDataError(Throwable throwable) {
         Log.e(TAG, throwable.getLocalizedMessage());
-        toastor.showSingletonToast("服务器连接异常");
+        toastor.showSingletonToast(getString(R.string.dialog_msg5));
     }
 
     private void inithour() {

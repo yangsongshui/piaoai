@@ -110,7 +110,7 @@ public class MyInfoActivity extends BaseActivity implements TakePhoto.TakeResult
         toastor = new Toastor(this);
         initView();
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("数据提交中,请稍后");
+        progressDialog.setMessage(getString(R.string.dialog_msg6));
         //  updatePresenterImp = new UpdatePresenterImp(this, this);
     }
 
@@ -257,17 +257,17 @@ public class MyInfoActivity extends BaseActivity implements TakePhoto.TakeResult
 
     private void showDialog() {
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MyInfoActivity.this);
-        builder.setTitle("选择性别");
-        builder.setPositiveButton("男", new DialogInterface.OnClickListener() {
+        builder.setTitle(getString(R.string.info_msg));
+        builder.setPositiveButton(getString(R.string.info_msg2), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                compileSexTv.setText("男");
+                compileSexTv.setText(getString(R.string.info_msg2));
             }
         });
-        builder.setNegativeButton("女", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.info_msg3), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                compileSexTv.setText("女");
+                compileSexTv.setText(getString(R.string.info_msg3));
             }
         });
         builder.create().show();
@@ -303,10 +303,10 @@ public class MyInfoActivity extends BaseActivity implements TakePhoto.TakeResult
                 compilePicIv.setImageBitmap(stringtoBitmap(resBody.getHeadPic()));
         }
         if (resBody.getSex() != null)
-            if (resBody.getSex().equals("0") || resBody.getSex().equals("男"))
-                compileSexTv.setText("男");
+            if (resBody.getSex().equals("0") || resBody.getSex().equals(getString(R.string.info_msg2)))
+                compileSexTv.setText(getString(R.string.info_msg2));
             else
-                compileSexTv.setText("女");
+                compileSexTv.setText(getString(R.string.info_msg3));
         getCity = new GetCity(this);
         optionsPickerView = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
             @Override
@@ -341,7 +341,7 @@ public class MyInfoActivity extends BaseActivity implements TakePhoto.TakeResult
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(MyInfoActivity.this);
         final EditText editText = new EditText(this);
         editText.setMaxLines(1);
-        alertDialog.setTitle("请输入").setView(editText).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        alertDialog.setTitle(getString(R.string.dialog_msg11)).setView(editText).setPositiveButton(getString(R.string.dialog_bt), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (editText.getText().toString().equals("") || editText.getText().toString().length() == 0)
@@ -349,7 +349,7 @@ public class MyInfoActivity extends BaseActivity implements TakePhoto.TakeResult
                 textView.setText(editText.getText().toString());
 
             }
-        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+        }).setNegativeButton(getString(R.string.dialog_bt2), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -397,10 +397,10 @@ public class MyInfoActivity extends BaseActivity implements TakePhoto.TakeResult
             //map.put("headPicByte", photo);
             builder.add("headPicByte", photo);
         }
-
+   
         builder.add("sex", sex)
                 .add("nickName", name);
-        if (birthday.equals("未设置"))
+        if (birthday.equals(getString(R.string.info_msg4)))
             builder.add("birthday", "");
         else
             builder.add("birthday", birthday);
@@ -418,7 +418,7 @@ public class MyInfoActivity extends BaseActivity implements TakePhoto.TakeResult
                 resBody.setDepartment(department);
                 resBody.setCity(address);
             } else {
-                toastor.showSingletonToast("个人公司地址等信息不能为空");
+                toastor.showSingletonToast(getString(R.string.dialog_msg12));
                 return;
             }
         }
@@ -426,7 +426,7 @@ public class MyInfoActivity extends BaseActivity implements TakePhoto.TakeResult
         resBody.setNickName(name);
         resBody.setSex(sex);
         resBody.setEmail(mail);
-        if (mail.equals("未设置")) {
+        if (mail.equals( getString(R.string.info_msg4))) {
 
             builder.add("email", "");
 
@@ -435,7 +435,7 @@ public class MyInfoActivity extends BaseActivity implements TakePhoto.TakeResult
             builder.add("email", mail);
 
         } else {
-            toastor.showSingletonToast("邮箱输入不合法");
+            toastor.showSingletonToast(getString(R.string.dialog_msg13));
             return;
         }
         RequestBody formBody = builder.build();
@@ -452,7 +452,7 @@ public class MyInfoActivity extends BaseActivity implements TakePhoto.TakeResult
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        toastor.showSingletonToast("服务器连接失败");
+                        toastor.showSingletonToast(getString(R.string.dialog_msg5));
                     }
                 });
             }

@@ -36,9 +36,9 @@ public class EquipmentAdapter extends MyBaseAdapter<Facility.ResBodyBean.ListBea
         }
         ViewHolder holder = (ViewHolder) convertView.getTag();
         if (mList.get(position).getType().equals("3"))
-            holder.device_name.setText("负离子除霾设备");
+            holder.device_name.setText(mContext.getString(R.string.adapter_msg));
         else
-            holder.device_name.setText("云检测仪TFT");
+            holder.device_name.setText(mContext.getString(R.string.adapter_msg2));
         holder.device_nickName.setText(mList.get(position).getDeviceName());
 
         return convertView;

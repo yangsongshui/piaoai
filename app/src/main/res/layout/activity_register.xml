@@ -27,7 +27,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:padding="10dp"
-            android:text="注册"
+            android:text="@string/for_msg12"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -45,7 +45,7 @@
         android:layout_marginRight="40dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/binding_rim"
-        android:hint="请输入手机号"
+        android:hint="@string/for_msg2"
         android:padding="10dp"
         android:inputType="phone"
         android:textColorHint="@color/silver_sand"
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
-            android:hint="请输入验证码"
+            android:hint="@string/for_msg3"
             android:inputType="number"
             android:padding="10dp"
             android:textColorHint="@color/silver_sand"
@@ -77,7 +77,7 @@
             android:layout_height="match_parent"
             android:layout_marginRight="10dp"
             android:gravity="center"
-            android:text="获取验证码"
+            android:text="@string/for_msg4"
             android:textColor="@color/accent_bottom_navigation" />
     </LinearLayout>
 
@@ -90,7 +90,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/binding_rim"
         android:inputType="textPassword"
-        android:hint="请输入密码"
+        android:hint="@string/for_msg5"
         android:padding="10dp"
         android:textColorHint="@color/silver_sand"
         android:textSize="14sp" />
@@ -104,7 +104,7 @@
         android:layout_marginTop="10dp"
         android:inputType="textPassword"
         android:background="@drawable/binding_rim"
-        android:hint="请设置密码"
+        android:hint="@string/for_msg6"
         android:padding="10dp"
         android:textColorHint="@color/silver_sand"
         android:textSize="14sp" />
@@ -126,7 +126,7 @@
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="注册"
+            android:text="@string/for_msg12"
             android:textColor="@color/white"
             android:textSize="16sp" />
 
@@ -140,8 +140,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
-                android:text="注册表示同意"
+                android:text="@string/for_msg13"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
@@ -149,7 +148,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="注册协议"
+                android:text="@string/for_msg14"
                 android:textColor="@color/accent_bottom_navigation"
                 android:textSize="14sp" />
         </LinearLayout>

@@ -86,7 +86,7 @@ public class OutsideActivity extends BaseActivity {
     @Override
     protected void init(Bundle savedInstanceState) {
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("数据查询中...");
+        progressDialog.setMessage(getString(R.string.dialog_msg6));
         //初始化定位
         mLocationClient = new AMapLocationClient(getApplicationContext());
         //设置定位回调监听
@@ -136,7 +136,7 @@ public class OutsideActivity extends BaseActivity {
                             if (weather.getShowapi_res_code() == 0) {
                                 initWeather(weather);
                             } else {
-                                toastor.showSingletonToast("天气查询失败");
+                                toastor.showSingletonToast(getString(R.string.history_msg3));
                                 progressDialog.dismiss();
                             }
 
@@ -146,7 +146,7 @@ public class OutsideActivity extends BaseActivity {
                         public void onFailure(Call<Weather> call, Throwable t) {
                             //请求失败操作
                             progressDialog.dismiss();
-                            toastor.showSingletonToast("天气查询失败");
+                            toastor.showSingletonToast(getString(R.string.history_msg3));
                         }
                     });
                 } else {
@@ -154,7 +154,7 @@ public class OutsideActivity extends BaseActivity {
                     Log.e("AmapError", "location Error, ErrCode:"
                             + aMapLocation.getErrorCode() + ", errInfo:"
                             + aMapLocation.getErrorInfo());
-                    toastor.showSingletonToast("定位失败:" + aMapLocation.getErrorInfo());
+                    toastor.showSingletonToast(getString(R.string.history_msg4));
                     progressDialog.dismiss();
                 }
             }
@@ -180,21 +180,21 @@ public class OutsideActivity extends BaseActivity {
         //nengjianduTv.setText(weather.getShowapi_res_body().getNow().getSd());
         int pm = Integer.parseInt(weather.getShowapi_res_body().getNow().getAqiDetail().getPm2_5());
         if (pm >= 0 || pm <= 35) {
-            pmJibie.setText("优");
+            pmJibie.setText(getString(R.string.out_msg));
         } else if (pm > 35 || pm <= 75) {
-            pmJibie.setText("良");
+            pmJibie.setText(getString(R.string.out_msg2));
             pmJibie.setBackground(getResources().getDrawable(R.drawable.pm_liang));
         } else if (pm > 75 || pm <= 115) {
-            pmJibie.setText("轻度污染");
+            pmJibie.setText(getString(R.string.out_msg3));
             pmJibie.setBackground(getResources().getDrawable(R.drawable.pm_qingdu));
         } else if (pm > 116 || pm <= 150) {
-            pmJibie.setText("中度污染");
+            pmJibie.setText(getString(R.string.out_msg4));
             pmJibie.setBackground(getResources().getDrawable(R.drawable.pm_zhongdu));
         } else if (pm > 151 || pm <= 250) {
-            pmJibie.setText("重度污染");
+            pmJibie.setText(getString(R.string.out_msg5));
             pmJibie.setBackground(getResources().getDrawable(R.drawable.pm_zhong));
         } else if (pm > 251 || pm <= 500) {
-            pmJibie.setText("严重污染");
+            pmJibie.setText(getString(R.string.out_msg6));
             pmJibie.setBackground(getResources().getDrawable(R.drawable.pm_yanzhong));
         }
         progressDialog.dismiss();

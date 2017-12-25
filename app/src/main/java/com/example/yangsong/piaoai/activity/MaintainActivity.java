@@ -56,7 +56,7 @@ public class MaintainActivity extends BaseActivity implements RadioGroup.OnCheck
         map = new HashMap<>();
         addServicePresenterImp = new AddServicePresenterImp(this, this);
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("提交中...");
+        progressDialog.setMessage(getString(R.string.maintain_msg));
         toastor = new Toastor(this);
         maintainRg.check(R.id.device_1);
         maintainRg.setOnCheckedChangeListener(this);
@@ -120,7 +120,7 @@ public class MaintainActivity extends BaseActivity implements RadioGroup.OnCheck
             map.put("address", address);
             addServicePresenterImp.loadWeather(map);
         } else {
-            toastor.showSingletonToast("参数填写不正确");
+            toastor.showSingletonToast(getString(R.string.maintain_msg2));
         }
     }
 
@@ -148,6 +148,6 @@ public class MaintainActivity extends BaseActivity implements RadioGroup.OnCheck
 
     @Override
     public void loadDataError(Throwable throwable) {
-        toastor.showSingletonToast("服务器连接异常");
+        toastor.showSingletonToast(getString(R.string.dialog_msg5));
     }
 }

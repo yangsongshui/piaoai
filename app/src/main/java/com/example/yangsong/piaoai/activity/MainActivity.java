@@ -78,7 +78,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
         mList = new ArrayList<>();
         toastor = new Toastor(this);
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("数据更新中,请稍后");
+        progressDialog.setMessage(getString(R.string.dialog_msg6));
         facilityPresenerImp = new FacilityPresenerImp(this, this);
         mAdapter = new TestFragmentAdapter(getSupportFragmentManager(), mList);
         pager.setAdapter(mAdapter);
@@ -134,7 +134,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
                 if (mList.size() > 0)
                     startActivity(new Intent(this, HistoryActivity.class).putExtra("deviceID", device.getDeviceid()).putExtra("type", device.getType()));
                 else
-                    toastor.showSingletonToast("无绑定设备");
+                    toastor.showSingletonToast(getString(R.string.main_msg));
                 break;
             case R.id.main_equipment_tv:
                 startActivityForResult((new Intent(this, EquipmentActivity.class).putExtra("facility", facility)), RESULT);
@@ -228,10 +228,10 @@ public class MainActivity extends BaseActivity implements FacilityView {
             } else if (!isOne) {
                 isOne = true;
                 mainFragment.setVisibility(View.VISIBLE);
-                toastor.showSingletonToast("无绑定设备");
+                toastor.showSingletonToast(getString(R.string.main_msg));
                 startActivity(new Intent(this, BindingActivity.class));
             } else {
-                toastor.showSingletonToast("无绑定设备");
+                toastor.showSingletonToast(getString(R.string.main_msg));
                 mAdapter.setCount(tData.getResBody().getList());
                 indicator.notifyDataSetChanged();
                 mainFragment.setVisibility(View.VISIBLE);
@@ -246,7 +246,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
     @Override
     public void loadDataError(Throwable throwable) {
         Log.e(TAG, throwable.toString());
-        toastor.showSingletonToast("服务器连接异常");
+        toastor.showSingletonToast(getString(R.string.dialog_msg5));
     }
 
     @Override

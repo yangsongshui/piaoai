@@ -68,7 +68,7 @@ public class BindingActivity extends BaseActivity {
                         startActivity(new Intent(this, ThreeActivity.class).putExtra("deviceID", deviceID).putExtra("sn",sn));
                     }
                 } else
-                    toastor.showSingletonToast("设备ID不合法,请检查");
+                    toastor.showSingletonToast(getString(R.string.binding_msg));
                 break;
         }
     }
@@ -97,7 +97,7 @@ public class BindingActivity extends BaseActivity {
                     startActivity(new Intent(this, ThreeActivity.class).putExtra("deviceID", result).putExtra("sn",sn));
                 }
             } else
-                toastor.showSingletonToast("设备ID不合法,请检查");
+                toastor.showSingletonToast(getString(R.string.binding_msg));
         }
     }
 
@@ -126,7 +126,7 @@ public class BindingActivity extends BaseActivity {
     @PermissionDenied(REQUECT_CODE_COARSE)
     public void requestSdcardFailed() {
 
-        toastor.showSingletonToast("相机无法打开,二维码扫描失败");
+        toastor.showSingletonToast(getString(R.string.binding_msg2));
     }
 
     @Override

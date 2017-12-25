@@ -55,7 +55,7 @@ public class ForgetPasswordActivity extends BaseActivity implements MsgView {
         getCodePresenterImp = new GetCodePresenterImp(new GetCodeView() {
             @Override
             public void showProgress() {
-                toastor.showSingletonToast("获取中");
+                toastor.showSingletonToast(getString(R.string.dialog_msg10));
             }
 
             @Override
@@ -72,21 +72,22 @@ public class ForgetPasswordActivity extends BaseActivity implements MsgView {
 
             @Override
             public void loadDataError(Throwable throwable) {
-                toastor.showSingletonToast("连接服务器失败");
+                toastor.showSingletonToast(getString(R.string.dialog_msg5));
             }
         }, this);
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("数据修改中,请稍后");
+        progressDialog.setMessage(getString(R.string.dialog_msg6));
         timer = new CountDownTimer(60 * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 //每隔countDownInterval秒会回调一次onTick()方法
-                get_code_tv.setText(millisUntilFinished / 1000 + "s后重新发送");
+                String msg=millisUntilFinished / 1000 +getString(R.string.forget_msg);
+                get_code_tv.setText(msg);
             }
 
             @Override
             public void onFinish() {
-                get_code_tv.setText("获取短信验证码");
+                get_code_tv.setText(getString(R.string.forget_msg2));
                 get_code_tv.setEnabled(true);
             }
         };
@@ -106,7 +107,7 @@ public class ForgetPasswordActivity extends BaseActivity implements MsgView {
                     timer.start();// 开始计时
                     getCodePresenterImp.GetCode(phone, "2");
                 } else
-                    toastor.showSingletonToast("手机号输入不正确");
+                    toastor.showSingletonToast(getString(R.string.dialog_msg7));
                 break;
             case R.id.confirm_tv:
                 String psw = pswEt.getText().toString().trim();
@@ -121,9 +122,9 @@ public class ForgetPasswordActivity extends BaseActivity implements MsgView {
                         map.put("role", "0");
                         pswPresenterImp.updatePwd(map);
                     } else
-                        toastor.showSingletonToast("手机号输入不正确或密码输入不一致");
+                        toastor.showSingletonToast(getString(R.string.dialog_msg8));
                 else
-                    toastor.showSingletonToast("验证码有误");
+                    toastor.showSingletonToast(getString(R.string.dialog_msg9));
                 break;
         }
     }
@@ -148,6 +149,6 @@ public class ForgetPasswordActivity extends BaseActivity implements MsgView {
 
     @Override
     public void loadDataError(Throwable throwable) {
-        toastor.showSingletonToast("连接服务器失败");
+        toastor.showSingletonToast(getString(R.string.dialog_msg5));
     }
 }

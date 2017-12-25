@@ -126,7 +126,7 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
     public void searchButton() {
         keyWord = checkEditText(mapSearch);
         if ("".equals(keyWord)) {
-            toastor.showSingletonToast("请输入搜索关键字");
+            toastor.showSingletonToast(getString(R.string.map_msg));
             return;
         } else {
             doSearchQuery();
@@ -187,7 +187,7 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
         progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progDialog.setIndeterminate(false);
         progDialog.setCancelable(false);
-        progDialog.setMessage("正在搜索:\n" + keyWord);
+        progDialog.setMessage(getString(R.string.map_msg2) + keyWord);
         progDialog.show();
     }
 
@@ -212,10 +212,10 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
                 addressPopuoWindow.setList(poiItems);
 
             } else {
-                toastor.showSingletonToast("对不起，没有搜索到相关数据！");
+                toastor.showSingletonToast(getString(R.string.map_msg3));
             }
         } else {
-            toastor.showSingletonToast("检索失败");
+            toastor.showSingletonToast(getString(R.string.map_msg4));
         }
     }
 

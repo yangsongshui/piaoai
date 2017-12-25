@@ -64,7 +64,7 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
         toastor = new Toastor(this);
         loginJizhuCb.setOnCheckedChangeListener(this);
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("登陆中,请稍后");
+        progressDialog.setMessage(getString(R.string.login_msg5));
         loginPresenterImp = new LoginPresenterImp(this, this);
         msgPresenterImp = new MsgPresenterImp(new MsgView() {
             @Override
@@ -120,7 +120,7 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
                     MyApplication.newInstance().setUser(tData);
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
-                } else if (tData.getResMessage().equals("不存在此用户！")) {
+                } else if (tData.getResMessage().equals(getString(R.string.login_msg2))) {
                     Map<String, String> map = new HashMap<>();
                     map.put("phoneNumber", openid);
                     map.put("passWord", MD5.getMD5("123456"));
@@ -134,7 +134,7 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
 
             @Override
             public void loadDataError(Throwable throwable) {
-                toastor.showSingletonToast("服务器连接失败");
+                toastor.showSingletonToast(getString(R.string.dialog_msg5));
             }
         }, this);
         Boolean IsRemember = SpUtils.getBoolean("remember", true);
@@ -155,7 +155,7 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
                 if ( psw.length() >= 6)
                     loginPresenterImp.loadLogin(phone, psw);
                 else
-                    toastor.showSingletonToast("登陆信息有误");
+                    toastor.showSingletonToast(getString(R.string.login_msg));
                 break;
             case R.id.login_wechat_iv:
                 mShareAPI.getPlatformInfo(LoginActivity.this, SHARE_MEDIA.WEIXIN, umAuthListener);
@@ -214,7 +214,7 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
 
     @Override
     public void loadDataError(Throwable throwable) {
-        toastor.showSingletonToast("服务器连接失败");
+        toastor.showSingletonToast(getString(R.string.dialog_msg5));
     }
 
     private UMAuthListener umAuthListener = new UMAuthListener() {
@@ -236,7 +236,7 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
 
         @Override
         public void onError(SHARE_MEDIA platform, int action, Throwable t) {
-            toastor.showSingletonToast("第三方登陆失败");
+            toastor.showSingletonToast(getString(R.string.login_msg3));
             if (progressDialog != null && progressDialog.isShowing()) {
                 progressDialog.dismiss();
             }
@@ -245,7 +245,7 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
 
         @Override
         public void onCancel(SHARE_MEDIA platform, int action) {
-            toastor.showSingletonToast("第三方登陆取消");
+            toastor.showSingletonToast(getString(R.string.login_msg4));
             if (progressDialog != null && progressDialog.isShowing()) {
                 progressDialog.dismiss();
             }

@@ -27,7 +27,6 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_marginTop="20dp"
-                android:text="6组"
                 android:textColor="@color/white"
                 android:textSize="40sp" />
 
@@ -37,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/ionic_TVOC_tv"
                 android:layout_centerHorizontal="true"
-                android:text="负离子"
+                android:text="@string/adapter_msg3"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -81,7 +80,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="15dp"
-                    android:text="最小"
+                    android:text="@string/ionic_msg4"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
 
@@ -132,7 +131,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="最大"
+                    android:text="@string/ionic_msg5"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -150,7 +149,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="开"
+                    android:text="@string/ionic_msg6"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
 
@@ -168,7 +167,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="关"
+                    android:text="@string/ionic_msg"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
             </LinearLayout>

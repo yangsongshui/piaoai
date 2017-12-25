@@ -154,7 +154,7 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
         type = getIntent().getStringExtra("type");
         indext = getIntent().getIntExtra("indext", 0);
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("正在分享...");
+        progressDialog.setMessage(getString(R.string.history_msg));
         cityDataPresenterImp = new CityDataPresenterImp(this, this);
         Log.e(TAG, deviceID);
         initData();
@@ -192,6 +192,7 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
     }
 
     private void initView() {
+        
         historyRg.check(id[indext]);
         setDataLL(indext);
         cardiacRgrpNavigation.check(R.id.cardiac_tiem_rb);
@@ -199,39 +200,40 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
         historyRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                String msg=getString(R.string.history_msg2);
                 switch (radioGroup.getCheckedRadioButtonId()) {
                     case R.id.history_pm25:
                         indext = 0;
-                        type2 = "PM2.5";
-                        historyTitle.setText(type2 + day + "曲线图");
+                        type2 = getString(R.string.history_msg9);
+                        historyTitle.setText(type2 + day + msg);
                         EventBus.getDefault().post(new FragmentEvent(0));
                         setDataLL(indext);
                         break;
                     case R.id.history_pm10:
                         indext = 4;
-                        type2 = "PM10";
-                        historyTitle.setText(type2 + day + "曲线图");
+                        type2 =  getString(R.string.history_msg10);
+                        historyTitle.setText(type2 + day + msg);
                         EventBus.getDefault().post(new FragmentEvent(4));
                         setDataLL(indext);
                         break;
                     case R.id.history_jiaquan:
                         indext = 3;
-                        type2 = "甲醛";
-                        historyTitle.setText(type2 + day + "曲线图");
+                        type2 =  getString(R.string.history_msg11);
+                        historyTitle.setText(type2 + day + msg);
                         EventBus.getDefault().post(new FragmentEvent(3));
                         setDataLL(indext);
                         break;
                     case R.id.history_tvoc:
                         indext = 2;
-                        type2 = "TVOC";
-                        historyTitle.setText(type2 + day + "曲线图");
+                        type2 =  getString(R.string.history_msg12);
+                        historyTitle.setText(type2 + day + msg);
                         EventBus.getDefault().post(new FragmentEvent(2));
                         setDataLL(indext);
                         break;
                     case R.id.history_co2:
                         indext = 1;
-                        type2 = "CO₂";
-                        historyTitle.setText(type2 + day + "曲线图");
+                        type2 =  getString(R.string.history_msg13);
+                        historyTitle.setText(type2 + day + msg);
                         EventBus.getDefault().post(new FragmentEvent(1));
                         setDataLL(indext);
                         break;
@@ -420,30 +422,31 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
+        String msg=getString(R.string.history_msg2);
         switch (radioGroup.getCheckedRadioButtonId()) {
             case R.id.cardiac_tiem_rb:
                 showFragment(0);
-                day = "时";
-                historyTitle.setText(type2 + day + "曲线图");
-                historyTime.setText("(min)");
+                day =getString(R.string.history_msg14);
+                historyTitle.setText(type2 + day + msg);
+                historyTime.setText(getString(R.string.history_msg5));
                 break;
             case R.id.cardiac_day_rb:
                 showFragment(1);
-                day = "天";
-                historyTitle.setText(type2 + day + "曲线图");
-                historyTime.setText("(hour)");
+                day = getString(R.string.history_msg15);
+                historyTitle.setText(type2 + day + msg);
+                historyTime.setText(getString(R.string.history_msg6));
                 break;
             case R.id.cardiac_week_rb:
                 showFragment(2);
-                day = "周";
-                historyTitle.setText(type2 + day + "曲线图");
-                historyTime.setText("(week)");
+                day = getString(R.string.history_msg16);
+                historyTitle.setText(type2 + day + msg);
+                historyTime.setText(getString(R.string.history_msg7));
                 break;
             case R.id.cardiac_month_rb:
                 showFragment(3);
-                day = "月";
-                historyTitle.setText(type2 + day + "曲线图");
-                historyTime.setText("(month)");
+                day = getString(R.string.history_msg17);
+                historyTitle.setText(type2 + day + msg);
+                historyTime.setText(getString(R.string.history_msg8));
                 break;
         }
     }
@@ -475,7 +478,7 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
                             if (weather.getShowapi_res_code() == 0) {
                                 initWeather(weather);
                             } else {
-                                toastor.showSingletonToast("天气查询失败");
+                                toastor.showSingletonToast(getString(R.string.history_msg3));
 
                             }
 
@@ -485,7 +488,7 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
                         public void onFailure(Call<Weather> call, Throwable t) {
                             //请求失败操作
 
-                            toastor.showSingletonToast("天气查询失败");
+                            toastor.showSingletonToast(getString(R.string.history_msg3));
                         }
                     });
 
@@ -494,7 +497,7 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
                     Log.e("AmapError", "location Error, ErrCode:"
                             + aMapLocation.getErrorCode() + ", errInfo:"
                             + aMapLocation.getErrorInfo());
-                    toastor.showSingletonToast("定位失败:" + aMapLocation.getErrorInfo());
+                    toastor.showSingletonToast(getString(R.string.history_msg4));
 
                 }
             }
@@ -513,8 +516,8 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
             weatherPm10Tv.setText(weather.getShowapi_res_body().getNow().getAqiDetail().getPm10());
             weatherSo2Tv.setText(weather.getShowapi_res_body().getNow().getAqiDetail().getSo2());
             weatherO3Tv.setText(weather.getShowapi_res_body().getNow().getAqiDetail().getO3());
-            temperatureTv.setText("温度: " + weather.getShowapi_res_body().getNow().getTemperature() + "℃");
-            shiduTv.setText("湿度: " + weather.getShowapi_res_body().getNow().getSd());
+            temperatureTv.setText(getString(R.string.history_msg22) + weather.getShowapi_res_body().getNow().getTemperature() + "℃");
+            shiduTv.setText(getString(R.string.history_msg23)+ weather.getShowapi_res_body().getNow().getSd());
             weatherTv.setText(weather.getShowapi_res_body().getNow().getWeather());
         }
 
@@ -560,7 +563,7 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
     @Override
     public void loadDataError(Throwable throwable) {
         Log.e(TAG, throwable.toString());
-        toastor.showSingletonToast("服务器连接异常");
+        toastor.showSingletonToast(getString(R.string.dialog_msg5));
     }
 
     private UMShareListener umShareListener = new UMShareListener() {
@@ -573,13 +576,13 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
         @Override
         public void onResult(SHARE_MEDIA platform) {
             Log.d("plat", "platform" + platform);
-            toastor.showSingletonToast(platform + " 分享成功啦");
+            toastor.showSingletonToast(platform + getString(R.string.history_msg18));
             progressDialog.dismiss();
         }
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            toastor.showSingletonToast(platform + " 分享失败啦");
+            toastor.showSingletonToast(platform + getString(R.string.history_msg19));
             progressDialog.dismiss();
             if (t != null) {
                 Log.d("throw", "throw:" + t.getMessage());
@@ -589,7 +592,7 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
         @Override
         public void onCancel(SHARE_MEDIA platform) {
             progressDialog.dismiss();
-            toastor.showSingletonToast(platform + " 分享取消了");
+            toastor.showSingletonToast(platform + getString(R.string.history_msg20));
 
         }
     };
@@ -614,7 +617,7 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
         UMImage image = new UMImage(HistoryActivity.this, bitmap);//bitmap文件
         image.compressStyle = UMImage.CompressStyle.QUALITY;
         new ShareAction(HistoryActivity.this).setPlatform(platform)
-                .withText("飘爱检测仪")
+                .withText(getString(R.string.history_msg21))
                 .withMedia(image)
                 .setCallback(umShareListener)
                 .share();

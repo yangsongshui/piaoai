@@ -34,7 +34,7 @@ public class FeedbackActivity extends BaseActivity implements MsgView {
         toastor = new Toastor(this);
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("数据提交中,请稍后");
+        progressDialog.setMessage(getString(R.string.dialog_msg6));
         feedbackPresenterImp = new FeedbackPresenterImp(this, this);
     }
 
@@ -70,13 +70,13 @@ public class FeedbackActivity extends BaseActivity implements MsgView {
     public void loadDataSuccess(Msg tData) {
 
         if (tData.getResCode().equals("0")) {
-            toastor.showSingletonToast("感谢您的宝贵意见!");
+            toastor.showSingletonToast(getString(R.string.feed_msg));
             finish();
         }
     }
 
     @Override
     public void loadDataError(Throwable throwable) {
-        toastor.showSingletonToast("服务器连接失败");
+        toastor.showSingletonToast(getString(R.string.dialog_msg5));
     }
 }

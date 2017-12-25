@@ -27,7 +27,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:padding="10dp"
-            android:text="故障记录"
+            android:text="@string/police_msg"
             android:textColor="@color/black"
             android:textSize="16sp" />
     </RelativeLayout>
@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="暂无故障报告"
+            android:text="@string/police_msg2"
             android:textSize="16sp" />
     </LinearLayout>
 </LinearLayout>

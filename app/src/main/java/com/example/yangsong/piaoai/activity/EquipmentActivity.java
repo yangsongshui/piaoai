@@ -55,7 +55,7 @@ public class EquipmentActivity extends BaseActivity implements SwipeMenuListView
     @Override
     protected void init(Bundle savedInstanceState) {
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("信息提交中...");
+        progressDialog.setMessage(getString(R.string.equipment_msg));
         deleteDevicePresenterImp = new DeleteDevicePresenterImp(this, this);
         toastor = new Toastor(this);
         Facility facility = (Facility) getIntent().getSerializableExtra("facility");
@@ -134,7 +134,7 @@ public class EquipmentActivity extends BaseActivity implements SwipeMenuListView
             // 设置宽度
             alterItem.setWidth(dp2px(70));
             // 设置内容
-            alterItem.setTitle("更多");
+            alterItem.setTitle(getString(R.string.equipment_msg2));
             // 设置字体大小
             alterItem.setTitleSize(14);
             // 字体颜色
@@ -150,7 +150,7 @@ public class EquipmentActivity extends BaseActivity implements SwipeMenuListView
             // set item width
             deleteItem.setWidth(dp2px(70));
             // 设置内容
-            deleteItem.setTitle("删除");
+            deleteItem.setTitle(getString(R.string.equipment_msg3));
             // 设置字体大小
             deleteItem.setTitleSize(14);
             // 字体颜色
@@ -191,17 +191,17 @@ public class EquipmentActivity extends BaseActivity implements SwipeMenuListView
     public void loadDataSuccess(Msg tData) {
 
         if (tData.getResCode().equals("0")) {
-            toastor.showSingletonToast("操作成功");
+            toastor.showSingletonToast(getString(R.string.dialog_msg3));
             mList.remove(position);
             adapter.notifyDataSetChanged();
 
         }else {
-            toastor.showSingletonToast("操作失败");
+            toastor.showSingletonToast(getString(R.string.dialog_msg4));
         }
     }
 
     @Override
     public void loadDataError(Throwable throwable) {
-        toastor.showSingletonToast("服务器连接异常");
+        toastor.showSingletonToast(getString(R.string.dialog_msg5));
     }
 }

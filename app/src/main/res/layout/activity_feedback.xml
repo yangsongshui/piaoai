@@ -28,7 +28,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:padding="10dp"
-            android:text="信息反馈"
+            android:text="@string/feed_msg2"
             android:textColor="@color/black"
             android:textSize="16sp" />
     </RelativeLayout>
@@ -49,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:hint="请输入您的宝贵意见，我们将及时回应，感谢您对飘爱的支持"
+            android:hint="@string/feed_msg3"
             android:maxLength="200"
             android:padding="15dp"
             android:textSize="14sp" />
@@ -71,7 +71,7 @@
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="提交"
+            android:text="@string/dialog_bt4"
             android:textColor="@color/white"
             android:textSize="16sp" />
     </LinearLayout>

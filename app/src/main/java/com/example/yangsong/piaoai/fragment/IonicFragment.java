@@ -59,7 +59,7 @@ public class IonicFragment extends BaseFragment implements FLZView {
         minPresenterImp = new MinPresenterImp(this, getContext());
         maxPresenterImp = new MaxPresenterImp(this, getContext());
         progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("数据查询中...");
+        progressDialog.setMessage(getString(R.string.dialog_msg6));
         map = new HashMap<>();
 
     }
@@ -110,23 +110,23 @@ public class IonicFragment extends BaseFragment implements FLZView {
     public void loadDataSuccess(FLZDevice tData) {
         toastor.showSingletonToast(tData.getResMessage());
         if (tData.getResBody().getNum() == 0) {
-            homeTVOCTv.setText("关");
+            homeTVOCTv.setText(getString(R.string.ionic_msg));
         } else {
-            homeTVOCTv.setText(tData.getResBody().getNum() + "组");
+            homeTVOCTv.setText(tData.getResBody().getNum() + getString(R.string.ionic_msg2));
         }
     }
 
     @Override
     public void loadDataError(Throwable throwable) {
         Log.e(TAG, throwable.getLocalizedMessage());
-        toastor.showSingletonToast("服务器连接异常");
+        toastor.showSingletonToast(getString(R.string.dialog_msg5));
     }
 
     private void initView() {
         if (facility.getSwitchX().equals("0")) {
-            homeTVOCTv.setText("关");
+            homeTVOCTv.setText(getString(R.string.ionic_msg));
         } else {
-            homeTVOCTv.setText(facility.getNum() + "组");
+            homeTVOCTv.setText(facility.getNum() + getString(R.string.ionic_msg2));
         }
 
     }

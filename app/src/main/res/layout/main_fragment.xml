@@ -24,7 +24,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="PM2.5"
+                android:text="@string/history_msg9"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -41,7 +41,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="μg/m³"
+                android:text="@string/history_msg32"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
             <ImageView
@@ -59,7 +59,7 @@
                 android:gravity="center"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:text="优"
+                android:text="@string/out_msg"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -117,7 +117,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/home_PM10_tv"
                     android:layout_centerHorizontal="true"
-                    android:text="μg/m³"
+                    android:text="@string/history_msg32"
                     android:textColor="@color/baby_blue_eyes"
                     android:textSize="10sp" />
                 <TextView
@@ -127,7 +127,7 @@
                     android:layout_below="@+id/roundProgressBar_PM10"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="6dp"
-                    android:text="PM10"
+                    android:text="@string/history_msg27"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
             </RelativeLayout>
@@ -163,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/home_methanal_tv"
                     android:layout_centerHorizontal="true"
-                    android:text="mg/m³"
+                    android:text="@string/data_msg6"
                     android:textColor="@color/baby_blue_eyes"
                     android:textSize="10sp" />
 
@@ -174,7 +174,7 @@
                     android:layout_below="@+id/roundProgressBar_methanal"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="6dp"
-                    android:text="甲醛"
+                    android:text="@string/history_msg11"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
             </RelativeLayout>
@@ -198,7 +198,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/home_TVOC_tv"
                     android:layout_centerHorizontal="true"
-                    android:text="mg/m³"
+                    android:text="@string/data_msg6"
                     android:textColor="@color/baby_blue_eyes"
                     android:textSize="10sp" />
                 <TextView
@@ -208,7 +208,7 @@
                     android:layout_below="@+id/roundProgressBar_TVOC"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="6dp"
-                    android:text="TVOC"
+                    android:text="@string/history_msg12"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
 
@@ -326,7 +326,7 @@
                     android:layout_below="@+id/roundProgressBar_electric"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="6dp"
-                    android:text="温度"
+                    android:text="@string/out_msg13"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
             </RelativeLayout>
@@ -375,7 +375,7 @@
                     android:layout_below="@+id/roundProgressBar_humidity"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="6dp"
-                    android:text="湿度"
+                    android:text="@string/out_msg14"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
 

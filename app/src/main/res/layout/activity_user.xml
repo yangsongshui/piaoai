@@ -28,7 +28,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:padding="10dp"
-            android:text="账户管理"
+            android:text="@string/scanner_msg5"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -39,7 +39,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:padding="15dp"
-            android:text="删除"
+            android:text="@string/equipment_msg3"
             android:textColor="@color/accent_bottom_navigation" />
     </RelativeLayout>
 
@@ -55,7 +55,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
-        android:text="管理员" />
+        android:text="@string/scanner_msg6" />
 
     <TextView
         android:layout_width="match_parent"
@@ -75,7 +75,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
-        android:text="其他账号" />
+        android:text="@string/scanner_msg7" />
 
     <ListView
         android:id="@+id/user_list"

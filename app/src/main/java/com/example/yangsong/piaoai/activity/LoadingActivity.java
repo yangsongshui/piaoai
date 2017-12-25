@@ -53,7 +53,7 @@ public class LoadingActivity extends BaseActivity {
 
     @PermissionDenied(REQUECT_CODE_COARSE)
     public void requestSdcardFailed() {
-        Toast.makeText(this, "权限获取失败,请重新授权", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.loading_msg), Toast.LENGTH_SHORT).show();
         MPermissions.requestPermissions(LoadingActivity.this, REQUECT_CODE_COARSE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA);
     }

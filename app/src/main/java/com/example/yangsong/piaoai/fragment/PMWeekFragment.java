@@ -77,7 +77,7 @@ public class PMWeekFragment extends BaseFragment implements OnChartValueSelected
         toastor = new Toastor(getActivity());
         pMdataPresenterImp = new PMdataPresenterImp(this, getActivity());
         progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("数据查询中...");
+        progressDialog.setMessage(getString(R.string.dialog_msg6));
         Calendar cal = Calendar.getInstance();//使用默认时区和语言环境获得一个日历。
         map = new HashMap<>();
         map.put("imei", indext);
@@ -276,7 +276,7 @@ public class PMWeekFragment extends BaseFragment implements OnChartValueSelected
     @Override
     public void loadDataError(Throwable throwable) {
         Log.e(TAG, throwable.getLocalizedMessage());
-        toastor.showSingletonToast("服务器连接异常");
+        toastor.showSingletonToast(getString(R.string.dialog_msg5));
     }
     private void initWeek() {
         String string = "";

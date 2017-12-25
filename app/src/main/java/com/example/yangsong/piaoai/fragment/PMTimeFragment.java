@@ -72,7 +72,7 @@ public class PMTimeFragment extends BaseFragment implements OnChartValueSelected
         toastor = new Toastor(getActivity());
         pMdataPresenterImp = new PMdataPresenterImp(this, getActivity());
         progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("数据查询中...");
+        progressDialog.setMessage(getString(R.string.dialog_msg6));
         map = new HashMap<>();
         map.put("imei", indext);
         map.put("type", "0");
@@ -274,6 +274,6 @@ public class PMTimeFragment extends BaseFragment implements OnChartValueSelected
     @Override
     public void loadDataError(Throwable throwable) {
         Log.e(TAG, throwable.getLocalizedMessage());
-        toastor.showSingletonToast("服务器连接异常");
+        toastor.showSingletonToast(getString(R.string.dialog_msg5));
     }
 }

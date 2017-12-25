@@ -78,7 +78,7 @@ public class PMMonthFragment extends BaseFragment implements OnChartValueSelecte
         toastor = new Toastor(getActivity());
         pMdataPresenterImp = new PMdataPresenterImp(this, getActivity());
         progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("数据查询中...");
+        progressDialog.setMessage(getString(R.string.dialog_msg6));
         //通过格式化输出日期
         Calendar cal = Calendar.getInstance();//使用默认时区和语言环境获得一个日历。
         String time = DateUtil.getCurrDate(LONG_DATE_FORMAT);
@@ -279,7 +279,7 @@ public class PMMonthFragment extends BaseFragment implements OnChartValueSelecte
     @Override
     public void loadDataError(Throwable throwable) {
         Log.e(TAG, throwable.getLocalizedMessage());
-        toastor.showSingletonToast("服务器连接异常");
+        toastor.showSingletonToast(getString(R.string.dialog_msg5));
     }
 
     private void initMonth() {
@@ -287,7 +287,7 @@ public class PMMonthFragment extends BaseFragment implements OnChartValueSelecte
         Date data = new Date();
         SimpleDateFormat format2 = new SimpleDateFormat("dd");
         for (int i = 0; i < 30; i++) {
-            string = format2.format(DateUtil.nextDay(data, -i)) + "号";
+            string = format2.format(DateUtil.nextDay(data, -i)) + getString(R.string.ionic_msg3);
 
             month.add(0, string);
         }

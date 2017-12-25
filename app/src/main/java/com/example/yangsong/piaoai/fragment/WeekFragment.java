@@ -128,11 +128,11 @@ public class WeekFragment extends BaseFragment implements TVOCView {
             @Override
             public void loadDataError(Throwable throwable) {
                 Log.e(TAG, throwable.getLocalizedMessage());
-                toastor.showSingletonToast("服务器连接异常");
+                toastor.showSingletonToast(getString(R.string.dialog_msg5));
             }
         }, getActivity());
         progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("数据查询中...");
+        progressDialog.setMessage(getString(R.string.dialog_msg6));
         Calendar cal = Calendar.getInstance();//使用默认时区和语言环境获得一个日历。
         map = new HashMap<>();
         map.put("imei", deviceID);
@@ -145,35 +145,35 @@ public class WeekFragment extends BaseFragment implements TVOCView {
         if (indext == 0) {
             //查询pm2.5
             max = 500;
-            DayUnitTv.setText("PM2.5(μg/m³)");
+            DayUnitTv.setText(getString(R.string.data_msg));
             pMdataPresenterImp.binding(map);
            
 
         } else if (indext == 1) {
             //查询co2
             max = 1500;
-            DayUnitTv.setText("CO2(PPM)");
+            DayUnitTv.setText(getString(R.string.data_msg2));
             codataPresenterImp.binding(map);
            
 
         } else if (indext == 2) {
             //查询TVOC
             max = 1.6;
-            DayUnitTv.setText("TVOC(mg/m³)");
+            DayUnitTv.setText(getString(R.string.data_msg3));
             DayUnitTv.setVisibility(View.INVISIBLE);
             tvoCdataPresenterImp.binding(map);
 
         } else if (indext == 3) {
             //查询甲醛
             max = 0.8;
-            DayUnitTv.setText("甲醛(mg/m³)");
+            DayUnitTv.setText(getString(R.string.data_msg4));
             methanalPresenterImp.binding(map);
            
 
         } else if (indext == 4) {
             max = 500;
             //pm10
-            DayUnitTv.setText("PM10(μg/m³)");
+            DayUnitTv.setText(getString(R.string.data_msg5));
             pmPresenterImp.binding(map);
 
         }
@@ -310,7 +310,7 @@ public class WeekFragment extends BaseFragment implements TVOCView {
     @Override
     public void loadDataError(Throwable throwable) {
         Log.e(TAG, throwable.toString());
-        toastor.showSingletonToast("服务器连接异常");
+        toastor.showSingletonToast(getString(R.string.dialog_msg5));
     }
 
     private void initWeek() {
@@ -340,28 +340,28 @@ public class WeekFragment extends BaseFragment implements TVOCView {
         switch (position) {
             case 0:
                 max=500;
-                DayUnitTv.setText("PM2.5(μg/m³)");
+                DayUnitTv.setText(getString(R.string.data_msg));
                 pMdataPresenterImp.binding(map);
                 break;
             case 1:
                 max=2000;
-                DayUnitTv.setText("CO₂(PPM)");
+                DayUnitTv.setText(getString(R.string.data_msg2));
                 codataPresenterImp.binding(map);
                 break;
             case 2:
                 max=1.6;
-                DayUnitTv.setText("TVOC(mg/m³)");
+                DayUnitTv.setText(getString(R.string.data_msg3));
                 tvoCdataPresenterImp.binding(map);
                 break;
             case 3:
                 max=0.8;
-                DayUnitTv.setText("甲醛(mg/m³)");
+                DayUnitTv.setText(getString(R.string.data_msg4));
                 methanalPresenterImp.binding(map);
                 break;
             case 4:
                 //PM10
                 max=500;
-                DayUnitTv.setText("PM10(μg/m³)");
+                DayUnitTv.setText(getString(R.string.data_msg5));
                 pmPresenterImp.binding(map);
                 break;
 

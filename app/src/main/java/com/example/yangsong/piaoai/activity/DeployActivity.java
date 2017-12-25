@@ -50,7 +50,7 @@ public class DeployActivity extends BaseActivity implements OnSmartLinkListener 
         sn=getIntent().getStringExtra("sn");
         progressDialog = new ProgressDialog(this);
         //progressDialog.setTitle();
-        progressDialog.setMessage("配置中,请稍后");
+        progressDialog.setMessage(getString(R.string.dialog_msg));
         progressDialog.setCanceledOnTouchOutside(false);
         mSnifferSmartLinker = MulticastSmartLinker.getInstance();
         mSnifferSmartLinker.setOnSmartLinkListener(this);
@@ -73,7 +73,7 @@ public class DeployActivity extends BaseActivity implements OnSmartLinkListener 
     private void start() {
         String Wifiname = wifiName.getText().toString();
         String Wifipwd = deployEt.getText().toString();
-        if (Wifiname.equals("WiFi未连接")) {
+        if (Wifiname.equals(getString(R.string.deploy_msg))) {
             return;
         } else {
             try {
@@ -87,9 +87,9 @@ public class DeployActivity extends BaseActivity implements OnSmartLinkListener 
     }
     private void showSexDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("无WiFi连接");
-        builder.setMessage("是否跳转到WiFI设置界面连接WiFi");
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        builder.setTitle(getString(R.string.deploy_msg2));
+        builder.setMessage(getString(R.string.deploy_msg3));
+        builder.setPositiveButton(getString(R.string.dialog_bt), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent();
@@ -97,10 +97,10 @@ public class DeployActivity extends BaseActivity implements OnSmartLinkListener 
                 startActivity(intent);
             }
         });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.dialog_bt2), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                toastor.showSingletonToast("无WiFi连接 无法继续配置该设备");
+                toastor.showSingletonToast(getString(R.string.dialog_msg2));
                 finish();
 
             }
@@ -129,14 +129,14 @@ public class DeployActivity extends BaseActivity implements OnSmartLinkListener 
     public void onLinked(SmartLinkedModule smartLinkedModule) {
         //配对中的设备MAC
         Log.e("----------", smartLinkedModule.getMac() + "");
-        toastor.showSingletonToast("正在上传服务器...");
+        toastor.showSingletonToast(getString(R.string.deploy_msg4));
     }
 
     @Override
     public void onCompleted() {
         //连接成功
         Log.e("----------", "连接成功");
-        toastor.showSingletonToast("配网成功");
+        toastor.showSingletonToast(getString(R.string.deploy_msg5));
         startActivity(new Intent(this, ThreeActivity.class).putExtra("deviceID",deviceID).putExtra("sn",sn));
         progressDialog.dismiss();
     }
@@ -144,7 +144,7 @@ public class DeployActivity extends BaseActivity implements OnSmartLinkListener 
     @Override
     public void onTimeOut() {
         //连接超时
-        toastor.showSingletonToast("设备配置超时，请检查设备或WIFI状态");
+        toastor.showSingletonToast(getString(R.string.deploy_msg6));
         progressDialog.dismiss();
     }
 

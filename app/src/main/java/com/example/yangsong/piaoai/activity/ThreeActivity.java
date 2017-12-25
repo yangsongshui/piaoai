@@ -48,7 +48,7 @@ public class ThreeActivity extends BaseActivity implements MsgView {
         deviceID = getIntent().getStringExtra("deviceID");
         sn = getIntent().getStringExtra("sn");
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("设备绑定中...");
+        progressDialog.setMessage(getString(R.string.three_msg));
         bindingPresenterImp = new BindingPresenterImp(this, this);
         toastor = new Toastor(this);
         threeDeviceID.setText(deviceID);
@@ -64,7 +64,7 @@ public class ThreeActivity extends BaseActivity implements MsgView {
             case R.id.three_tv:
                 String name = threeNameEt.getText().toString().trim();
                 String address = threeAddressEt.getText().toString().trim();
-                if (!address.equals("请选择设备所在地址") && !address.equals("")) {
+                if (!address.equals(getString(R.string.modification_msg2)) && !address.equals("")) {
                     if (name.length() > 0) {
                         String phoneNumber = MyApplication.newInstance().getUser().getResBody().getPhoneNumber();
                         Map<String, String> map = new HashMap<>();
@@ -75,10 +75,10 @@ public class ThreeActivity extends BaseActivity implements MsgView {
                         map.put("sn", sn);
                         bindingPresenterImp.binding(map);
                     } else {
-                        toastor.showSingletonToast("设备名字不能为空");
+                        toastor.showSingletonToast(getString(R.string.modification_msg3));
                     }
                 } else {
-                    toastor.showSingletonToast("设备地址不能为空");
+                    toastor.showSingletonToast(getString(R.string.modification_msg4));
                 }
                 break;
             case R.id.three_address_et:
@@ -112,7 +112,7 @@ public class ThreeActivity extends BaseActivity implements MsgView {
 
     @Override
     public void loadDataError(Throwable throwable) {
-        toastor.showSingletonToast("服务器连接异常");
+        toastor.showSingletonToast(getString(R.string.dialog_msg5));
     }
 
     @Override

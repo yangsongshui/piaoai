@@ -29,7 +29,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:padding="10dp"
-            android:text="户外环境"
+            android:text="@string/out_msg11"
             android:textColor="@color/white"
             android:textSize="16sp" />
 
@@ -113,7 +113,7 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="5dp"
-            android:text="优"
+            android:text="@string/data_msg"
             android:textColor="@color/white"
             android:textSize="14sp" />
     </LinearLayout>
@@ -141,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:text="湿度:"
+                android:text="@string/history_msg23"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 
@@ -169,7 +169,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:text="能见度:"
+                android:text="@string/history_msg37"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 
@@ -196,7 +196,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:text="紫外线强度:"
+                android:text="@string/history_msg38"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 
@@ -223,7 +223,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:text="风速:"
+                android:text="@string/history_msg39"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 
@@ -261,7 +261,7 @@
                 android:id="@+id/tomorrow_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="明天"
+                android:text="@string/out_msg12"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 
@@ -294,7 +294,7 @@
                 android:id="@+id/tomorrow2_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="明天"
+                android:text="@string/out_msg12"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 
@@ -327,7 +327,7 @@
                 android:id="@+id/tomorrow3_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="明天"
+                android:text="@string/out_msg12"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 

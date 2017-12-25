@@ -44,7 +44,7 @@ public class ModificationActivity extends BaseActivity implements MsgView {
     protected void init(Bundle savedInstanceState) {
         deviceID=getIntent().getStringExtra("deviceID");
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("信息提交中...");
+        progressDialog.setMessage(getString(R.string.modification_msg));
         modificationPresenterImp = new ModificationPresenterImp(this, this);
         toastor = new Toastor(this);
     }
@@ -63,7 +63,7 @@ public class ModificationActivity extends BaseActivity implements MsgView {
             case R.id.mod_tv:
                  name = modNameEt.getText().toString().trim();
                 String address = modAddressEt.getText().toString().trim();
-                if (address.equals("请选择设备所在地址"))
+                if (address.equals(getString(R.string.modification_msg2)))
                     address = "";
                 if (name.length() > 0) {
                     String phoneNumber = MyApplication.newInstance().getUser().getResBody().getPhoneNumber();
@@ -74,7 +74,7 @@ public class ModificationActivity extends BaseActivity implements MsgView {
                     map.put("devicePosition", address);
                     modificationPresenterImp.binding(map);
                 } else {
-                    toastor.showSingletonToast("设备名字不能为空");
+                    toastor.showSingletonToast(getString(R.string.modification_msg3));
                 }
                 break;
         }
@@ -122,6 +122,6 @@ public class ModificationActivity extends BaseActivity implements MsgView {
 
     @Override
     public void loadDataError(Throwable throwable) {
-        toastor.showSingletonToast("服务器连接异常");
+        toastor.showSingletonToast(getString(R.string.dialog_msg5));
     }
 }

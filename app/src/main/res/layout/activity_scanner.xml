@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             app:corner_color="@color/accent_bottom_navigation"
             app:frame_color="@color/zxing"
-            app:label_text="将二维码和条形码放入识别框"
+            app:label_text="@string/scanner_msg"
             app:label_text_color="@color/white"
             app:laser_color="@color/accent_bottom_navigation"
             app:mask_color="@color/zxing"

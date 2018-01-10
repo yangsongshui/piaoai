@@ -214,6 +214,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
                     isOne = true;
                     device = mList.get(0);
                 } else {
+                    isOne = false;
                     if (mList.size() < position)
                         position = mList.size();
                     device = mList.get(position);
@@ -225,6 +226,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
                     tvMainRight.setVisibility(View.VISIBLE);
                 }
                 mainFragment.setVisibility(View.GONE);
+                isOne = false;
             } else if (!isOne) {
                 isOne = true;
                 mainFragment.setVisibility(View.VISIBLE);

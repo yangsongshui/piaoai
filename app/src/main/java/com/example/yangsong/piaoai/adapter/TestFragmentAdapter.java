@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 
 import com.example.yangsong.piaoai.bean.Facility;
+import com.example.yangsong.piaoai.fragment.DustFragment;
 import com.example.yangsong.piaoai.fragment.IonicFragment;
 import com.example.yangsong.piaoai.fragment.MainFragment;
 import com.example.yangsong.piaoai.fragment.PMFragment;
@@ -26,10 +27,12 @@ public class TestFragmentAdapter extends FragmentStatePagerAdapter implements Ic
     @Override
     public Fragment getItem(int position) {
         // Log.e("Fragment", "IonicFragment");
-        if (mList.get(position).getType().equals("1") || mList.get(position).getType().equals("4")) {
+        if (mList.get(position).getType().equals("1")) {
             return new MainFragment(mList.get(position));
         } else if (mList.get(position).getType().equals("2")) {
             return new PMFragment(mList.get(position));
+        }else if (mList.get(position).getType().equals("4")){
+            return new DustFragment(mList.get(position));
         }
         return new IonicFragment(mList.get(position));
     }

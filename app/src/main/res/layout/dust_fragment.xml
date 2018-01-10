@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android_custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="50dp"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/history_msg9"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/pm25"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/white"
+                    android:textSize="50sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/history_msg32"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="0.5dp"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:id="@+id/pm_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/point_selected"
+                    android:gravity="center"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:text="@string/out_msg"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/main_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/home_img_circle" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/shujv_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/home_PM10_rl"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <com.example.yangsong.piaoai.myview.RoundProgressBar
+                        android:id="@+id/roundProgressBar_PM10"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android_custom:roundColor="@color/baby_blue_eyes"
+                        android_custom:roundProgressColor="@color/ultramarine_blue"
+                        android_custom:roundWidth="3dp"
+                        android_custom:textIsDisplayable="false" />
+
+                    <TextView
+                        android:id="@+id/home_PM10_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="21sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/home_PM10_tv"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/history_msg32"
+                        android:textColor="@color/baby_blue_eyes"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/roundProgressBar_PM10"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/history_msg27"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/home_methanal_rl"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <com.example.yangsong.piaoai.myview.RoundProgressBar
+                        android:id="@+id/roundProgressBar_pm2"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android_custom:roundColor="@color/baby_blue_eyes"
+                        android_custom:roundProgressColor="@color/tacao"
+                        android_custom:roundWidth="3dp"
+                        android_custom:textIsDisplayable="false" />
+
+                    <TextView
+                        android:id="@+id/home_pm2_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="21sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/home_pm2_tv"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/data_msg6"
+                        android:textColor="@color/baby_blue_eyes"
+                        android:textSize="10sp" />
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/roundProgressBar_pm2"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/history_msg27"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/home_TVOC_rl"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/home_pm100_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="21sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/home_pm100_tv"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/data_msg6"
+                        android:textColor="@color/baby_blue_eyes"
+                        android:textSize="10sp" />
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/roundProgressBar_pm100"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="6dp"
+                        android:text="PM100"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+
+                    <com.example.yangsong.piaoai.myview.RoundProgressBar
+                        android:id="@+id/roundProgressBar_pm100"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android_custom:roundColor="@color/baby_blue_eyes"
+                        android_custom:roundProgressColor="@color/electric_blue"
+                        android_custom:roundWidth="3dp"
+                        android_custom:textIsDisplayable="false" />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="130dp">
+
+
+
+                <RelativeLayout
+                    android:id="@+id/home_electric_rl"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/home_electric_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="21sp" />
+
+                    <com.example.yangsong.piaoai.myview.RoundProgressBar
+                        android:id="@+id/roundProgressBar_electric"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android_custom:roundColor="@color/baby_blue_eyes"
+                        android_custom:roundProgressColor="@color/carissma"
+                        android_custom:roundWidth="3dp"
+                        android_custom:textIsDisplayable="false" />
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/home_electric_tv"
+                        android:layout_centerHorizontal="true"
+                        android:text="℃"
+                        android:textColor="@color/baby_blue_eyes"
+                        android:textSize="10sp" />
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/roundProgressBar_electric"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/out_msg13"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/home_humidity_rl"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <com.example.yangsong.piaoai.myview.RoundProgressBar
+                        android:id="@+id/roundProgressBar_humidity"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android_custom:roundColor="@color/baby_blue_eyes"
+                        android_custom:roundProgressColor="@color/mantis"
+                        android_custom:roundWidth="3dp"
+                        android_custom:textIsDisplayable="false" />
+
+                    <TextView
+                        android:id="@+id/home_humidity_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="21sp" />
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/home_humidity_tv"
+                        android:layout_centerHorizontal="true"
+                        android:text="%"
+                        android:textColor="@color/baby_blue_eyes"
+                        android:textSize="10sp" />
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/roundProgressBar_humidity"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/out_msg14"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/home_qiya_rl"
+                    android:layout_width="0dp"
+
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <com.example.yangsong.piaoai.myview.RoundProgressBar
+                        android:id="@+id/roundProgressBar_qiya"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android_custom:roundColor="#66ffffff"
+                        android_custom:roundProgressColor="@color/sunglow"
+                        android_custom:roundWidth="3dp"
+                        android_custom:textIsDisplayable="false" />
+
+                    <TextView
+                        android:id="@+id/home_qiya_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:text="0.00"
+                        android:textColor="@color/white"
+                        android:textSize="21sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/home_qiya_tv"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/data_msg6"
+                        android:textColor="@color/baby_blue_eyes"
+                        android:textSize="10sp" />
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/roundProgressBar_qiya"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="6dp"
+                        android:text="气压"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="130dp">
+
+
+
+                <RelativeLayout
+                    android:id="@+id/home_zaosheng_rl"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/home_zaosheng_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="21sp" />
+
+                    <com.example.yangsong.piaoai.myview.RoundProgressBar
+                        android:id="@+id/roundProgressBar_zaosheng"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android_custom:roundColor="@color/baby_blue_eyes"
+                        android_custom:roundProgressColor="@color/carissma"
+                        android_custom:roundWidth="3dp"
+                        android_custom:textIsDisplayable="false" />
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/home_zaosheng_tv"
+                        android:layout_centerHorizontal="true"
+                        android:text="℃"
+                        android:textColor="@color/baby_blue_eyes"
+                        android:textSize="10sp" />
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/roundProgressBar_zaosheng"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="6dp"
+                        android:text="噪声"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/home_fengxiang_rl"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <com.example.yangsong.piaoai.myview.RoundProgressBar
+                        android:id="@+id/roundProgressBar_fengxiang"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android_custom:roundColor="@color/baby_blue_eyes"
+                        android_custom:roundProgressColor="@color/mantis"
+                        android_custom:roundWidth="3dp"
+                        android_custom:textIsDisplayable="false" />
+
+                    <TextView
+                        android:id="@+id/home_fengxiang_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="21sp" />
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/home_fengxiang_tv"
+                        android:layout_centerHorizontal="true"
+                        android:text="%"
+                        android:textColor="@color/baby_blue_eyes"
+                        android:textSize="10sp" />
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/roundProgressBar_fengxiang"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="6dp"
+                        android:text="风向"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/home_fengsu_rl"
+                    android:layout_width="0dp"
+
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <com.example.yangsong.piaoai.myview.RoundProgressBar
+                        android:id="@+id/roundProgressBar_fengsu"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android_custom:roundColor="#66ffffff"
+                        android_custom:roundProgressColor="@color/sunglow"
+                        android_custom:roundWidth="3dp"
+                        android_custom:textIsDisplayable="false" />
+
+                    <TextView
+                        android:id="@+id/home_fengsu_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:text="0.00"
+                        android:textColor="@color/white"
+                        android:textSize="21sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/home_fengsu_tv"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/data_msg6"
+                        android:textColor="@color/baby_blue_eyes"
+                        android:textSize="10sp" />
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/roundProgressBar_fengsu"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="6dp"
+                        android:text="风速"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

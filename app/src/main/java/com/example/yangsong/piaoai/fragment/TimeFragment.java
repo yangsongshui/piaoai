@@ -17,10 +17,18 @@ import com.example.yangsong.piaoai.bean.PMBean;
 import com.example.yangsong.piaoai.bean.TVOC;
 import com.example.yangsong.piaoai.inter.FragmentEvent;
 import com.example.yangsong.piaoai.presenter.CodataPresenterImp;
+import com.example.yangsong.piaoai.presenter.FSPresenterImp;
+import com.example.yangsong.piaoai.presenter.FXPresenterImp;
 import com.example.yangsong.piaoai.presenter.MethanalPresenterImp;
+import com.example.yangsong.piaoai.presenter.PM1dataPresenterImp;
 import com.example.yangsong.piaoai.presenter.PMPresenterImp;
+import com.example.yangsong.piaoai.presenter.PMYCPresenterImp;
 import com.example.yangsong.piaoai.presenter.PMdataPresenterImp;
+import com.example.yangsong.piaoai.presenter.QYPresenterImp;
+import com.example.yangsong.piaoai.presenter.SDPresenterImp;
 import com.example.yangsong.piaoai.presenter.TVOCdataPresenterImp;
+import com.example.yangsong.piaoai.presenter.WDPresenterImp;
+import com.example.yangsong.piaoai.presenter.ZSPresenterImp;
 import com.example.yangsong.piaoai.util.Toastor;
 import com.example.yangsong.piaoai.view.PMView;
 import com.example.yangsong.piaoai.view.TVOCView;
@@ -66,6 +74,17 @@ public class TimeFragment extends BaseFragment implements TVOCView {
     MethanalPresenterImp methanalPresenterImp;
     TVOCdataPresenterImp tvoCdataPresenterImp;
     PMPresenterImp pmPresenterImp;
+
+    FXPresenterImp fxPresenterImp;
+    FSPresenterImp fsPresenterImp;
+    PM1dataPresenterImp pm1dataPresenterImp;
+    PMYCPresenterImp pmycPresenterImp;
+    QYPresenterImp qyPresenterImp;
+    SDPresenterImp sdPresenterImp;
+    WDPresenterImp wdPresenterImp;
+    ZSPresenterImp zsPresenterImp;
+
+
     private Activity activity;
     private int indext = 0;
     List<String> mList;
@@ -124,6 +143,14 @@ public class TimeFragment extends BaseFragment implements TVOCView {
         methanalPresenterImp = new MethanalPresenterImp(this, getActivity());
         tvoCdataPresenterImp = new TVOCdataPresenterImp(this, getActivity());
         pmPresenterImp = new PMPresenterImp(this, getActivity());
+        fxPresenterImp = new FXPresenterImp(this, getActivity());
+        fsPresenterImp = new FSPresenterImp(this, getActivity());
+        pm1dataPresenterImp = new PM1dataPresenterImp(this, getActivity());
+        pmycPresenterImp = new PMYCPresenterImp(this, getActivity());
+        qyPresenterImp = new QYPresenterImp(this, getActivity());
+        sdPresenterImp = new SDPresenterImp(this, getActivity());
+        wdPresenterImp = new WDPresenterImp(this, getActivity());
+        zsPresenterImp = new ZSPresenterImp(this, getActivity());
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage(getString(R.string.dialog_msg6));
         map = new HashMap<>();
@@ -136,40 +163,7 @@ public class TimeFragment extends BaseFragment implements TVOCView {
         cal.add(Calendar.HOUR, -1);
         SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         map.put("beginDate", format2.format(cal.getTime()));
-        if (indext == 0) {
-            //查询pm2.5
-            max = 500;
-            DayUnitTv.setText(getString(R.string.data_msg));
-            pMdataPresenterImp.binding(map);
-          
-
-        } else if (indext == 1) {
-            //查询co2
-            max = 1500;
-            DayUnitTv.setText(getString(R.string.data_msg2));
-            codataPresenterImp.binding(map);
-          
-
-        } else if (indext == 2) {
-            //查询TVOC
-            max = 1.6;
-            DayUnitTv.setText(getString(R.string.data_msg3));
-            tvoCdataPresenterImp.binding(map);
-
-        } else if (indext == 3) {
-            //查询甲醛
-            max = 0.8;
-            DayUnitTv.setText(getString(R.string.data_msg4));
-            methanalPresenterImp.binding(map);
-          
-
-        } else if (indext == 4) {
-            //pm10
-            max = 500;
-            DayUnitTv.setText(getString(R.string.data_msg5));
-            pmPresenterImp.binding(map);
-
-        }
+        getData(indext);
     }
 
     @Override
@@ -318,61 +312,167 @@ public class TimeFragment extends BaseFragment implements TVOCView {
         Log.e(TAG, position + "");
         indext = position;
         initY();
-        switch (position) {
-            case 0:
-                max=500;
-                DayUnitTv.setText(getString(R.string.data_msg));
-                pMdataPresenterImp.binding(map);
-                break;
-            case 1:
-                max=2000;
-                DayUnitTv.setText(getString(R.string.data_msg2));
-                codataPresenterImp.binding(map);
-              
-                break;
-            case 2:
-                max=1.6;
-                DayUnitTv.setText(getString(R.string.data_msg3));
-                tvoCdataPresenterImp.binding(map);
-                break;
-            case 3:
-                max=0.8;
-                DayUnitTv.setText(getString(R.string.data_msg4));
-                methanalPresenterImp.binding(map);
-              
-                break;
-            case 4:
-                //PM10
-                max=500;
-                DayUnitTv.setText(getString(R.string.data_msg5));
-                pmPresenterImp.binding(map);
-                break;
-
-            default:
-                break;
-        }
-
+        getData(position);
     }
     private void initY() {
-        if (indext == 0) {
-            mChart.getAxisLeft().setAxisMaximum(500);
-            mChart.getAxisLeft().setAxisMinimum(0);
-        } else if (indext == 1) {
-            mChart.getAxisLeft().setAxisMaximum(2000);
-            mChart.getAxisLeft().setAxisMinimum(0);
-
-        } else if (indext == 2) {
-            mChart.getAxisLeft().setAxisMaximum((float) 1.6);
-            mChart.getAxisLeft().setAxisMinimum(0);
-        } else if (indext == 3) {
-            mChart.getAxisLeft().setAxisMaximum((float) 0.8);
-            mChart.getAxisLeft().setAxisMinimum(0);
-        } else if (indext == 4) {
-            mChart.getAxisLeft().setAxisMaximum(500);
-            mChart.getAxisLeft().setAxisMinimum(0);
+        switch (indext) {
+            case 0:
+                //查询pm2.5
+                max = 500;
+                mChart.getAxisLeft().setAxisMaximum(500);
+                mChart.getAxisLeft().setAxisMinimum(0);
+                break;
+            case 1:
+                //查询co2
+                max = 1500;
+                mChart.getAxisLeft().setAxisMaximum(2000);
+                mChart.getAxisLeft().setAxisMinimum(0);
+                break;
+            case 2:
+                //查询TVOC
+                max = 1.6;
+                mChart.getAxisLeft().setAxisMaximum((float) 1.6);
+                mChart.getAxisLeft().setAxisMinimum(0);
+                break;
+            case 3:
+                //查询甲醛
+                max = 0.8;
+                mChart.getAxisLeft().setAxisMaximum((float) 0.8);
+                mChart.getAxisLeft().setAxisMinimum(0);
+                break;
+            case 4:
+                //pm10
+            case 5:
+                //pm10 扬尘
+            case 6:
+                //pm1.0
+            case 7:
+                //pm100
+                max = 500;
+                mChart.getAxisLeft().setAxisMaximum(500);
+                mChart.getAxisLeft().setAxisMinimum(0);
+                break;
+            case 8:
+                //温度
+                max = 60;
+                mChart.getAxisLeft().setAxisMaximum(60);
+                mChart.getAxisLeft().setAxisMinimum(0);
+                break;
+            case 9:
+                //湿度
+                max = 100;
+                mChart.getAxisLeft().setAxisMaximum(100);
+                mChart.getAxisLeft().setAxisMinimum(0);
+                break;
+            case 10:
+                //气压
+                max = 200;
+                mChart.getAxisLeft().setAxisMaximum(200);
+                mChart.getAxisLeft().setAxisMinimum(0);
+                break;
+            case 11:
+                //噪声
+                break;
+            case 12:
+                //风向
+            case 13:
+                //风速
+                max = 50;
+                mChart.getAxisLeft().setAxisMaximum(50);
+                mChart.getAxisLeft().setAxisMinimum(0);
+                break;
         }
         mChart.getAxisLeft().setLabelCount(6, true);
         mChart.notifyDataSetChanged();
         mChart.invalidate();
+    }
+    private void getData(int indext){
+        switch (indext) {
+            case 0:
+                //查询pm2.5
+                max = 500;
+                DayUnitTv.setText(getString(R.string.data_msg));
+                pMdataPresenterImp.binding(map);
+                break;
+            case 1:
+                //查询co2
+                max = 1500;
+                DayUnitTv.setText(getString(R.string.data_msg2));
+                codataPresenterImp.binding(map);
+                break;
+            case 2:
+                //查询TVOC
+                max = 1.6;
+                DayUnitTv.setText(getString(R.string.data_msg3));
+                tvoCdataPresenterImp.binding(map);
+                break;
+            case 3:
+                //查询甲醛
+                max = 0.8;
+                DayUnitTv.setText(getString(R.string.data_msg4));
+                methanalPresenterImp.binding(map);
+                break;
+            case 4:
+                //pm10
+                max = 200;
+                DayUnitTv.setText(getString(R.string.data_msg5));
+                pmPresenterImp.binding(map);
+                break;
+            case 5:
+                //pm10 扬尘
+                max = 200;
+                DayUnitTv.setText(getString(R.string.data_msg5));
+                pmPresenterImp.binding(map);
+                break;
+            case 6:
+                //pm1.0
+                max = 200;
+                DayUnitTv.setText(getString(R.string.data_msg5));
+                pm1dataPresenterImp.binding(map);
+                break;
+            case 7:
+                //pm100
+                max = 200;
+                DayUnitTv.setText(getString(R.string.data_msg5));
+                pmycPresenterImp.binding(map);
+                break;
+            case 8:
+                //温度
+                max = 60;
+                DayUnitTv.setText(getString(R.string.data_msg7));
+                wdPresenterImp.binding(map);
+                break;
+            case 9:
+                //湿度
+                max = 100;
+                sdPresenterImp.binding(map);
+                DayUnitTv.setText(getString(R.string.data_msg8));
+                break;
+            case 10:
+                //气压
+                max = 500;
+                DayUnitTv.setText("");
+                qyPresenterImp.binding(map);
+                break;
+            case 11:
+                //噪声
+                max = 50;
+                DayUnitTv.setText("");
+                zsPresenterImp.binding(map);
+                break;
+            case 12:
+                //风向
+                max = 50;
+                DayUnitTv.setText("");
+                fxPresenterImp.binding(map);
+                break;
+            case 13:
+                //风速
+                max = 50;
+                DayUnitTv.setText("");
+                fsPresenterImp.binding(map);
+                break;
+
+        }
     }
 }

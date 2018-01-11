@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -75,15 +77,14 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
     private final static String TAG = HistoryActivity.class.getSimpleName();
     @BindView(R.id.history_rg)
     RadioGroup historyRg;
-
+    @BindView(R.id.history_rg2)
+    RadioGroup historyRg2;
     @BindView(R.id.line_chart)
     CombinedChart mChart;
     @BindView(R.id.cardiac_rgrpNavigation)
     RadioGroup cardiacRgrpNavigation;
     String type;
     int indext = 0;
-
-
     @BindView(R.id.weather_iv)
     ImageView weatherIv;
     @BindView(R.id.weatherTv)
@@ -122,6 +123,8 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
     LinearLayout jiaquanLl;
     @BindView(R.id.tvoc_ll)
     LinearLayout tvocLl;
+    @BindView(R.id.history_sl)
+    HorizontalScrollView historySl;
     private Fragment[] frags = new Fragment[6];
     protected BaseFragment baseFragment;
     private TimeFragment dataFragment;
@@ -137,7 +140,10 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
     List<String> mList;
     List<String> time;
     ProgressDialog progressDialog;
-    int[] id = {R.id.history_pm25, R.id.history_co2, R.id.history_tvoc, R.id.history_jiaquan, R.id.history_pm10};
+    int[] id = {R.id.history_pm25, R.id.history_co2, R.id.history_tvoc, R.id.history_jiaquan, R.id.history_pm10,
+            R.id.history_pm, R.id.history_pm1, R.id.history_pm100, R.id.history_wd, R.id.history_sd, R.id.history_qiya,
+            R.id.history_zaosheng, R.id.history_fengxiang, R.id.history_fengsu};
+
     String day = "时";
     String type2 = "PM2.5";
 
@@ -152,6 +158,13 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
         time = new ArrayList<>();
         String deviceID = getIntent().getStringExtra("deviceID");
         type = getIntent().getStringExtra("type");
+        if (type.equals("4")) {
+            historyRg.setVisibility(View.GONE);
+            historyRg2.setVisibility(View.VISIBLE);
+        } else {
+            historyRg.setVisibility(View.VISIBLE);
+            historyRg2.setVisibility(View.GONE);
+        }
         indext = getIntent().getIntExtra("indext", 0);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.history_msg));
@@ -192,15 +205,20 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
     }
 
     private void initView() {
-        
-        historyRg.check(id[indext]);
+        if (type.equals("4")) {
+            historyRg2.check(id[indext]);
+        } else {
+            historyRg.check(id[indext]);
+        }
+
+
         setDataLL(indext);
         cardiacRgrpNavigation.check(R.id.cardiac_tiem_rb);
         cardiacRgrpNavigation.setOnCheckedChangeListener(this);
         historyRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                String msg=getString(R.string.history_msg2);
+                String msg = getString(R.string.history_msg2);
                 switch (radioGroup.getCheckedRadioButtonId()) {
                     case R.id.history_pm25:
                         indext = 0;
@@ -211,28 +229,28 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
                         break;
                     case R.id.history_pm10:
                         indext = 4;
-                        type2 =  getString(R.string.history_msg10);
+                        type2 = getString(R.string.history_msg10);
                         historyTitle.setText(type2 + day + msg);
                         EventBus.getDefault().post(new FragmentEvent(4));
                         setDataLL(indext);
                         break;
                     case R.id.history_jiaquan:
                         indext = 3;
-                        type2 =  getString(R.string.history_msg11);
+                        type2 = getString(R.string.history_msg11);
                         historyTitle.setText(type2 + day + msg);
                         EventBus.getDefault().post(new FragmentEvent(3));
                         setDataLL(indext);
                         break;
                     case R.id.history_tvoc:
                         indext = 2;
-                        type2 =  getString(R.string.history_msg12);
+                        type2 = getString(R.string.history_msg12);
                         historyTitle.setText(type2 + day + msg);
                         EventBus.getDefault().post(new FragmentEvent(2));
                         setDataLL(indext);
                         break;
                     case R.id.history_co2:
                         indext = 1;
-                        type2 =  getString(R.string.history_msg13);
+                        type2 = getString(R.string.history_msg13);
                         historyTitle.setText(type2 + day + msg);
                         EventBus.getDefault().post(new FragmentEvent(1));
                         setDataLL(indext);
@@ -241,7 +259,77 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
                 }
             }
         });
-
+        historyRg2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                String msg = getString(R.string.history_msg2);
+                switch (checkedId) {
+                    case R.id.history_pm:
+                        indext = 5;
+                        type2 = getString(R.string.history_msg48);
+                        historyTitle.setText(type2 + day + msg);
+                        EventBus.getDefault().post(new FragmentEvent(5));
+                        setDataLL(indext);
+                        break;
+                    case R.id.history_pm1:
+                        indext = 6;
+                        type2 = getString(R.string.history_msg47);
+                        historyTitle.setText(type2 + day + msg);
+                        EventBus.getDefault().post(new FragmentEvent(6));
+                        setDataLL(indext);
+                        break;
+                    case R.id.history_pm100:
+                        indext = 7;
+                        type2 = getString(R.string.history_msg46);
+                        historyTitle.setText(type2 + day + msg);
+                        EventBus.getDefault().post(new FragmentEvent(7));
+                        setDataLL(indext);
+                        break;
+                    case R.id.history_wd:
+                        indext = 8;
+                        type2 = getString(R.string.history_msg45);
+                        historyTitle.setText(type2 + day + msg);
+                        EventBus.getDefault().post(new FragmentEvent(8));
+                        setDataLL(indext);
+                        break;
+                    case R.id.history_sd:
+                        indext = 9;
+                        type2 = getString(R.string.history_msg44);
+                        historyTitle.setText(type2 + day + msg);
+                        EventBus.getDefault().post(new FragmentEvent(9));
+                        setDataLL(indext);
+                        break;
+                    case R.id.history_qiya:
+                        indext = 10;
+                        type2 = getString(R.string.history_msg43);
+                        historyTitle.setText(type2 + day + msg);
+                        EventBus.getDefault().post(new FragmentEvent(10));
+                        setDataLL(indext);
+                        break;
+                    case R.id.history_zaosheng:
+                        indext = 11;
+                        type2 = getString(R.string.history_msg42);
+                        historyTitle.setText(type2 + day + msg);
+                        EventBus.getDefault().post(new FragmentEvent(11));
+                        setDataLL(indext);
+                        break;
+                    case R.id.history_fengxiang:
+                        indext = 12;
+                        type2 = getString(R.string.history_msg41);
+                        historyTitle.setText(type2 + day + msg);
+                        EventBus.getDefault().post(new FragmentEvent(12));
+                        setDataLL(indext);
+                        break;
+                    case R.id.history_fengsu:
+                        indext = 13;
+                        type2 = getString(R.string.history_msg40);
+                        historyTitle.setText(type2 + day + msg);
+                        EventBus.getDefault().post(new FragmentEvent(13));
+                        setDataLL(indext);
+                        break;
+                }
+            }
+        });
         sharePopuoWindow = new SharePopuoWindow(this, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -422,11 +510,11 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
-        String msg=getString(R.string.history_msg2);
+        String msg = getString(R.string.history_msg2);
         switch (radioGroup.getCheckedRadioButtonId()) {
             case R.id.cardiac_tiem_rb:
                 showFragment(0);
-                day =getString(R.string.history_msg14);
+                day = getString(R.string.history_msg14);
                 historyTitle.setText(type2 + day + msg);
                 historyTime.setText(getString(R.string.history_msg5));
                 break;
@@ -517,7 +605,7 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
             weatherSo2Tv.setText(weather.getShowapi_res_body().getNow().getAqiDetail().getSo2());
             weatherO3Tv.setText(weather.getShowapi_res_body().getNow().getAqiDetail().getO3());
             temperatureTv.setText(getString(R.string.history_msg22) + weather.getShowapi_res_body().getNow().getTemperature() + "℃");
-            shiduTv.setText(getString(R.string.history_msg23)+ weather.getShowapi_res_body().getNow().getSd());
+            shiduTv.setText(getString(R.string.history_msg23) + weather.getShowapi_res_body().getNow().getSd());
             weatherTv.setText(weather.getShowapi_res_body().getNow().getWeather());
         }
 
@@ -622,7 +710,8 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
                 .setCallback(umShareListener)
                 .share();
     }
-    private void setDataLL(int indext){
+
+    private void setDataLL(int indext) {
         switch (indext) {
             case 0:
                 pm25Ll.setVisibility(View.VISIBLE);
@@ -632,6 +721,9 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
                 tvocLl.setVisibility(View.GONE);
 
                 break;
+            case 5:
+            case 6:
+            case 7:
             case 4:
                 pm25Ll.setVisibility(View.GONE);
                 pm10Ll.setVisibility(View.VISIBLE);
@@ -654,10 +746,16 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
                 tvocLl.setVisibility(View.VISIBLE);
                 break;
             case 1:
-
                 pm25Ll.setVisibility(View.GONE);
                 pm10Ll.setVisibility(View.GONE);
                 co2Ll.setVisibility(View.VISIBLE);
+                jiaquanLl.setVisibility(View.GONE);
+                tvocLl.setVisibility(View.GONE);
+                break;
+            default:
+                pm25Ll.setVisibility(View.GONE);
+                pm10Ll.setVisibility(View.GONE);
+                co2Ll.setVisibility(View.GONE);
                 jiaquanLl.setVisibility(View.GONE);
                 tvocLl.setVisibility(View.GONE);
                 break;

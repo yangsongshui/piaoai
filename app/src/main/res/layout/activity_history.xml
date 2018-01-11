@@ -72,7 +72,8 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp"
                 android:background="@drawable/history_bg"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <RadioButton
                     android:id="@+id/history_pm25"
@@ -80,7 +81,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/history_msg27" />
+                    android:text="@string/history_msg26" />
+
                 <View
                     android:layout_width="0.5dp"
                     android:layout_height="match_parent"
@@ -93,6 +95,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/history_msg27" />
+
                 <View
                     android:layout_width="0.5dp"
                     android:layout_height="match_parent"
@@ -131,11 +134,129 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/history_msg30" />
-
-
-
-
             </RadioGroup>
+
+            <HorizontalScrollView
+                android:id="@+id/history_sl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:scrollbars="none">
+
+                <RadioGroup
+                    android:id="@+id/history_rg2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/history_bg"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/history_pm"
+                        style="@style/MainRadioButton2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/history_msg48" />
+
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/white" />
+
+                    <RadioButton
+                        android:id="@+id/history_pm1"
+                        style="@style/MainRadioButton2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/history_msg47" />
+
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/white" />
+
+                    <RadioButton
+                        android:id="@+id/history_pm100"
+                        style="@style/MainRadioButton2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/history_msg46" />
+
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/white" />
+
+                    <RadioButton
+                        android:id="@+id/history_wd"
+                        style="@style/MainRadioButton2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/history_msg45" />
+
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/white" />
+
+                    <RadioButton
+                        android:id="@+id/history_sd"
+                        style="@style/MainRadioButton2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/history_msg44" />
+
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/white" />
+
+                    <RadioButton
+                        android:id="@+id/history_qiya"
+                        style="@style/MainRadioButton2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/history_msg43" />
+
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/white" />
+
+                    <RadioButton
+                        android:id="@+id/history_zaosheng"
+                        style="@style/MainRadioButton2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/history_msg42" />
+
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/white" />
+
+                    <RadioButton
+                        android:id="@+id/history_fengxiang"
+                        style="@style/MainRadioButton2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="@string/history_msg41" />
+
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/white" />
+
+                    <RadioButton
+                        android:id="@+id/history_fengsu"
+                        style="@style/MainRadioButton2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/history_msg40" />
+                </RadioGroup>
+            </HorizontalScrollView>
 
             <LinearLayout
                 android:layout_width="match_parent"

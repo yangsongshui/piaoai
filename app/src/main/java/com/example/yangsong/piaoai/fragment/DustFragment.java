@@ -1,6 +1,7 @@
 package com.example.yangsong.piaoai.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -10,11 +11,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.yangsong.piaoai.R;
+import com.example.yangsong.piaoai.activity.HistoryActivity;
 import com.example.yangsong.piaoai.base.BaseFragment;
 import com.example.yangsong.piaoai.bean.Facility;
 import com.example.yangsong.piaoai.myview.RoundProgressBar;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -139,28 +142,42 @@ public class DustFragment extends BaseFragment {
     }
 
 
-/*    @OnClick({ R.id.home_PM10_rl, R.id.home_methanal_rl, R.id.main_iv})
+  @OnClick({ R.id.home_PM10_rl, R.id.home_pm1_rl, R.id.home_pm100_rl,
+          R.id.home_electric_rl, R.id.home_humidity_rl, R.id.home_qiya_rl,
+          R.id.home_zaosheng_rl, R.id.home_fengxiang_rl, R.id.home_fengsu_rl})
     public void onViewClicked(View view) {
         Intent intent = new Intent(getActivity(), HistoryActivity.class).putExtra("deviceID", facility.getDeviceid()).putExtra("type", facility.getType());
         switch (view.getId()) {
-            case R.id.home_TVOC_rl:
-                intent.putExtra("indext", 2);
-                break;
-            case R.id.home_CO2_rl:
-                intent.putExtra("indext", 1);
-                break;
             case R.id.home_PM10_rl:
-                intent.putExtra("indext", 4);
+                intent.putExtra("indext", 5);
                 break;
-            case R.id.home_methanal_rl:
-                intent.putExtra("indext", 3);
+            case R.id.home_pm1_rl:
+                intent.putExtra("indext", 6);
                 break;
-            case R.id.main_iv:
-                intent.putExtra("indext", 0);
+            case R.id.home_pm100_rl:
+                intent.putExtra("indext", 7);
+                break;
+            case R.id.home_electric_rl:
+                intent.putExtra("indext", 8);
+                break;
+            case R.id.home_humidity_rl:
+                intent.putExtra("indext", 9);
+                break;
+            case R.id.home_qiya_rl:
+                intent.putExtra("indext", 10);
+                break;
+            case R.id.home_zaosheng_rl:
+                intent.putExtra("indext", 11);
+                break;
+            case R.id.home_fengxiang_rl:
+                intent.putExtra("indext", 12);
+                break;
+            case R.id.home_fengsu_rl:
+                intent.putExtra("indext", 13);
                 break;
         }
         startActivity(intent);
-    }*/
+    }
 
 
 

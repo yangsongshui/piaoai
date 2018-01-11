@@ -140,7 +140,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/home_methanal_rl"
+                    android:id="@+id/home_pm1_rl"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
@@ -182,13 +182,13 @@
                         android:layout_below="@+id/roundProgressBar_pm2"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="6dp"
-                        android:text="@string/history_msg27"
+                        android:text="@string/history_msg47"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/home_TVOC_rl"
+                    android:id="@+id/home_pm100_rl"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1">

@@ -73,6 +73,17 @@
         <item name="android:textColor">@color/main_rb</item>
         <item name="android:textSize">14sp</item>
     </style>
+    <style name="MainRadioButton2">
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/main_selected</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:textColor">@color/main_rb</item>
+        <item name="android:textSize">14sp</item>
+    </style>
     <style name="weatherTv">
         <item name="android:paddingTop">3dp</item>
         <item name="android:paddingStart">15dp</item>

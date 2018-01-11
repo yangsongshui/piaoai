@@ -118,7 +118,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
                 handler.postDelayed(myRunnable, 60000);
             }
         };
-
+        handler.postDelayed(myRunnable, 300);
     }
 
 
@@ -131,9 +131,15 @@ public class MainActivity extends BaseActivity implements FacilityView {
                 break;
             case R.id.tv_main_right:
                 //  Log.e("init", device.getDeviceid() + " " + type);
-                if (mList.size() > 0)
-                    startActivity(new Intent(this, HistoryActivity.class).putExtra("deviceID", device.getDeviceid()).putExtra("type", device.getType()));
-                else
+                if (mList.size() > 0) {
+                    Intent intent = new Intent(this, HistoryActivity.class);
+                    intent.putExtra("deviceID", device.getDeviceid());
+                    intent.putExtra("type", device.getType());
+                    if (device.getType().equals("4")) {
+                        intent.putExtra("indext", 5);
+                    }
+                    startActivity(intent);
+                } else
                     toastor.showSingletonToast(getString(R.string.main_msg));
                 break;
             case R.id.main_equipment_tv:
@@ -187,7 +193,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
 
     @Override
     public void showProgress() {
-        if (progressDialog != null && !progressDialog.isShowing()&&!isOne) {
+        if (progressDialog != null && !progressDialog.isShowing() && !isOne) {
             progressDialog.show();
         }
     }
@@ -218,6 +224,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
                     if (mList.size() < position)
                         position = mList.size();
                     device = mList.get(position);
+                    pager.setCurrentItem(position);
                 }
                 mainTitleTv.setText(device.getDeviceName());
                 if (device.getType().equals("3") || type.equals("3") || device.getType().equals("2") || type.equals("2")) {
@@ -255,7 +262,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
     protected void onResume() {
         super.onResume();
         //facilityPresenerImp.findUserDevice(MyApplication.newInstance().getUser().getResBody().getPhoneNumber());
-        handler.postDelayed(myRunnable, 300);
+
         String pic = MyApplication.newInstance().getUser().getResBody().getHeadPic();
         if (pic != null && pic.length() > 5) {
             Log.e("pic", pic);

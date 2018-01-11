@@ -103,6 +103,31 @@ public interface ServiceApi {
     @POST("getHistoryDataByJIAQUAN?")
     Observable<TVOC> getHistoryDataByJIAQUAN(@QueryMap Map<String, String> map);
 
+    //查询扬尘PM1.0历史数据
+    @POST("getHistoryDataByPM1P0?")
+    Observable<TVOC> getHistoryDataByPM1P0(@QueryMap Map<String, String> map);
+    //查询扬尘PM10历史数据
+    @POST("getHistoryDataByPM10ForYC?")
+    Observable<TVOC> getHistoryDataByPM10ForYC(@QueryMap Map<String, String> map);
+    //查询温度历史数据
+    @POST("getHistoryDataByWDForYC?")
+    Observable<TVOC> getHistoryDataByWDForYC(@QueryMap Map<String, String> map);
+    //查询湿度天周月时历史数据
+    @POST("getHistoryDataBySDForYC?")
+    Observable<TVOC> getHistoryDataBySDForYC(@QueryMap Map<String, String> map);
+    //查询气压天周月时历史数据
+    @POST("getHistoryDataByQYForYC?")
+    Observable<TVOC> getHistoryDataByQYForYC(@QueryMap Map<String, String> map);
+    //查询噪声天周月时历史数据
+    @POST("getHistoryDataByZSForYC?")
+    Observable<TVOC> getHistoryDataByZSForYC(@QueryMap Map<String, String> map);
+    //查询分向天周月时历史数据
+    @POST("getHistoryDataByFXForYC?")
+    Observable<TVOC> getHistoryDataByFXForYC(@QueryMap Map<String, String> map);
+    //查询风速天周月时历史数据
+    @POST("getHistoryDataByQYForYC?")
+    Observable<TVOC> getHistoryDataByFSForYC(@QueryMap Map<String, String> map);
+
     //天气查询接口
     @POST("9-2?showapi_appid=40725&showapi_sign=af0b4f5fee3e41169842eb6093b693f4")
     Call<Weather> getWeather(@Query("area") String address, @Query("needMoreDay") String needMoreDay);

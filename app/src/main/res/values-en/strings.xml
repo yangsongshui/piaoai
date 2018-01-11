@@ -72,6 +72,17 @@
     <string name="history_msg34">CO</string>
     <string name="history_msg35">O₃</string>
     <string name="history_msg36">SO₂</string>
+    <string name="history_msg40">风速</string>
+    <string name="history_msg41">风向</string>
+    <string name="history_msg42">噪声</string>
+    <string name="history_msg43">气压</string>
+    <string name="history_msg44">湿度</string>
+    <string name="history_msg45">温度</string>
+    <string name="history_msg46">PM100</string>
+    <string name="history_msg47">PM1.0</string>
+    <string name="history_msg48">PM10</string>
+    <string name="data_msg7">温度(℃)</string>
+    <string name="data_msg8">湿度(%)</string>
     <string name="loading_msg">權限獲取失敗,請重新授權</string>
     <string name="login_msg">Login information is wrong/登陸信息有誤</string>
     <string name="login_msg2">This user does not exist/不存在此用戶</string>

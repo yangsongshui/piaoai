@@ -261,7 +261,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
     @Override
     protected void onResume() {
         super.onResume();
-        //facilityPresenerImp.findUserDevice(MyApplication.newInstance().getUser().getResBody().getPhoneNumber());
+        facilityPresenerImp.findUserDevice(MyApplication.newInstance().getUser().getResBody().getPhoneNumber());
 
         String pic = MyApplication.newInstance().getUser().getResBody().getHeadPic();
         if (pic != null && pic.length() > 5) {

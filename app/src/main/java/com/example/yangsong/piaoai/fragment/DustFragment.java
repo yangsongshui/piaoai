@@ -3,6 +3,7 @@ package com.example.yangsong.piaoai.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,17 +15,20 @@ import com.example.yangsong.piaoai.R;
 import com.example.yangsong.piaoai.activity.HistoryActivity;
 import com.example.yangsong.piaoai.base.BaseFragment;
 import com.example.yangsong.piaoai.bean.Facility;
+import com.example.yangsong.piaoai.bean.Msg;
 import com.example.yangsong.piaoai.myview.RoundProgressBar;
+import com.example.yangsong.piaoai.presenter.YCHomePresenterImp;
+import com.example.yangsong.piaoai.util.Toastor;
+import com.example.yangsong.piaoai.view.MsgView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * Created by yangsong on 2017/5/14.
  */
 @SuppressLint("ValidFragment")
-public class DustFragment extends BaseFragment {
+public class DustFragment extends BaseFragment implements MsgView {
 
 
     @BindView(R.id.shujv_ll)
@@ -75,8 +79,11 @@ public class DustFragment extends BaseFragment {
     TextView homeFengsuTv;
     @BindView(R.id.main_fragment)
     ScrollView mainFragment;
-    Unbinder unbinder;
 
+    YCHomePresenterImp ycHomePresenterImp;
+    private Toastor toastor;
+    private Handler handler;
+    private Runnable myRunnable;
 
     public DustFragment(Facility.ResBodyBean.ListBean facility) {
         this.facility = facility;
@@ -84,6 +91,7 @@ public class DustFragment extends BaseFragment {
 
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
+        toastor = new Toastor(getActivity());
         roundProgressBarPm2.setMax(1000);
         roundProgressBarHumidity.setMax(100);
         roundProgressBarQiya.setMax(400);
@@ -93,7 +101,7 @@ public class DustFragment extends BaseFragment {
         roundProgressBarPM10.setMax(200);
         roundProgressBarFengxiang.setMax(200);
         roundProgressBarPm100.setMax(200);
-
+        ycHomePresenterImp = new YCHomePresenterImp(this, getActivity());
         //PM10
         if (TextUtils.isEmpty(facility.getPm10()))
             roundProgressBarPM10.setProgress(0);
@@ -134,6 +142,7 @@ public class DustFragment extends BaseFragment {
                 pm_tv.setBackground(getResources().getDrawable(R.drawable.pm_yanzhong));
             }
         }
+        ycHomePresenterImp.binding(facility.getDeviceid());
     }
 
     @Override
@@ -142,9 +151,9 @@ public class DustFragment extends BaseFragment {
     }
 
 
-  @OnClick({ R.id.home_PM10_rl, R.id.home_pm1_rl, R.id.home_pm100_rl,
-          R.id.home_electric_rl, R.id.home_humidity_rl, R.id.home_qiya_rl,
-          R.id.home_zaosheng_rl, R.id.home_fengxiang_rl, R.id.home_fengsu_rl})
+    @OnClick({R.id.home_PM10_rl, R.id.home_pm1_rl, R.id.home_pm100_rl,
+            R.id.home_electric_rl, R.id.home_humidity_rl, R.id.home_qiya_rl,
+            R.id.home_zaosheng_rl, R.id.home_fengxiang_rl, R.id.home_fengsu_rl})
     public void onViewClicked(View view) {
         Intent intent = new Intent(getActivity(), HistoryActivity.class).putExtra("deviceID", facility.getDeviceid()).putExtra("type", facility.getType());
         switch (view.getId()) {
@@ -180,10 +189,30 @@ public class DustFragment extends BaseFragment {
     }
 
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        ycHomePresenterImp.unSubscribe();
+    }
+
+    @Override
+    public void showProgress() {
 
     }
+
+    @Override
+    public void disimissProgress() {
+
+    }
+
+    @Override
+    public void loadDataSuccess(Msg tData) {
+
+    }
+
+    @Override
+    public void loadDataError(Throwable throwable) {
+        toastor.showSingletonToast(getString(R.string.dialog_msg5));
+    }
+
 }

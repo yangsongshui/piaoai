@@ -60,9 +60,9 @@ public interface ServiceApi {
     @POST("findUserDevice?")
     Observable<Facility> findUserDevice(@Query("phoneNumber") String phoneNumber);
 
-    //根据设备号查询对应首页数据
-    @POST("findUserDevice?")
-    Observable<Msg> findDeviceData(@Query("imei") String imei);
+    //进入首页查询扬尘数据
+    @POST("getFirstDataForYC?")
+    Observable<Msg> getFirstDataForYC(@Query("imei") String imei);
 
     //查询子账户
     @POST("findChildAccount?")

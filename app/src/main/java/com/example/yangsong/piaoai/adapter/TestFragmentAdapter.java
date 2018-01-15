@@ -27,11 +27,11 @@ public class TestFragmentAdapter extends FragmentStatePagerAdapter implements Ic
     @Override
     public Fragment getItem(int position) {
         // Log.e("Fragment", "IonicFragment");
-        if (mList.get(position).getType().equals("1")) {
+        if (mList.get(position).getType().equals("1")||mList.get(position).getType().equals("4")) {
             return new MainFragment(mList.get(position));
         } else if (mList.get(position).getType().equals("2")) {
             return new PMFragment(mList.get(position));
-        }else if (mList.get(position).getType().equals("4")){
+        }else if (mList.get(position).getType().equals("5")){
             return new DustFragment(mList.get(position));
         }
         return new IonicFragment(mList.get(position));

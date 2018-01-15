@@ -9,6 +9,7 @@ import com.example.yangsong.piaoai.bean.PMBean;
 import com.example.yangsong.piaoai.bean.TVOC;
 import com.example.yangsong.piaoai.bean.User;
 import com.example.yangsong.piaoai.bean.Weather;
+import com.example.yangsong.piaoai.bean.YC;
 
 import java.util.Map;
 
@@ -62,7 +63,7 @@ public interface ServiceApi {
 
     //进入首页查询扬尘数据
     @POST("getFirstDataForYC?")
-    Observable<Msg> getFirstDataForYC(@Query("imei") String imei);
+    Observable<YC> getFirstDataForYC(@Query("deviceID") String imei);
 
     //查询子账户
     @POST("findChildAccount?")

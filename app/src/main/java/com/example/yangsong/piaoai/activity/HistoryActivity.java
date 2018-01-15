@@ -158,7 +158,7 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
         time = new ArrayList<>();
         String deviceID = getIntent().getStringExtra("deviceID");
         type = getIntent().getStringExtra("type");
-        if (type.equals("4")) {
+        if (type.equals("5")) {
             historyRg.setVisibility(View.GONE);
             historyRg2.setVisibility(View.VISIBLE);
         } else {
@@ -205,7 +205,7 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
     }
 
     private void initView() {
-        if (type.equals("4")) {
+        if (type.equals("5")) {
             historyRg2.check(id[indext]);
         } else {
             historyRg.check(id[indext]);
@@ -280,9 +280,9 @@ public class HistoryActivity extends BaseActivity implements RadioGroup.OnChecke
                         break;
                     case R.id.history_pm100:
                         indext = 7;
-                        type2 = getString(R.string.history_msg46);
+                        type2 = getString(R.string.history_msg9);
                         historyTitle.setText(type2 + day + msg);
-                        EventBus.getDefault().post(new FragmentEvent(7));
+                        EventBus.getDefault().post(new FragmentEvent(0));
                         setDataLL(indext);
                         break;
                     case R.id.history_wd:

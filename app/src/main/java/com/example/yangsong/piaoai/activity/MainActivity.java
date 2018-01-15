@@ -2,6 +2,7 @@ package com.example.yangsong.piaoai.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.GravityCompat;
@@ -90,6 +91,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
         indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
+                MainActivity.this.position = position;
                 device = mList.get(position);
                 mainTitleTv.setText(device.getDeviceName());
                 // Log.e(TAG, device.getDeviceid());
@@ -135,7 +137,7 @@ public class MainActivity extends BaseActivity implements FacilityView {
                     Intent intent = new Intent(this, HistoryActivity.class);
                     intent.putExtra("deviceID", device.getDeviceid());
                     intent.putExtra("type", device.getType());
-                    if (device.getType().equals("4")) {
+                    if (device.getType().equals("5")) {
                         intent.putExtra("indext", 5);
                     }
                     startActivity(intent);
@@ -158,6 +160,11 @@ public class MainActivity extends BaseActivity implements FacilityView {
                 startActivity(new Intent(this, FeedbackActivity.class));
                 break;
             case R.id.main_shop_tv:
+                Intent intent = new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                Uri content_url = Uri.parse("https://shop110048705.taobao.com/?spm=a230r.7195193.1997079397.2.Knlubq");
+                intent.setData(content_url);
+                startActivity(intent);
                 break;
             case R.id.main_about_tv:
                 startActivity(new Intent(this, AboutActivity.class));

@@ -446,9 +446,9 @@ public class MonthFragment extends BaseFragment implements TVOCView {
                 break;
             case 6:
                 //pm1.0
-                max = 200;
-                DayUnitTv.setText(getString(R.string.data_msg5));
-                pm1dataPresenterImp.binding(map);
+                max = 500;
+                DayUnitTv.setText(getString(R.string.data_msg));
+                pMdataPresenterImp.binding(map);
                 break;
             case 7:
                 //pm100

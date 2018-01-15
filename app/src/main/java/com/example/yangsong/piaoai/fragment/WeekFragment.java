@@ -445,9 +445,9 @@ public class WeekFragment extends BaseFragment implements TVOCView {
                 break;
             case 7:
                 //pm100
-                max = 200;
-                DayUnitTv.setText(getString(R.string.data_msg5));
-                pmycPresenterImp.binding(map);
+                max = 500;
+                DayUnitTv.setText(getString(R.string.data_msg));
+                pMdataPresenterImp.binding(map);
                 break;
             case 8:
                 //温度

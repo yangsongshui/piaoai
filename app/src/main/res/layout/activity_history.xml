@@ -180,7 +180,7 @@
                         style="@style/MainRadioButton2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/history_msg46" />
+                        android:text="@string/history_msg26" />
 
                     <View
                         android:layout_width="0.5dp"

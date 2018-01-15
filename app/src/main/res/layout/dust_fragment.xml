@@ -12,9 +12,9 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="50dp"
-            android:layout_height="wrap_content">
+            android:layout_marginTop="50dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -219,7 +219,7 @@
                         android:layout_below="@+id/roundProgressBar_pm100"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="6dp"
-                        android:text="PM100"
+                        android:text="PM2.5"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
 
@@ -241,7 +241,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="130dp">
-
 
 
                 <RelativeLayout
@@ -343,6 +342,7 @@
                         android:textSize="14sp" />
 
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:id="@+id/home_qiya_rl"
                     android:layout_width="0dp"
@@ -376,7 +376,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/home_qiya_tv"
                         android:layout_centerHorizontal="true"
-                        android:text="@string/data_msg6"
+                        android:text="kpa"
                         android:textColor="@color/baby_blue_eyes"
                         android:textSize="10sp" />
 
@@ -392,10 +392,10 @@
                         android:textSize="14sp" />
                 </RelativeLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="130dp">
-
 
 
                 <RelativeLayout
@@ -432,7 +432,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/home_zaosheng_tv"
                         android:layout_centerHorizontal="true"
-                        android:text="℃"
+                        android:text="db"
                         android:textColor="@color/baby_blue_eyes"
                         android:textSize="10sp" />
 
@@ -473,17 +473,8 @@
                         android:layout_centerVertical="true"
                         android:text="0"
                         android:textColor="@color/white"
-                        android:textSize="21sp" />
+                        android:textSize="15sp" />
 
-                    <TextView
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/home_fengxiang_tv"
-                        android:layout_centerHorizontal="true"
-                        android:text="%"
-                        android:textColor="@color/baby_blue_eyes"
-                        android:textSize="10sp" />
 
                     <TextView
 
@@ -497,6 +488,7 @@
                         android:textSize="14sp" />
 
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:id="@+id/home_fengsu_rl"
                     android:layout_width="0dp"
@@ -530,7 +522,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/home_fengsu_tv"
                         android:layout_centerHorizontal="true"
-                        android:text="@string/data_msg6"
+                        android:text="m/s"
                         android:textColor="@color/baby_blue_eyes"
                         android:textSize="10sp" />
 

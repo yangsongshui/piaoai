@@ -5,7 +5,7 @@ import android.content.Context;
 import com.example.yangsong.piaoai.api.ServiceApi;
 import com.example.yangsong.piaoai.base.BaseModel;
 import com.example.yangsong.piaoai.base.IBaseRequestCallBack;
-import com.example.yangsong.piaoai.bean.Msg;
+import com.example.yangsong.piaoai.bean.YC;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -29,11 +29,11 @@ public class YCHomeModelImp extends BaseModel {
     }
 
 
-    public void GetData(String imei, final IBaseRequestCallBack<Msg> iBaseRequestCallBack) {
+    public void GetData(String imei, final IBaseRequestCallBack<YC> iBaseRequestCallBack) {
         mCompositeSubscription.add(serviceApi.getFirstDataForYC(imei)
                 .observeOn(AndroidSchedulers.mainThread())//指定事件消费线程
                 .subscribeOn(Schedulers.io())   //指定 subscribe() 发生在 IO 线程
-                .subscribe(new Subscriber<Msg>() {
+                .subscribe(new Subscriber<YC>() {
 
                     @Override
                     public void onStart() {
@@ -55,7 +55,7 @@ public class YCHomeModelImp extends BaseModel {
                     }
 
                     @Override
-                    public void onNext(Msg msg) {
+                    public void onNext(YC msg) {
                         iBaseRequestCallBack.requestSuccess(msg);
 
                     }

@@ -3,15 +3,15 @@ package com.example.yangsong.piaoai.presenter;
 import android.content.Context;
 
 import com.example.yangsong.piaoai.base.BasePresenterImp;
-import com.example.yangsong.piaoai.bean.Msg;
+import com.example.yangsong.piaoai.bean.YC;
 import com.example.yangsong.piaoai.model.YCHomeModelImp;
-import com.example.yangsong.piaoai.view.MsgView;
+import com.example.yangsong.piaoai.view.YCView;
 
 
 /**
  * 描述：MVP中的P实现类
  */
-public class YCHomePresenterImp extends BasePresenterImp<MsgView, Msg> {
+public class YCHomePresenterImp extends BasePresenterImp<YCView, YC> {
     private Context context = null;
     private YCHomeModelImp ycHomeModelImp = null;
 
@@ -21,7 +21,7 @@ public class YCHomePresenterImp extends BasePresenterImp<MsgView, Msg> {
      * @author dc
      * @date 2017/6/13 15:12
      */
-    public YCHomePresenterImp(MsgView view, Context context) {
+    public YCHomePresenterImp(YCView view, Context context) {
         super(view);
         this.context = context;
         this.ycHomeModelImp = new YCHomeModelImp(context);

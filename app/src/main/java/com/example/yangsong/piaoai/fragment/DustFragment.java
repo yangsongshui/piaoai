@@ -217,45 +217,49 @@ public class DustFragment extends BaseFragment implements YCView {
             roundProgressBarHumidity.setProgress(0);
         else {
             roundProgressBarHumidity.setProgress((int)(Double.parseDouble(tData.getShidu())));
-            homeHumidityTv.setText(tData.getPM10());
+            homeHumidityTv.setText(tData.getShidu());
         }
-        if (TextUtils.isDigitsOnly(tData.getWendu()))
+        if (TextUtils.isEmpty(tData.getWendu()))
             roundProgressBarElectric.setProgress(0);
         else {
             roundProgressBarElectric.setProgress((int)(Double.parseDouble(tData.getWendu())));
             homeElectricTv.setText(tData.getWendu());
         }
-        if (TextUtils.isDigitsOnly(tData.getPm1P0()))
+    /*    if (TextUtils.isEmpty(tData.getPm1P0()))
             roundProgressBarPm2.setProgress(0);
         else {
-            roundProgressBarPm2.setProgress(Integer.parseInt(tData.getPm1P0()));
             homePm2Tv.setText(tData.getPm1P0());
+            roundProgressBarPm2.setProgress(Integer.parseInt(tData.getPm1P0()));
+
         }
-        if (TextUtils.isDigitsOnly(tData.getPm2P5()))
+        if (TextUtils.isEmpty(tData.getPm2P5()))
             roundProgressBarPm100.setProgress(0);
         else {
-            roundProgressBarPm100.setProgress(Integer.parseInt(tData.getPm2P5()));
             homePm100Tv.setText(tData.getPm2P5());
-        }
-        if (TextUtils.isDigitsOnly(tData.getZaosheng()))
+            roundProgressBarPm100.setProgress(Integer.parseInt(tData.getPm2P5()));
+
+        }*/
+        if (TextUtils.isEmpty(tData.getZaosheng()))
             roundProgressBarZaosheng.setProgress(0);
         else {
             roundProgressBarZaosheng.setProgress((int)(Double.parseDouble(tData.getZaosheng())));
             homeZaoshengTv.setText(tData.getZaosheng());
         }
-        if (TextUtils.isDigitsOnly(tData.getDaqiya()))
+        if (TextUtils.isEmpty(tData.getDaqiya()))
             roundProgressBarQiya.setProgress(0);
         else {
-            roundProgressBarQiya.setProgress((int)(Double.parseDouble(tData.getDaqiya())));
             homeQiyaTv.setText(tData.getDaqiya());
+            roundProgressBarQiya.setProgress((int)(Double.parseDouble(tData.getDaqiya())));
+
         }
-        if (TextUtils.isDigitsOnly(tData.getWind()))
+        if (TextUtils.isEmpty(tData.getWind()))
             roundProgressBarFengsu.setProgress(0);
         else {
-            roundProgressBarFengsu.setProgress((int)(Double.parseDouble(tData.getWind())));
             homeFengsuTv.setText(tData.getWind());
+            roundProgressBarFengsu.setProgress((int)(Double.parseDouble(tData.getWind())));
+
         }
-        if (TextUtils.isDigitsOnly(tData.getWindDire())) {
+        if (TextUtils.isEmpty(tData.getWindDire())) {
             homeFengxiangTv.setText("北风");
             roundProgressBarFengxiang.setProgress(0);
         } else {

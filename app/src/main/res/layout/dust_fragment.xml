@@ -171,9 +171,9 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/home_pm2_tv"
                         android:layout_centerHorizontal="true"
-                        android:text="@string/data_msg6"
+                        android:text="万个/cm3"
                         android:textColor="@color/baby_blue_eyes"
-                        android:textSize="10sp" />
+                        android:textSize="7sp" />
 
                     <TextView
 
@@ -182,7 +182,7 @@
                         android:layout_below="@+id/roundProgressBar_pm2"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="6dp"
-                        android:text="@string/history_msg47"
+                        android:text="@string/adapter_msg3"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
                 </RelativeLayout>
@@ -208,7 +208,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/home_pm100_tv"
                         android:layout_centerHorizontal="true"
-                        android:text="@string/data_msg6"
+                        android:text="pa"
                         android:textColor="@color/baby_blue_eyes"
                         android:textSize="10sp" />
 
@@ -219,7 +219,7 @@
                         android:layout_below="@+id/roundProgressBar_pm100"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="6dp"
-                        android:text="PM2.5"
+                        android:text="压差"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
 

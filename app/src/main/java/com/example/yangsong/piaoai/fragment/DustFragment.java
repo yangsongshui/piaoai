@@ -216,13 +216,15 @@ public class DustFragment extends BaseFragment implements YCView {
         if (TextUtils.isEmpty(tData.getShidu()))
             roundProgressBarHumidity.setProgress(0);
         else {
-            roundProgressBarHumidity.setProgress((int)(Double.parseDouble(tData.getShidu())));
+            roundProgressBarHumidity.setProgress((int) (Double.parseDouble(tData.getShidu())));
             homeHumidityTv.setText(tData.getShidu());
         }
         if (TextUtils.isEmpty(tData.getWendu()))
             roundProgressBarElectric.setProgress(0);
         else {
-            roundProgressBarElectric.setProgress((int)(Double.parseDouble(tData.getWendu())));
+            int wendu = (int) (Double.parseDouble(tData.getWendu()));
+            if (wendu > 0)
+                roundProgressBarElectric.setProgress(wendu);
             homeElectricTv.setText(tData.getWendu());
         }
     /*    if (TextUtils.isEmpty(tData.getPm1P0()))
@@ -242,21 +244,21 @@ public class DustFragment extends BaseFragment implements YCView {
         if (TextUtils.isEmpty(tData.getZaosheng()))
             roundProgressBarZaosheng.setProgress(0);
         else {
-            roundProgressBarZaosheng.setProgress((int)(Double.parseDouble(tData.getZaosheng())));
+            roundProgressBarZaosheng.setProgress((int) (Double.parseDouble(tData.getZaosheng())));
             homeZaoshengTv.setText(tData.getZaosheng());
         }
         if (TextUtils.isEmpty(tData.getDaqiya()))
             roundProgressBarQiya.setProgress(0);
         else {
             homeQiyaTv.setText(tData.getDaqiya());
-            roundProgressBarQiya.setProgress((int)(Double.parseDouble(tData.getDaqiya())));
+            roundProgressBarQiya.setProgress((int) (Double.parseDouble(tData.getDaqiya())));
 
         }
         if (TextUtils.isEmpty(tData.getWind()))
             roundProgressBarFengsu.setProgress(0);
         else {
             homeFengsuTv.setText(tData.getWind());
-            roundProgressBarFengsu.setProgress((int)(Double.parseDouble(tData.getWind())));
+            roundProgressBarFengsu.setProgress((int) (Double.parseDouble(tData.getWind())));
 
         }
         if (TextUtils.isEmpty(tData.getWindDire())) {

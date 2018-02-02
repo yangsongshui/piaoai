@@ -484,7 +484,7 @@
                                     android:layout_centerVertical="true"
                                     android:text="@string/history_msg26"
                                     android:textColor="@color/white"
-                                    android:textSize="14sp" />
+                                    android:textSize="12sp" />
 
                                 <TextView
                                     android:id="@+id/weather_pm2_tv"
@@ -494,7 +494,7 @@
                                     android:layout_alignParentTop="true"
                                     android:text="——"
                                     android:textColor="@color/white"
-                                    android:textSize="25sp" />
+                                    android:textSize="20sp" />
 
                                 <ImageView
                                     android:layout_width="match_parent"
@@ -517,7 +517,7 @@
                                     android:layout_centerVertical="true"
                                     android:text="@string/history_msg27"
                                     android:textColor="@color/white"
-                                    android:textSize="14sp" />
+                                    android:textSize="12sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -536,7 +536,7 @@
                                     android:layout_alignParentTop="true"
                                     android:text="——"
                                     android:textColor="@color/white"
-                                    android:textSize="25sp" />
+                                    android:textSize="20sp" />
 
                                 <ImageView
                                     android:layout_width="match_parent"
@@ -585,7 +585,7 @@
                                     android:layout_alignParentTop="true"
                                     android:text="——"
                                     android:textColor="@color/white"
-                                    android:textSize="25sp" />
+                                    android:textSize="20sp" />
 
                                 <ImageView
                                     android:layout_width="match_parent"
@@ -627,7 +627,7 @@
                                     android:layout_alignParentTop="true"
                                     android:text="——"
                                     android:textColor="@color/white"
-                                    android:textSize="25sp" />
+                                    android:textSize="20sp" />
 
                                 <ImageView
                                     android:layout_width="match_parent"
@@ -676,7 +676,7 @@
                                     android:layout_alignParentTop="true"
                                     android:text="——"
                                     android:textColor="@color/white"
-                                    android:textSize="25sp" />
+                                    android:textSize="20sp" />
 
                                 <ImageView
                                     android:layout_width="match_parent"
@@ -717,7 +717,7 @@
                                     android:layout_alignParentTop="true"
                                     android:text="——"
                                     android:textColor="@color/white"
-                                    android:textSize="25sp" />
+                                    android:textSize="20sp" />
 
                                 <ImageView
                                     android:layout_width="match_parent"

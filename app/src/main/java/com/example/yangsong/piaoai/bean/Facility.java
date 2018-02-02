@@ -65,6 +65,7 @@ public class Facility implements Serializable{
              * tvoc : 22
              * co2 : 854
              * pm10 : 3
+             * statusDevice : 关闭
              * dianliang : 100
              * shidu : 35
              * jiaquan : 888
@@ -77,6 +78,7 @@ public class Facility implements Serializable{
             private String deviceName;
             private String type;
             private String devicePosition;
+            private String statusDevice;
             private String tvoc;
             private String co2;
             private String pm10;
@@ -201,6 +203,14 @@ public class Facility implements Serializable{
 
             public void setNum(int num) {
                 this.num = num;
+            }
+
+            public String getStatusDevice() {
+                return statusDevice;
+            }
+
+            public void setStatusDevice(String statusDevice) {
+                this.statusDevice = statusDevice;
             }
         }
     }
